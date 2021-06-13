@@ -18,7 +18,7 @@ Route::group(['prefix' => 'v1', 'namespace' => 'Api\v1'], function(){
     Route::post('register', 'AuthController@register');
     Route::post('login', 'AuthController@login');
 
-    Route::group(['prefix' => 'auth', 'middleware' => 'auth:sanctum'], function(){
+    Route::group(['prefix' => 'auth', 'middleware' => 'auth:api'], function(){
         Route::delete('logout', 'AuthController@logout');
         Route::get('user', 'AuthController@getUser');
         Route::post('user', 'AuthController@updateUser');
