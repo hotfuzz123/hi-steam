@@ -4,14 +4,14 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Slider extends Model
+class Category extends Model
 {
     /**
      * The table associated with the model.
      *
      * @var string
      */
-    protected $table = 'slider';
+    protected $table = 'category';
 
     /**
      * The primary key associated with the table.
@@ -33,6 +33,10 @@ class Slider extends Model
      * @var array
      */
     protected $fillable = [
-        'name', 'url', 'image', 'public_id', 'description',
+        'name', 'icon', 'description',
     ];
+
+    public function course() {
+        return $this->hasMany('App\Models\Course');
+    }
 }

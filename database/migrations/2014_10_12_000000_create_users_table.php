@@ -18,7 +18,8 @@ class CreateUsersTable extends Migration
             $table->string('name')->nullable();
             $table->string('email')->unique()->nullable();
             $table->string('phone')->unique();
-            $table->string('avatar')->nullable()->default('user.jpg');
+            $table->string('image')->nullable()->default('https://res.cloudinary.com/do4r5l3hd/image/upload/v1624046945/default/avatar.jpg');
+            $table->string('public_id')->nullable()->default('default/avatar');
             $table->date('dateOfBirth')->nullable();
             $table->string('address')->nullable();
             $table->string('grade')->nullable();

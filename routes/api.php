@@ -15,6 +15,11 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::group(['prefix' => 'v1', 'namespace' => 'Api\v1'], function(){
+
+    Route::apiResource('category', 'CategoryController');
+    Route::apiResource('slider', 'SliderController');
+    Route::apiResource('course', 'CourseController');
+
     Route::post('register', 'AuthController@register');
     Route::post('login', 'AuthController@login');
 
@@ -22,5 +27,6 @@ Route::group(['prefix' => 'v1', 'namespace' => 'Api\v1'], function(){
         Route::delete('logout', 'AuthController@logout');
         Route::get('user', 'AuthController@getUser');
         Route::post('user', 'AuthController@updateUser');
+        Route::post('change-password', 'AuthController@changePassword');
     });
 });

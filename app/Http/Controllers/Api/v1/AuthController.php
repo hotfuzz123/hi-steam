@@ -7,12 +7,13 @@ use Illuminate\Http\Request;
 use App\Models\User;
 use App\Http\Requests\UserRegister;
 use App\Http\Requests\UserLogin;
+use App\Http\Requests\UserChangePass;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Cookie;
+use CloudinaryLabs\CloudinaryLaravel\Facades\Cloudinary;
 use Carbon\Carbon;
-use App\Http\Resources\UserResource;
 
 class AuthController extends Controller
 {
@@ -72,7 +73,7 @@ class AuthController extends Controller
     public function getUser(Request $request)
     {
         $user = auth()->user();
-        return response(['status' => '200', 'message' => '', 'data' => $user], 200);
+        return response(['status' => '200', 'data' => $user], 200);
     }
 
     /**
@@ -85,18 +86,42 @@ class AuthController extends Controller
     {
         $user = User::find($request->user()->id);
         $user->update($request->all());
-        if($request->hasFile('avatar')){
-            $files = $request->file('avatar');
-            $path = public_path('storage/images/user/'.$user->avatar);
-            if(file_exists($path)){
-                unlink($path);
-            }
-            $name = date('dmYHis').'_'.uniqid().'.'.$files->getClientOriginalExtension();
-            $files->storeAs('images/user', $name, 'public');
-            $user->avatar = $name;
+        if($request->hasFile('image')){
+            $files = $request->file('image');
+            //Delete old image
+            Cloudinary::destroy($user->public_id);
+            //Upload new image
+            $imageUrl = $files->storeOnCloudinary('user')->getSecurePath();
+            //Get public_id
+            $publicId = Cloudinary::getPublicId();
+            //Get url image and public_id to db
+            $user->image = $imageUrl;
+            $user->public_id = $publicId;
         }
         $user->save();
         return response(['status' => '200', 'message' => 'Cập nhật thành công!', 'data' => $user], 200);
+    }
 
+
+    /**
+     * Change pass
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function changePassword(UserChangePass $request){
+        // Check if current password is correct
+        if(Hash::check($request['old_password'], Auth::user()->password)){
+            // Check new password and confirm password are same
+            if($request['password'] == $request['password_confirmation']) {
+                User::where('id', Auth::user()->id)->update(['password' => bcrypt($request['password'])]);
+                return response(['status' => '200', 'message' => 'Đổi mật khẩu thành công'], 200);
+            // Check new password and confirm password are not same
+            }else{
+                return response(['status' => '211', 'message' => 'Mật khẩu mới và xác nhận mật khẩu không giống nhau !!!'], 211);
+            }
+        }else{
+            return response(['status' => '211', 'message' => 'Mật khẩu hiện tại sai rồi !!!'], 211);
+        }
     }
 }
