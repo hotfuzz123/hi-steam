@@ -14,6 +14,5 @@ $factory->define(Course::class, function (Faker $faker) {
         'video_link' => $faker->imageUrl($width = 640, $height = 480),
         'view_count' => $faker->numberBetween($min = 1000, $max = 9000),
         'category_id' => factory(App\Models\Category::class)->create()->id,
-        'user_id' => factory(App\Models\User::class)->create()->id,
     ];
 });

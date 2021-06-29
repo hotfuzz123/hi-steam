@@ -22,7 +22,7 @@ $factory->define(User::class, function (Faker $faker) {
         'name' => $faker->name,
         'email' => $faker->unique()->safeEmail,
         'phone' => $faker->phoneNumber,
-        'avatar' => 'https://res.cloudinary.com/do4r5l3hd/image/upload/v1624046945/default/avatar.jpg',
+        'image' => 'https://res.cloudinary.com/do4r5l3hd/image/upload/v1624046945/default/avatar.jpg',
         'public_id' => 'default/avatar',
         'dateOfBirth' => $faker->date($format = 'Y-m-d', $max = 'now'),
         'address' => $faker->address,

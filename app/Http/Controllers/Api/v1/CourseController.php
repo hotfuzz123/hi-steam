@@ -17,7 +17,7 @@ class CourseController extends Controller
      */
     public function index()
     {
-        $course = Course::paginate(6);
+        $course = Course::with('homework')->paginate(6);
         return response(['status' => '200', 'data' => $course], 200);
     }
 

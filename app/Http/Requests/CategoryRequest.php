@@ -30,15 +30,17 @@ class CategoryRequest extends FormRequest
             case 'POST':
                 return [
                     'name' => 'required|string|min:3',
-                    'icon' => 'nullable|string',
-                    'description' => 'nullable|string',
+                    'icon' => 'required',
+                    'description' => 'nullable',
+                    'status' => 'required|in:active,inactive',
                 ];
             case 'PUT':
             case 'PATCH':
                 return [
                     'name' => 'required|string',
-                    'icon' => 'nullable|string',
-                    'description' => 'nullable|string',
+                    'icon' => 'required',
+                    'description' => 'nullable',
+                    'status' => 'required|in:active,inactive',
                 ];
             default:break;
         }

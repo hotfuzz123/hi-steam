@@ -19,6 +19,9 @@ Route::group(['prefix' => 'v1', 'namespace' => 'Api\v1'], function(){
     Route::apiResource('category', 'CategoryController');
     Route::apiResource('slider', 'SliderController');
     Route::apiResource('course', 'CourseController');
+    Route::apiResource('homework', 'HomeworkController');
+    Route::apiResource('grade', 'GradeController');
+    Route::apiResource('mission', 'MissionController');
 
     Route::post('register', 'AuthController@register');
     Route::post('login', 'AuthController@login');
