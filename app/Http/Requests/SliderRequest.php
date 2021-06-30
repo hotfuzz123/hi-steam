@@ -29,18 +29,20 @@ class SliderRequest extends FormRequest
                 return [];
             case 'POST':
                 return [
-                    'name' => 'required|string',
-                    'url' => 'nullable|string',
+                    'name' => 'required',
+                    'url' => 'nullable',
                     'image' => 'nullable|mimes:jpeg,png,jpg,gif,svg',
-                    'description' => 'nullable|string',
+                    'description' => 'nullable',
+                    'status' => 'required|in:active,inactive',
                 ];
             case 'PUT':
             case 'PATCH':
                 return [
-                    'name' => 'required|string',
-                    'url' => 'nullable|string',
+                    'name' => 'required',
+                    'url' => 'nullable',
                     'image' => 'nullable|mimes:jpeg,png,jpg,gif,svg',
-                    'description' => 'nullable|string',
+                    'description' => 'nullable',
+                    'status' => 'required|in:active,inactive',
                 ];
             default:break;
         }

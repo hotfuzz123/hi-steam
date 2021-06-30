@@ -13,6 +13,7 @@ $factory->define(Course::class, function (Faker $faker) {
         'image' => $faker->imageUrl($width = 640, $height = 480),
         'video_link' => $faker->imageUrl($width = 640, $height = 480),
         'view_count' => $faker->numberBetween($min = 1000, $max = 9000),
+        'status' => $faker->randomElement(['active' ,'inactive']),
         'category_id' => factory(App\Models\Category::class)->create()->id,
     ];
 });

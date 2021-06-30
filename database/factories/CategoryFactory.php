@@ -10,5 +10,6 @@ $factory->define(Category::class, function (Faker $faker) {
         'name' => $faker->country,
         'icon' => $faker->word,
         'description' => $faker->text($maxNbChars = 200),
+        'status' => $faker->randomElement(['active' ,'inactive']),
     ];
 });

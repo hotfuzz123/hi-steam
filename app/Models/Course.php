@@ -33,7 +33,7 @@ class Course extends Model
      * @var array
      */
     protected $fillable = [
-        'name', 'material', 'description', 'image', 'public_id', 'video_link', 'view_count', 'category_id', 'user_id'
+        'name', 'material', 'description', 'image', 'public_id', 'video_link', 'view_count', 'status', 'category_id', 'user_id'
     ];
 
     public function homework() {

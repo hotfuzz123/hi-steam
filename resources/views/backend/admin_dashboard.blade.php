@@ -1,4 +1,4 @@
-@extends('Backend.layouts.master')
+@extends('backend.layouts.master')
 @section('content')
 
 <div class="page-bar">

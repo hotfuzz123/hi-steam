@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Image;
+use App\Http\Requests\AdminChangePass;
 use CloudinaryLabs\CloudinaryLaravel\Facades\Cloudinary;
 use App\Models\Admin;
 
@@ -19,7 +20,7 @@ class AdminController extends Controller
 
     public function password(){
         $adminPassword = Admin::where('email', Auth::guard('admin')->user()->email)->first();
-        return view('backend.admin_password')->with(compact('adminPassword'));
+        return view('backend.settings.admin_password')->with(compact('adminPassword'));
     }
 
     public function login(Request $request){
@@ -52,20 +53,19 @@ class AdminController extends Controller
 
     public function updateCurrentPassword(Request $request){
         if($request -> isMethod('post')){
-            $data = $request->all();
             // Check if current password is correct
-            if(Hash::check($data['current_pwd'], Auth::guard('admin')->user()->password)){
+            if(Hash::check($request['old_password'], Auth::guard('admin')->user()->password)){
                 // Check new password and confirm password are same
-                if ($data['new_pwd'] == $data['confirm_pwd']) {
-                    Admin::where('id', Auth::guard('admin')->user()->id)->update(['password' => bcrypt($data['new_pwd'])]);
-                    Session::flash('success_message', 'Cập nhật mật khẩu thành công!');
+                if ($request['password'] == $request['password_confirmation']) {
+                    Admin::where('id', Auth::guard('admin')->user()->id)->update(['password' => bcrypt($request['password'])]);
+                    Session::flash('success', 'Cập nhật mật khẩu thành công!');
                 // Check new password and confirm password are not same
                 } else {
-                    Session::flash('error_message', 'Mật khẩu mới và xác nhận mật khẩu không giống nhau !!!');
+                    Session::flash('error', 'Mật khẩu mới và xác nhận mật khẩu không giống nhau !!!');
                     return redirect()->back();
                 }
             }else{
-                Session::flash('error_message', 'Mật khẩu hiện tại sai rồi !!!');
+                Session::flash('error', 'Mật khẩu hiện tại sai rồi !!!');
                 return redirect()->back();
             }
             return redirect()->back();

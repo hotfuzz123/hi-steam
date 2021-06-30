@@ -182,6 +182,23 @@
                     </ul>
                 </li>
                 <li class="nav-item">
+                    <a href="#" class="nav-link nav-toggle"> <i class="material-icons">linear_scale</i>
+                        <span class="title">Slider</span><span class="arrow"></span>
+                    </a>
+                    <ul class="sub-menu">
+                        <li class="nav-item">
+                            <a href="{{ route('slider.create') }}" class="nav-link ">
+                                <span class="title">Thêm Slider</span>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="{{ route('slider.index') }}" class="nav-link ">
+                                <span class="title">Danh sách Slider</span>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+                <li class="nav-item">
                     <a href="#" class="nav-link nav-toggle"> <i class="material-icons">settings</i>
                         <span class="title">Cài đặt</span><span class="arrow"></span>
                     </a>

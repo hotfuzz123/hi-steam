@@ -33,6 +33,6 @@ class Slider extends Model
      * @var array
      */
     protected $fillable = [
-        'name', 'url', 'image', 'public_id', 'description',
+        'name', 'url', 'image', 'public_id', 'status', 'description',
     ];
 }

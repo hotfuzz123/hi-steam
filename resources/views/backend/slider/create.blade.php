@@ -8,7 +8,7 @@
         </div>
         <ol class="breadcrumb page-breadcrumb pull-right">
             <li><i class="fa fa-home"></i><a class="parent-item" href="{{route('admin.dashboard')}}">Trang chủ</a><i class="fa fa-angle-right"></i></li></li>
-            <li><a class="parent-item" href="#">Danh mục</a><i class="fa fa-angle-right"></i></li>
+            <li><a class="parent-item" href="#">Slider</a><i class="fa fa-angle-right"></i></li>
             <li class="active">Thêm mới</li>
         </ol>
     </div>
@@ -30,7 +30,7 @@
                 </ul>
             </div>
             <div class="card-body" id="bar-parent1">
-                <form action="{{ route('category.store') }}" method="POST" id="form_sample_1" class="form-horizontal" enctype="multipart/form-data">
+                <form action="{{ route('slider.store') }}" method="POST" id="form_sample_1" class="form-horizontal" enctype="multipart/form-data">
                     @csrf
                     <div class="form-body">
                         <div class="form-group row">
@@ -45,12 +45,21 @@
                             </div>
                         </div>
                         <div class="form-group row">
-                            <label class="control-label col-md-3">Icon
+                            <label class="control-label col-md-3">Url</label>
+                            <div class="col-md-6">
+                                <input type="text" name="url" class="form-control" value="{{ old('url') }}"/>
+                                @error('url')
+                                    <span class="text-danger">{{ $message }}</span>
+                                @enderror
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label class="control-label col-md-3">Ảnh
                                 <span class="required"> * </span>
                             </label>
                             <div class="col-md-6">
-                                <input type="text" name="icon" data-required="1" class="form-control" value="{{ old('icon') }}"/>
-                                @error('icon')
+                                <input type="file" name="image" class="form-control" accept="image/*">
+                                @error('description')
                                     <span class="text-danger">{{ $message }}</span>
                                 @enderror
                             </div>

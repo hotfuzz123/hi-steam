@@ -19,7 +19,7 @@ class CreateMissionTable extends Migration
             $table->string('image')->nullable();
             $table->string('public_id')->nullable();
             $table->string('description')->nullable();
-            $table->boolean('status')->default(true);
+            $table->enum('status',['active','inactive'])->default('active');
             $table->foreignId('grade_id')->nullable()->references('id')->on('grade')->onDelete('cascade');
             $table->timestamps();
         });

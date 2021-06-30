@@ -11,7 +11,7 @@ $factory->define(Mission::class, function (Faker $faker) {
         'image' => 'https://res.cloudinary.com/do4r5l3hd/image/upload/v1624046945/default/avatar.jpg',
         'public_id' => 'default/avatar',
         'description' => $faker->text($maxNbChars = 200),
-        'status' => $faker->numberBetween($min = 0, $max = 1),
+        'status' => $faker->randomElement(['active' ,'inactive']),
         'grade_id' => factory(App\Models\Grade::class)->create()->id,
     ];
 });

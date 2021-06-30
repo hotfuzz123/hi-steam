@@ -2,13 +2,14 @@
  *  Document   : material_style.css
  *  Author     : RedStar Theme
  *  Description: This style sheet is used for customize material design components.
- 
- 
+
+
  				[Table Of Content]
- 				
+
  				1. MENU
  				2. TABLE
  				3. BADGES
+                4. CUSTOM
 */
 /**********************************
 			1. MENU
@@ -211,4 +212,37 @@
 .getmdl-select__fix-height .mdl-menu.mdl-menu--top-left {
   bottom: auto;
   top: 0;
+}
+
+
+/**********************************
+			4. CUSTOM
+**********************************/
+span.text-alert {
+    font-weight: 700;
+    color: red;
+    font-size: 15px;
+    text-transform: uppercase;
+}
+
+.sidebar-divider {
+    margin: 10px 0;
+}
+
+.sidebar-title {
+    padding: 5px 17px;
+}
+
+/* Table */
+.table-image {
+    height: 100px;
+    width: auto;
+    display: block;
+    margin: 0 auto;
+}
+
+/* Editor */
+.ck-editor__editable_inline {
+    min-height:200px;
+    max-height:400px;
 }

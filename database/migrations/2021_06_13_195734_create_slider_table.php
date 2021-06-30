@@ -20,6 +20,7 @@ class CreateSliderTable extends Migration
             $table->string('image')->nullable();
             $table->string('public_id')->nullable();
             $table->string('description')->nullable();
+            $table->enum('status',['active','inactive'])->default('active');
             $table->timestamps();
         });
     }

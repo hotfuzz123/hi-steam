@@ -30,7 +30,7 @@
                 </ul>
             </div>
             <div class="card-body" id="bar-parent1">
-                <form action="{{ route('category.update', $category->id) }}" method="POST" id="form_sample_1" class="form-horizontal">
+                <form action="{{ route('category.update', $category->id) }}" method="POST" id="form_sample_1" class="form-horizontal" enctype="multipart/form-data">
                     @csrf
                     @method('PATCH')
                     <div class="form-body">
@@ -59,7 +59,7 @@
                         <div class="form-group row">
                             <label class="control-label col-md-3">Mô tả</label>
                             <div class="col-md-6">
-                                <textarea type="text" name="description" class="form-control" cols="30" rows="10">{{ $category->icon }}</textarea>
+                                <textarea type="text" name="description" class="form-control" cols="30" rows="10">{{ $category->description }}</textarea>
                                 @error('description')
                                     <span class="text-danger">{{ $message }}</span>
                                 @enderror

@@ -26,11 +26,15 @@ Route::prefix('admin')->namespace('Admin')->group(function(){
         Route::get('password', 'AdminController@password')->name('admin.password');
         Route::get('logout', 'AdminController@logout')->name('admin.logout');
         Route::post('check-current-pwd','AdminController@chkCurrentPassword');
-        Route::post('update-current-pwd','AdminController@updateCurrentPassword');
+        Route::post('update-current-pwd','AdminController@updateCurrentPassword')->name('update.password');
         Route::match(['get', 'post'], 'settings', 'AdminController@settings')->name('admin.settings');
 
         // Category Section
         Route::resource('category', 'CategoryController');
         Route::post('category-status','CategoryController@categoryStatus')->name('category.status');
+
+        // Slider Section
+        Route::resource('slider', 'SliderController');
+        Route::post('slider-status','SliderController@sliderStatus')->name('slider.status');
     });
 });
