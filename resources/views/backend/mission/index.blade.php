@@ -1,16 +1,15 @@
 @extends('backend.layouts.master')
 @section('content')
 
-
 <div class="page-bar">
     <div class="page-title-breadcrumb">
         <div class=" pull-left">
-            <div class="page-title">Danh sách slider</div>
+            <div class="page-title">Danh sách nhiệm vụ</div>
         </div>
         <ol class="breadcrumb page-breadcrumb pull-right">
             <li><i class="fa fa-home"></i><a class="parent-item" href="{{route('admin.dashboard')}}">Trang chủ</a><i class="fa fa-angle-right"></i></li></li>
-            <li><a class="parent-item" href="#">Slider</a><i class="fa fa-angle-right"></i></li>
-            <li class="active">Danh sách slider</li>
+            <li><a class="parent-item" href="#">Nhiệm vụ</a><i class="fa fa-angle-right"></i></li>
+            <li class="active">Danh sách nhiệm vụ</li>
         </ol>
     </div>
 </div>
@@ -22,7 +21,7 @@
     <div class="col-md-12">
         <div class="card">
             <div class="card-head">
-                <header>Danh sách slider</header>
+                <header>Danh sách nhiệm vụ</header>
                 <div class="tools">
                     <a class="fa fa-repeat btn-color box-refresh" href="javascript:;"></a>
                     <a class="t-collapse btn-color fa fa-chevron-down" href="javascript:;"></a>
@@ -33,7 +32,7 @@
                 <div class="row">
                     <div class="col-md-6 col-sm-6 col-6">
                         <div class="btn-group">
-                            <a href="{{ route('slider.create') }}">
+                            <a href="{{ route('mission.create') }}">
                                 <button id="addRow1" class="btn btn-info">
                                     Thêm mới <i class="fa fa-plus"></i>
                                 </button>
@@ -66,12 +65,12 @@
                                 <th> ID </th>
                                 <th> Tên </th>
                                 <th> Ảnh </th>
-                                <th> Hiển thị </th>
+                                <th> Khoá học </th>
                                 <th> Tác vụ </th>
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach ($slider as $item)
+                            @foreach ($mission as $item)
                                 <tr class="odd gradeX">
                                     <td>
                                         <label class="rt-chkbox rt-chkbox-single rt-chkbox-outline">
@@ -82,17 +81,15 @@
                                     <td> {{ $item->id }} </td>
                                     <td> {{ $item->name }} </td>
                                     <td> <img src="{{ $item->image }}" class="table-image"> </td>
-                                    <td>
-                                        <input type="checkbox" name="toggle" value="{{ $item->id }}" data-toggle="toggle" data-onstyle="primary" {{ $item->status == 'active' ? 'checked' : ''}}>
-                                    </td>
+                                    <td> {{$item->course->name}} </td>
                                     <td class="valigntop">
                                         <div class="btn-group">
-                                            <a href="{{ route('slider.edit', $item->id) }}">
+                                            <a href="{{ route('mission.edit', $item->id) }}">
                                                 <button class="btn btn-primary btn-sm rounded-0">
                                                     <i class="fa fa-edit"></i>
                                                 </button>
                                             </a>
-                                            <form action="{{ route('slider.destroy', $item->id) }}" method="post">
+                                            <form action="{{ route('mission.destroy', $item->id) }}" method="post">
                                                 @csrf
                                                 @method('delete')
                                                 <a href="" data-id="{{ $item->id }}"><button class="dltBtn btn btn-danger btn-sm rounded-0"><i class="fa fa-trash-o"></i></button></a>
@@ -109,30 +106,4 @@
     </div>
 </div>
 
-@endsection
-
-@section('scripts')
-    <script>
-        // Change slider status
-        $('input[name="toggle"]').change(function() {
-            var mode = $(this).prop('checked');
-            var id = $(this).val();
-            $.ajax({
-                type:'POST',
-                url: '/admin/slider-status',
-                headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
-                data:{
-                    mode:mode,
-                    id:id,
-                },
-                success:function (response) {
-                    if(response.status){
-                        alert(response.message);
-                    } else {
-                        alert('Vui lòng thử lại!');
-                    }
-                }
-            })
-        });
-    </script>
 @endsection

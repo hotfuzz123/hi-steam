@@ -4,14 +4,14 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use App\Models\Mission;
 use App\Models\Course;
-use App\Models\Category;
-use App\Http\Requests\CourseRequest;
+use App\Http\Requests\MissionRequest;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Session;
 use CloudinaryLabs\CloudinaryLaravel\Facades\Cloudinary;
 
-class CourseController extends Controller
+class MissionController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -20,23 +20,8 @@ class CourseController extends Controller
      */
     public function index()
     {
-        $course = Course::with('category')->get();
-        return view('backend.course.index')->with(compact('course'));
-    }
-
-    /**
-     * Update course status.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function courseStatus(Request $request)
-    {
-        if($request->mode == 'true'){
-            DB::table('course')->where('id', $request->id)->update(['status' => 'active']);
-        } else {
-            DB::table('course')->where('id', $request->id)->update(['status' => 'inactive']);
-        }
-        return response()->json(['message' => 'Cập nhật trạng thái thành công', 'status'=>true]);
+        $mission = Mission::with('course')->get();
+        return view('backend.mission.index')->with(compact('mission'));
     }
 
     /**
@@ -46,8 +31,8 @@ class CourseController extends Controller
      */
     public function create()
     {
-        $category = Category::all();
-        return view('backend.course.create')->with(compact('category'));
+        $course = Course::all();
+        return view('backend.mission.create')->with(compact('course'));
     }
 
     /**
@@ -56,22 +41,22 @@ class CourseController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(MissionRequest $request)
     {
-        $course = Course::create($request->all());
+        $mission = Mission::create($request->all());
         if($request->hasFile('image')){
             $files = $request->file('image');
             //Upload new image
-            $imageUrl = $files->storeOnCloudinary('course')->getSecurePath();
+            $imageUrl = $files->storeOnCloudinary('mission')->getSecurePath();
             //Get public_id
             $publicId = Cloudinary::getPublicId();
             //Get url image and public_id to db
-            $course->image = $imageUrl;
-            $course->public_id = $publicId;
+            $mission->image = $imageUrl;
+            $mission->public_id = $publicId;
         }
-        $course->save();
+        $mission->save();
         Session::flash('success', 'Thêm thành công');
-        return redirect()->route('course.index');
+        return redirect()->route('mission.index');
     }
 
     /**
@@ -82,7 +67,7 @@ class CourseController extends Controller
      */
     public function show($id)
     {
-        return view('backend.course.edit');
+        return view('backend.mission.edit');
     }
 
     /**
@@ -93,9 +78,9 @@ class CourseController extends Controller
      */
     public function edit($id)
     {
-        $course = Course::findOrFail($id);
-        $category = Category::all();
-        return view('backend.course.edit')->with(compact('course', 'category'));
+        $mission = Mission::findOrFail($id);
+        $course = Course::all();
+        return view('backend.mission.edit')->with(compact('mission', 'course'));
     }
 
     /**
@@ -105,25 +90,25 @@ class CourseController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(MissionRequest $request, $id)
     {
-        $course = Course::findOrFail($id);
-        $course->update($request->all());
+        $mission = Mission::findOrFail($id);
+        $mission->update($request->all());
         if($request->hasFile('image')){
             $files = $request->file('image');
             //Delete old image
-            Cloudinary::destroy($course->public_id);
+            Cloudinary::destroy($mission->public_id);
             //Upload new image
-            $imageUrl = $files->storeOnCloudinary('course')->getSecurePath();
+            $imageUrl = $files->storeOnCloudinary('mission')->getSecurePath();
             //Get public_id
             $publicId = Cloudinary::getPublicId();
             //Get url image and public_id to db
-            $course->image = $imageUrl;
-            $course->public_id = $publicId;
+            $mission->image = $imageUrl;
+            $mission->public_id = $publicId;
         }
-        $course->save();
+        $mission->save();
         Session::flash('success', 'Cập nhật thành công');
-        return redirect()->route('course.index')->with(compact('course'));
+        return redirect()->route('mission.index')->with(compact('mission'));
     }
 
     /**
@@ -134,11 +119,11 @@ class CourseController extends Controller
      */
     public function destroy($id)
     {
-        $course = Course::findOrFail($id);
+        $mission = Mission::findOrFail($id);
         //Delete old image
-        Cloudinary::destroy($course->public_id);
-        $course->delete();
+        Cloudinary::destroy($mission->public_id);
+        $mission->delete();
         Session::flash('success', 'Xoá thành công');
-        return redirect()->route('course.index');
+        return redirect()->route('mission.index');
     }
 }

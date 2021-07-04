@@ -1,28 +1,12 @@
-// ClassicEditor
-//     .create( document.querySelector( '#editor1' ) )
-//     .catch( error => {
-//         console.error( error );
-//     } );
-
-// ClassicEditor
-//     .create( document.querySelector( '#editor2' ) )
-//     .catch( error => {
-//         console.error( error );
-//     } );
-
+// Editor chính
 ClassicEditor.create( document.querySelector( '#editor1' ) )
-    .then( editor => {
-        window.editor1 = editor;
-    } )
-    .catch( err => {
-        console.error( err.stack );
+    .catch( error => {
+        console.error( error );
     } );
 
+// Editor phụ
 ClassicEditor.create( document.querySelector( '#editor2' ) )
-    .then( editor => {
-        window.editor2 = editor;
-    } )
-    .catch( err => {
-        console.error( err.stack );
+    .catch( error => {
+        console.error( error );
     } );
 

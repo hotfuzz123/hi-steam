@@ -17,7 +17,7 @@ class MissionController extends Controller
      */
     public function index()
     {
-        $mission = Mission::with('grade')->get();
+        $mission = Mission::with('course')->get();
         return response(['status' => '200', 'data' => $mission], 200);
     }
 

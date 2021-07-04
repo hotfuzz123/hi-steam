@@ -36,7 +36,11 @@ class Course extends Model
         'name', 'material', 'description', 'image', 'public_id', 'video_link', 'view_count', 'status', 'category_id', 'user_id'
     ];
 
-    public function homework() {
-        return $this->hasMany('App\Models\Homework');
+    public function category() {
+        return $this->belongsTo('App\Models\Category');
+    }
+
+    public function mission() {
+        return $this->hasMany('App\Models\Mission');
     }
 }

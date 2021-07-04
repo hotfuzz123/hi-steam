@@ -13,7 +13,7 @@ class MissionRequest extends FormRequest
      */
     public function authorize()
     {
-        return false;
+        return true;
     }
 
     /**
@@ -23,8 +23,26 @@ class MissionRequest extends FormRequest
      */
     public function rules()
     {
-        return [
-            //
-        ];
+        switch($this->method()) {
+            case 'GET':
+            case 'DELETE':
+                return [];
+            case 'POST':
+                return [
+                    'name' => 'required',
+                    'image' => 'nullable|mimes:jpeg,png,jpg,gif,svg',
+                    'description' => 'nullable',
+                    'course_id' => 'required|integer',
+                ];
+            case 'PUT':
+            case 'PATCH':
+                return [
+                    'name' => 'required',
+                    'image' => 'nullable|mimes:jpeg,png,jpg,gif,svg',
+                    'description' => 'nullable',
+                    'course_id' => 'required|integer',
+                ];
+            default:break;
+        }
     }
 }

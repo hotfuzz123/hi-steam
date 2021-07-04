@@ -83,7 +83,9 @@
                     <div class="form-group">
                         <div class="offset-md-3 col-md-9">
                             <button type="submit" class="btn btn-info m-r-20">Lưu</button>
-                            <button type="button" class="btn btn-default">Huỷ</button>
+                            <a href="{{ route('category.index') }}">
+                                <button type="button" class="btn btn-default">Huỷ</button>
+                            </a>
                         </div>
                     </div>
                 </form>

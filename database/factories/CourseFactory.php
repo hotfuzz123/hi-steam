@@ -11,9 +11,10 @@ $factory->define(Course::class, function (Faker $faker) {
         'material' => $faker->text($maxNbChars = 200),
         'description' => $faker->text($maxNbChars = 200),
         'image' => $faker->imageUrl($width = 640, $height = 480),
-        'video_link' => $faker->imageUrl($width = 640, $height = 480),
+        'public_id' => $faker->imageUrl($width = 640, $height = 480),
+        'video_link' => 'https://player.vimeo.com/video/270134945',
         'view_count' => $faker->numberBetween($min = 1000, $max = 9000),
         'status' => $faker->randomElement(['active' ,'inactive']),
-        'category_id' => factory(App\Models\Category::class)->create()->id,
+        'category_id' => $faker->numberBetween($min = 1, $max = 5),
     ];
 });

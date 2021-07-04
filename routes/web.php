@@ -36,5 +36,15 @@ Route::prefix('admin')->namespace('Admin')->group(function(){
         // Slider Section
         Route::resource('slider', 'SliderController');
         Route::post('slider-status','SliderController@sliderStatus')->name('slider.status');
+
+        // Course Section
+        Route::resource('course', 'CourseController');
+        Route::post('course-status','CourseController@courseStatus')->name('course.status');
+
+        // Mission Section
+        Route::resource('mission', 'MissionController');
+
+        // User Section
+        Route::resource('user', 'UserController');
     });
 });

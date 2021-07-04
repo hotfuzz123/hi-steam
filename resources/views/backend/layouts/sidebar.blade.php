@@ -1,8 +1,7 @@
 <div class="sidebar-container">
     <div class="sidemenu-container navbar-collapse collapse fixed-menu">
         <div id="remove-scroll" class="left-sidemenu">
-            <ul class="sidemenu  page-header-fixed slimscroll-style" data-keep-expanded="false"
-                data-auto-scroll="true" data-slide-speed="200" style="padding-top: 20px">
+            <ul class="sidemenu  page-header-fixed slimscroll-style" data-keep-expanded="false" data-auto-scroll="true" data-slide-speed="200" style="padding-top: 20px">
                 <li class="sidebar-toggler-wrapper hide">
                     <div class="sidebar-toggler">
                         <span></span>
@@ -45,108 +44,52 @@
                         </li>
                     </ul>
                 </li>
-                <li class="nav-item">
-                    <a href="event.html" class="nav-link nav-toggle"> <i class="material-icons">event</i>
-                        <span class="title">Event Management</span>
-                    </a>
-                </li>
+
                 <li class="nav-item">
                     <a href="#" class="nav-link nav-toggle"> <i class="material-icons">person</i>
-                        <span class="title">Professors</span> <span class="arrow"></span>
+                        <span class="title">Admin</span> <span class="arrow"></span>
                     </a>
                     <ul class="sub-menu">
                         <li class="nav-item">
-                            <a href="all_professors.html" class="nav-link "> <span class="title">All
-                                    Professors</span>
+                            <a href="" class="nav-link ">
+                                <span class="title">Thêm admin</span>
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a href="add_professor.html" class="nav-link "> <span class="title">Add
-                                    Professor</span>
+                            <a href="" class="nav-link ">
+                                <span class="title">Danh sách admin</span>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+                <li class="nav-item">
+                    <a href="#" class="nav-link nav-toggle"> <i class="material-icons">assignment_ind</i>
+                        <span class="title">Nhiệm vụ</span> <span class="arrow"></span>
+                    </a>
+                    <ul class="sub-menu">
+                        <li class="nav-item">
+                            <a href="{{ route('mission.create') }}" class="nav-link ">
+                                <span class="title">Thêm nhiệm vụ</span>
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a href="add_professor_bootstrap.html" class="nav-link "> <span
-                                    class="title">Add Professor Bootstrap</span>
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="edit_professor.html" class="nav-link "> <span class="title">Edit
-                                    Professor</span>
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="professor_profile.html" class="nav-link "> <span class="title">About
-                                    Professor</span>
+                            <a href="{{ route('mission.index') }}" class="nav-link ">
+                                <span class="title">Danh sách nhiệm vụ</span>
                             </a>
                         </li>
                     </ul>
                 </li>
                 <li class="nav-item">
                     <a href="#" class="nav-link nav-toggle"><i class="material-icons">group</i>
-                        <span class="title">Students</span><span class="arrow"></span></a>
+                        <span class="title">Học sinh</span><span class="arrow"></span></a>
                     <ul class="sub-menu">
                         <li class="nav-item">
-                            <a href="all_students.html" class="nav-link "> <span class="title">All
-                                    Students</span>
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="add_student.html" class="nav-link "> <span class="title">Add
-                                    Student</span>
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="add_student_bootstrap.html" class="nav-link "> <span class="title">Add
-                                    Student Bootstrap</span>
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="edit_student.html" class="nav-link "> <span class="title">Edit
-                                    Student</span>
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="student_profile.html" class="nav-link "> <span class="title">About
-                                    Student</span>
+                            <a href="{{ route('user.index') }}" class="nav-link ">
+                                <span class="title">Danh sách học sinh</span>
                             </a>
                         </li>
                     </ul>
                 </li>
-                <li class="nav-item">
-                    <a href="#" class="nav-link nav-toggle"> <i class="material-icons">school</i>
-                        <span class="title">Courses</span> <span class="arrow"></span>
-                        <span class="label label-rouded label-menu label-success">new</span>
-                    </a>
-                    <ul class="sub-menu">
-                        <li class="nav-item">
-                            <a href="all_courses.html" class="nav-link "> <span class="title">All
-                                    Courses</span>
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="add_course.html" class="nav-link "> <span class="title">Add
-                                    Course</span>
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="add_course_bootstrap.html" class="nav-link "> <span class="title">Add
-                                    Course Bootstrap</span>
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="edit_course.html" class="nav-link "> <span class="title">Edit
-                                    Course</span>
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="course_details.html" class="nav-link "> <span class="title">About
-                                    Course</span>
-                            </a>
-                        </li>
-                    </ul>
-                </li>
-
                 <li class="nav-item">
                     <a href="#" class="nav-link nav-toggle"> <i class="material-icons">list</i>
                         <span class="title">Danh mục</span><span class="arrow"></span>
@@ -167,15 +110,16 @@
                 <li class="nav-item">
                     <a href="#" class="nav-link nav-toggle"> <i class="material-icons">school</i>
                         <span class="title">Khoá học</span><span class="arrow"></span>
+                        {{-- <span class="label label-rouded label-menu label-success">new</span> --}}
                     </a>
                     <ul class="sub-menu">
                         <li class="nav-item">
-                            <a href="" class="nav-link ">
+                            <a href="{{ route('course.create') }}" class="nav-link ">
                                 <span class="title">Thêm khoá học</span>
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a href="" class="nav-link ">
+                            <a href="{{ route('course.index') }}" class="nav-link ">
                                 <span class="title">Danh sách khoá học</span>
                             </a>
                         </li>
@@ -226,7 +170,11 @@
                     </ul>
                 </li>
 
-
+                {{-- <li class="nav-item">
+                    <a href="event.html" class="nav-link nav-toggle"> <i class="material-icons">event</i>
+                        <span class="title">Event Management</span>
+                    </a>
+                </li>
                 <li class="nav-item">
                     <a href="#" class="nav-link nav-toggle"> <i class="material-icons">local_library</i>
                         <span class="title">Library</span> <span class="arrow"></span>
@@ -813,7 +761,7 @@
                                 <i class="fa fa-volume-up"></i> Item 3 </a>
                         </li>
                     </ul>
-                </li>
+                </li> --}}
             </ul>
         </div>
     </div>

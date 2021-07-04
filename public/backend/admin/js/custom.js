@@ -60,50 +60,6 @@ $(document).ready(function () {
         $('#alert').slideUp();
     },4000);
 
-    // Change category status
-    $('input[name="toggle"]').change(function() {
-        var mode = $(this).prop('checked');
-        var id = $(this).val();
-        $.ajax({
-            type:'POST',
-            url: '/admin/category-status',
-            headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
-            data:{
-                mode:mode,
-                id:id,
-            },
-            success:function (response) {
-                if(response.status){
-                    alert(response.message);
-                } else {
-                    alert('Vui lòng thử lại!');
-                }
-            }
-        })
-    });
-
-    // Change slider status
-    $('input[name="toggle"]').change(function() {
-        var mode = $(this).prop('checked');
-        var id = $(this).val();
-        $.ajax({
-            type:'POST',
-            url: '/admin/slider-status',
-            headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
-            data:{
-                mode:mode,
-                id:id,
-            },
-            success:function (response) {
-                if(response.status){
-                    alert(response.message);
-                } else {
-                    alert('Vui lòng thử lại!');
-                }
-            }
-        })
-    });
-
     // Show SweetAlert from delete
     $('.dltBtn').click(function(e) {
         var form = $(this).closest('form');

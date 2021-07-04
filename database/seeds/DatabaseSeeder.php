@@ -16,9 +16,10 @@ class DatabaseSeeder extends Seeder
             SliderSeeder::class,
             CategorySeeder::class,
             CourseSeeder::class,
-            HomeworkSeeder::class,
-            GradeSeeder::class,
+            // HomeworkSeeder::class,
+            // GradeSeeder::class,
             MissionSeeder::class,
+            UserSeeder::class,
         ]);
     }
 }

@@ -33,8 +33,12 @@ class Mission extends Model
      * @var array
      */
     protected $fillable = [
-        'name', 'image', 'user_id', 'description', 'status', 'grade_id'
+        'name', 'image', 'user_id', 'description', 'course_id', 'grade_id'
     ];
+
+    public function course() {
+        return $this->belongsTo('App\Models\Course');
+    }
 
     public function grade() {
         return $this->belongsTo('App\Models\Grade');

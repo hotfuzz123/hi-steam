@@ -8,10 +8,9 @@ use Faker\Generator as Faker;
 $factory->define(Mission::class, function (Faker $faker) {
     return [
         'name' => $faker->name,
-        'image' => 'https://res.cloudinary.com/do4r5l3hd/image/upload/v1624046945/default/avatar.jpg',
-        'public_id' => 'default/avatar',
+        'image' => $faker->imageUrl($width = 640, $height = 480),
+        'public_id' => $faker->imageUrl($width = 640, $height = 480),
         'description' => $faker->text($maxNbChars = 200),
-        'status' => $faker->randomElement(['active' ,'inactive']),
-        'grade_id' => factory(App\Models\Grade::class)->create()->id,
+        'course_id' => $faker->numberBetween($min = 1, $max = 10),
     ];
 });

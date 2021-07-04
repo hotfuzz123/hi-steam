@@ -54,15 +54,12 @@
                     </div>
                 </div>
                 <div class="table-scrollable">
-                    <table
-                        class="table table-striped table-bordered table-hover table-checkable order-column"
-                        style="width: 100%" id="example4">
+                    <table class="table table-striped table-bordered table-hover table-checkable order-column" style="width: 100%" id="example4">
                         <thead>
                             <tr>
                                 <th>
                                     <label class="rt-chkbox rt-chkbox-single rt-chkbox-outline">
-                                        <input type="checkbox" class="group-checkable"
-                                            data-set="#sample_1 .checkboxes" />
+                                        <input type="checkbox" class="group-checkable" data-set="#sample_1 .checkboxes" />
                                         <span></span>
                                     </label>
                                 </th>
@@ -110,4 +107,30 @@
     </div>
 </div>
 
+@endsection
+
+@section('scripts')
+    <script>
+        // Change category status
+        $('input[name="toggle"]').change(function() {
+            var mode = $(this).prop('checked');
+            var id = $(this).val();
+            $.ajax({
+                type:'POST',
+                url: '/admin/category-status',
+                headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
+                data:{
+                    mode:mode,
+                    id:id,
+                },
+                success:function (response) {
+                    if(response.status){
+                        alert(response.message);
+                    } else {
+                        alert('Vui lòng thử lại!');
+                    }
+                }
+            })
+        });
+    </script>
 @endsection

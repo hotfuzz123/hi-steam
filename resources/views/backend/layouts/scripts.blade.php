@@ -42,4 +42,6 @@
 <script src="https://cdn.jsdelivr.net/gh/gitbrent/bootstrap4-toggle@3.6.1/js/bootstrap4-toggle.min.js"></script>
 {{-- SweetAlert --}}
 <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+{{-- Scripts From Layout --}}
+@yield('scripts')
 <!-- end js include path -->

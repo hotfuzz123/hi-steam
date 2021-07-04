@@ -35,7 +35,8 @@ class CourseRequest extends FormRequest
                     'image' => 'nullable|mimes:jpeg,png,jpg,gif,svg',
                     'video_link' => 'nullable|string',
                     'view_count' => 'nullable|string',
-                    'category_id' => 'nullable|integer',
+                    'status' => 'required|in:active,inactive',
+                    'category_id' => 'required|integer',
                 ];
             case 'PUT':
             case 'PATCH':
@@ -46,7 +47,8 @@ class CourseRequest extends FormRequest
                     'image' => 'nullable|mimes:jpeg,png,jpg,gif,svg',
                     'video_link' => 'nullable|string',
                     'view_count' => 'nullable|string',
-                    'category_id' => 'nullable|integer',
+                    'status' => 'required|in:active,inactive',
+                    'category_id' => 'required|integer',
                 ];
             default:break;
         }

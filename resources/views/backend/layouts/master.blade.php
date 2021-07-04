@@ -36,7 +36,7 @@
         @include('backend.layouts.footer')
 		<!-- end footer -->
 	</div>
-    @include('backend.layouts.script')
+    @include('backend.layouts.scripts')
 </body>
 
 </html>
