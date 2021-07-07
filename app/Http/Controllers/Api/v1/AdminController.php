@@ -4,29 +4,30 @@ namespace App\Http\Controllers\Api\v1;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use App\Models\User;
-use App\Http\Requests\UserRegister;
-use App\Http\Requests\UserLogin;
-use App\Http\Requests\UserChangePass;
+use App\Models\Admin;
+use App\Http\Requests\AdminRegister;
+use App\Http\Requests\AdminLogin;
+use App\Http\Requests\AdminChangePass;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Cookie;
 use CloudinaryLabs\CloudinaryLaravel\Facades\Cloudinary;
 use Carbon\Carbon;
+use Illuminate\Contracts\Auth\Guard;
 
-class AuthController extends Controller
+class AdminController extends Controller
 {
     /**
-     * Register a new user
+     * Register a new admin
      *
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function register(UserRegister $request)
+    public function registerAdmin(AdminRegister $request)
     {
-        $user = User::create($request->all());
-        return response(['status' => '200', 'message' => 'Đăng ký thành công!', 'data' => $user], 200);
+        $admin = Admin::create($request->all());
+        return response(['status' => '200', 'message' => 'Đăng ký thành công!', 'data' => $admin], 200);
     }
 
     /**
@@ -35,11 +36,11 @@ class AuthController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function login(UserLogin $request)
+    public function loginAdmin(AdminLogin $request)
     {
-        if (auth()->attempt($request->validated())) {
-            $user = auth()->user();
-            $tokenResult = $user->createToken('token');
+        if (Auth::guard('admin')->attempt($request->validated())) {
+            $admin = Auth::guard('admin')->user();
+            $tokenResult = $admin->createToken('token');
             $token = $tokenResult->token;
             if ($request->remember_me)
                 $token->expires_at = Carbon::now()->addWeeks(1);
@@ -50,7 +51,7 @@ class AuthController extends Controller
             return response()->json([
                 'status' => '200',
                 'message' => 'Đăng nhập thành công!',
-                'data' => $user,
+                'data' => $admin,
                 'access_token' => $tokenResult->accessToken,
                 'token_type' => 'Bearer',
                 'expires_at' => Carbon::parse($tokenResult->token->expires_at)->toDateTimeString()
@@ -73,15 +74,15 @@ class AuthController extends Controller
     }
 
     /**
-     * Get user info after login
+     * Get admin info after login
      *
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function getUser(Request $request)
+    public function getAdmin(Request $request)
     {
-        $user = auth()->user();
-        return response(['status' => '200', 'data' => $user], 200);
+        $admin = auth()->user();
+        return response(['status' => '200', 'data' => $admin], 200);
     }
 
     /**
@@ -90,24 +91,24 @@ class AuthController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function updateUser(Request $request)
+    public function updateAdmin(Request $request)
     {
-        $user = User::find($request->user()->id);
-        $user->update($request->all());
+        $admin = Admin::find($request->user()->id);
+        $admin->update($request->all());
         if($request->hasFile('image')){
             $files = $request->file('image');
             //Delete old image
-            Cloudinary::destroy($user->public_id);
+            Cloudinary::destroy($admin->public_id);
             //Upload new image
-            $imageUrl = $files->storeOnCloudinary('user')->getSecurePath();
+            $imageUrl = $files->storeOnCloudinary('admin')->getSecurePath();
             //Get public_id
             $publicId = Cloudinary::getPublicId();
             //Get url image and public_id to db
-            $user->image = $imageUrl;
-            $user->public_id = $publicId;
+            $admin->image = $imageUrl;
+            $admin->public_id = $publicId;
         }
-        $user->save();
-        return response(['status' => '200', 'message' => 'Cập nhật thành công!', 'data' => $user], 200);
+        $admin->save();
+        return response(['status' => '200', 'message' => 'Cập nhật thành công!', 'data' => $admin], 200);
     }
 
 
@@ -117,15 +118,15 @@ class AuthController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function changePassword(UserChangePass $request){
+    public function changePassword(AdminChangePass $request){
         // Check if current password is correct
         if(Hash::check($request['old_password'], Auth::user()->password)){
             // Check new password and confirm password are same
-            if($request['password'] == $request['password_confirmation']) {
-                User::where('id', Auth::user()->id)->update(['password' => bcrypt($request['password'])]);
+            if ($request['password'] == $request['password_confirmation']) {
+                Admin::where('id', Auth::user()->id)->update(['password' => bcrypt($request['password'])]);
                 return response(['status' => '200', 'message' => 'Đổi mật khẩu thành công'], 200);
             // Check new password and confirm password are not same
-            }else{
+            } else {
                 return response(['status' => '211', 'message' => 'Mật khẩu mới và xác nhận mật khẩu không giống nhau !!!'], 211);
             }
         }else{

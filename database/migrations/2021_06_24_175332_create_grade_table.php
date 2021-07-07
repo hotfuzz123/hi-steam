@@ -17,7 +17,7 @@ class CreateGradeTable extends Migration
             $table->id();
             $table->string('score')->nullable();
             $table->string('comment')->nullable();
-            $table->foreignId('user_id')->nullable()->references('id')->on('users')->onDelete('cascade');
+            $table->foreignId('homework_id')->nullable()->references('id')->on('homework')->onDelete('cascade');
             $table->timestamps();
         });
     }

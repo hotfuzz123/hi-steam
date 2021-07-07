@@ -23,6 +23,7 @@ class CreateCourseTable extends Migration
             $table->string('video_link')->nullable();
             $table->string('view_count')->nullable();
             $table->enum('status',['active','inactive'])->default('active');
+            $table->foreignId('admin_id')->nullable()->references('id')->on('admins')->onDelete('cascade');
             $table->foreignId('category_id')->nullable()->references('id')->on('category')->onDelete('cascade');
             $table->timestamps();
         });

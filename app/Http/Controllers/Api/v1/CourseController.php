@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\API\v1;
+namespace App\Http\Controllers\Api\v1;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
@@ -17,7 +17,7 @@ class CourseController extends Controller
      */
     public function index()
     {
-        $course = Course::with('mission')->paginate(6);
+        $course = Course::with('admin', 'mission', 'comment', 'homework')->paginate(8);
         return response(['status' => '200', 'data' => $course], 200);
     }
 

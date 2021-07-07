@@ -8,6 +8,8 @@ use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Image;
+use App\Http\Requests\AdminRegister;
+use App\Http\Requests\AdminLogin;
 use App\Http\Requests\AdminChangePass;
 use CloudinaryLabs\CloudinaryLaravel\Facades\Cloudinary;
 use App\Models\Admin;
@@ -25,11 +27,10 @@ class AdminController extends Controller
 
     public function login(Request $request){
         if($request -> isMethod('post')){
-            $data = $request->all();
-            if(Auth::guard('admin')->attempt(['email'=>$data['email'],'password'=>$data['password']])){
+            if(Auth::guard('admin')->attempt(['email'=>$request['email'],'password'=>$request['password']])){
                 return redirect('admin/dashboard');
             } else {
-                return redirect('/admin')->with('error_message', 'Email hoặc mật khẩu sai !!!');
+                return redirect('/admin')->with('error', 'Email hoặc mật khẩu sai !!!');
             }
         }
         return view('backend.admin_login');
@@ -37,7 +38,7 @@ class AdminController extends Controller
 
     public function logout(){
         Auth::guard('admin')->logout();
-        return redirect('/admin')->with('success_message', 'Đăng xuất admin thành công');
+        return redirect('/admin')->with('success', 'Đăng xuất thành công');
     }
 
     public function chkCurrentPassword(Request $request){
@@ -89,7 +90,7 @@ class AdminController extends Controller
                 $admin->public_id = $publicId;
             }
             $admin->save();
-            Session::flash('success_message', 'Cập nhật thành công');
+            Session::flash('success', 'Cập nhật thành công');
         }
         return view('backend.settings.admin_settings');
     }

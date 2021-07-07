@@ -8,8 +8,9 @@ use Faker\Generator as Faker;
 $factory->define(Homework::class, function (Faker $faker) {
     return [
         'name' => $faker->name,
-        'file' => 'https://res.cloudinary.com/do4r5l3hd/image/upload/v1624046945/default/avatar.jpg',
+        'file' => $faker->imageUrl($width = 640, $height = 480),
         'public_id' => 'default/avatar',
-        'course_id' => factory(App\Models\Course::class)->create()->id,
+        'user_id' => $faker->numberBetween($min = 1, $max = 10),
+        'course_id' => $faker->numberBetween($min = 1, $max = 10),
     ];
 });

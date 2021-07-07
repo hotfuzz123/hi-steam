@@ -51,12 +51,12 @@
                     </a>
                     <ul class="sub-menu">
                         <li class="nav-item">
-                            <a href="" class="nav-link ">
+                            <a href="{{ route('admin.create') }}" class="nav-link ">
                                 <span class="title">Thêm admin</span>
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a href="" class="nav-link ">
+                            <a href="{{ route('admin.index') }}" class="nav-link ">
                                 <span class="title">Danh sách admin</span>
                             </a>
                         </li>

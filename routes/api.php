@@ -22,7 +22,9 @@ Route::group(['prefix' => 'v1', 'namespace' => 'Api\v1'], function(){
     Route::apiResource('homework', 'HomeworkController');
     Route::apiResource('grade', 'GradeController');
     Route::apiResource('mission', 'MissionController');
+    Route::apiResource('comment', 'CommentController')->only('index');
 
+    // Users
     Route::post('register', 'AuthController@register');
     Route::post('login', 'AuthController@login');
 
@@ -31,5 +33,18 @@ Route::group(['prefix' => 'v1', 'namespace' => 'Api\v1'], function(){
         Route::get('user', 'AuthController@getUser');
         Route::post('user', 'AuthController@updateUser');
         Route::post('change-password', 'AuthController@changePassword');
+
+        Route::apiResource('comment', 'CommentController')->except('index');
+    });
+
+    // Admins
+    Route::post('register-admin', 'AdminController@registerAdmin');
+    Route::post('login-admin', 'AdminController@loginAdmin');
+
+    Route::group(['prefix' => 'admin', 'middleware' => 'auth:admin-api'], function(){
+        Route::delete('logout', 'AdminController@logout');
+        Route::get('admin', 'AdminController@getAdmin');
+        Route::post('admin', 'AdminController@updateAdmin');
+        Route::post('change-password', 'AdminController@changePassword');
     });
 });

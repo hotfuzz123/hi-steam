@@ -5,11 +5,12 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use Laravel\Passport\HasApiTokens;
 
 class Admin extends Authenticatable
 {
-    use Notifiable;
-    
+    use Notifiable, HasApiTokens;
+
     /**
      * The table associated with the model.
      *
@@ -47,7 +48,7 @@ class Admin extends Authenticatable
         'name',
         'email',
         'description',
-        'mobile',
+        'phone',
         'type',
         'image',
         'password',
@@ -71,4 +72,15 @@ class Admin extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    /**
+     * Bcrypt the password of admin
+     *
+     * @var array
+     */
+    public function setPasswordAttribute($value) {
+        if($value != ""){
+            $this->attributes['password'] = bcrypt($value);
+        }
+    }
 }

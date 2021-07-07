@@ -4,12 +4,12 @@
 <div class="page-bar">
     <div class="page-title-breadcrumb">
         <div class=" pull-left">
-            <div class="page-title">Danh sách học sinh</div>
+            <div class="page-title">Danh sách admin</div>
         </div>
         <ol class="breadcrumb page-breadcrumb pull-right">
             <li><i class="fa fa-home"></i><a class="parent-item" href="{{route('admin.dashboard')}}">Trang chủ</a><i class="fa fa-angle-right"></i></li></li>
-            <li><a class="parent-item" href="#">Học sinh</a>&nbsp;<i class="fa fa-angle-right"></i></li>
-            <li class="active">Danh sách học sinh</li>
+            <li><a class="parent-item" href="#">Admin</a>&nbsp;<i class="fa fa-angle-right"></i></li>
+            <li class="active">Danh sách admin</li>
         </ol>
     </div>
 </div>
@@ -26,7 +26,7 @@
                         <div class="col-md-12">
                             <div class="card card-box">
                                 <div class="card-head">
-                                    <header>Danh sách học sinh</header>
+                                    <header>Danh sách admin</header>
                                     <div class="tools">
                                         <a class="fa fa-repeat btn-color box-refresh" href="javascript:;"></a>
                                         <a class="t-collapse btn-color fa fa-chevron-down" href="javascript:;"></a>
@@ -62,8 +62,6 @@
                                                     <th> ID </th>
                                                     <th> Ảnh </th>
                                                     <th> Tên </th>
-                                                    <th> Lớp </th>
-                                                    <th> Ngày sinh </th>
                                                     <th> Số điện thoại </th>
                                                     <th> Email </th>
                                                     <th> Địa chỉ </th>
@@ -71,15 +69,13 @@
                                                 </tr>
                                             </thead>
                                             <tbody>
-                                                @foreach ($user as $item)
+                                                @foreach ($admin as $item)
                                                     <tr class="odd gradeX">
                                                         <td> {{ $item->id }} </td>
                                                         <td class="patient-img">
                                                             <img src="{{ $item->image }}" alt="">
                                                         </td>
                                                         <td> {{ $item->name }} </td>
-                                                        <td> {{ $item->grade }} </td>
-                                                        <td> {{ Carbon\Carbon::parse($item->dateOfBirth)->format('d-m-Y') }} </td>
                                                         <td><a href="tel:{{ $item->phone }}"> {{ $item->phone }} </a></td>
                                                         <td><a href="mailto:{{ $item->email }}"> {{ $item->email }} </a></td>
                                                         <td> {{ $item->address }} </td>
@@ -96,7 +92,7 @@
                 </div>
                 <div class="tab-pane" id="tab2">
                     <div class="row">
-                        @foreach ($user as $item)
+                        @foreach ($admin as $item)
                             <div class="col-md-4">
                                 <div class="card card-box">
                                     <div class="card-body no-padding ">
@@ -104,7 +100,7 @@
                                             <img src="{{ $item->image }}" class="doctor-pic" alt="">
                                             <div class="profile-usertitle">
                                                 <div class="doctor-name"> {{ $item->name }} </div>
-                                                <div class="name-center"> Lớp {{ $item->grade }} </div>
+                                                <div class="name-center"></div>
                                             </div>
                                             <p>{{ $item->address }}</p>
                                             <div>

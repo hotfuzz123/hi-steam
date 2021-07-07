@@ -4,14 +4,14 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Category extends Model
+class Comment extends Model
 {
     /**
      * The table associated with the model.
      *
      * @var string
      */
-    protected $table = 'category';
+    protected $table = 'comment';
 
     /**
      * The primary key associated with the table.
@@ -33,10 +33,14 @@ class Category extends Model
      * @var array
      */
     protected $fillable = [
-        'name', 'icon', 'description', 'status',
+        'text', 'course_id', 'user_id', 'parent_comment_id',
     ];
 
-    public function course() {
-        return $this->hasMany(Course::class);
+    public function user() {
+        return $this->belongsTo(User::class);
+    }
+
+    public function replies() {
+        return $this->hasMany(Comment::class, 'parent_comment_id');
     }
 }

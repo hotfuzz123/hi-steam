@@ -9,10 +9,10 @@ $factory->define(Admin::class, function (Faker $faker) {
     return [
         'name' => 'Admin',
         'type' => 'Super Admin',
-        'mobile' => '0905428795',
         'email' => 'admin@gmail.com',
-        'password' => bcrypt('123456'), // password
-        'image' => 'https://res.cloudinary.com/do4r5l3hd/image/upload/v1624046945/default/avatar.jpg',
+        'phone' => '0905428795',
+        'password' => '123456', // password
+        'image' => $faker->imageUrl($width = 640, $height = 480),
         'public_id' => 'default/avatar',
         'status' => '1',
     ];

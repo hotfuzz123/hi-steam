@@ -17,13 +17,13 @@ class CreateAdminsTable extends Migration
             $table->id();
             $table->string('name');
             $table->string('type')->nullable();
-            $table->string('mobile')->nullable();
-            $table->string('email')->unique();
+            $table->string('email')->unique()->nullable();
+            $table->string('phone')->unique()->nullable();
+            $table->string('image')->nullable()->default('https://dummyimage.com/250x250/fff/aaa');
+            $table->string('public_id')->nullable()->default('https://dummyimage.com/250x250/fff/aaa');
             $table->text('description')->nullable();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
-            $table->string('image')->nullable();
-            $table->string('public_id')->nullable();
             $table->string('status')->nullable();
             $table->rememberToken();
             $table->timestamps();

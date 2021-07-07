@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\API\v1;
+namespace App\Http\Controllers\Api\v1;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
@@ -17,7 +17,7 @@ class HomeworkController extends Controller
      */
     public function index()
     {
-        $homework = Homework::with('course')->get();
+        $homework = Homework::with('user', 'course')->get();
         return response(['status' => '200', 'data' => $homework], 200);
     }
 

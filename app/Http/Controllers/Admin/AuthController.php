@@ -1,14 +1,13 @@
 <?php
 
-namespace App\Http\Controllers\Api\v1;
+namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use App\Models\Grade;
-use App\Http\Requests\GradeRequest;
+use App\Models\Admin;
 use CloudinaryLabs\CloudinaryLaravel\Facades\Cloudinary;
 
-class GradeController extends Controller
+class AuthController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -17,8 +16,18 @@ class GradeController extends Controller
      */
     public function index()
     {
-        $grade = Grade::with('homework')->get();
-        return response(['status' => '200', 'data' => $grade], 200);
+        $admin = Admin::all();
+        return view('backend.admins.index')->with(compact('admin'));
+    }
+
+    /**
+     * Show the form for creating a new resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function create()
+    {
+        //
     }
 
     /**
@@ -29,8 +38,7 @@ class GradeController extends Controller
      */
     public function store(Request $request)
     {
-        $grade = Grade::create($request->all());
-        return response(['status' => '200', 'message' => 'Thêm thành công', 'data' => $grade], 200);
+        //
     }
 
     /**
@@ -41,8 +49,18 @@ class GradeController extends Controller
      */
     public function show($id)
     {
-        $grade = Grade::findOrFail($id);
-        return response(['status' => '200', 'data' => $grade], 200);
+        //
+    }
+
+    /**
+     * Show the form for editing the specified resource.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function edit($id)
+    {
+        //
     }
 
     /**
@@ -54,9 +72,7 @@ class GradeController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $grade = Grade::findOrFail($id);
-        $grade->update($request->all());
-        return response(['status' => '200', 'message' => 'Cập nhật thành công', 'data' => $grade], 200);
+        //
     }
 
     /**
@@ -67,8 +83,6 @@ class GradeController extends Controller
      */
     public function destroy($id)
     {
-        $grade = Grade::findOrFail($id);
-        $grade->delete();
-        return response(['status' => '200', 'message' => 'Xoá thành công', 'data' => null], 200);
+        //
     }
 }

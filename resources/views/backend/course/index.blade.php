@@ -67,6 +67,7 @@
                                 <th> Ảnh </th>
                                 <th> Video </th>
                                 <th> Danh mục </th>
+                                <th> Người tạo </th>
                                 <th> Hiển thị </th>
                                 <th> Tác vụ </th>
                             </tr>
@@ -87,6 +88,7 @@
                                         <iframe src="{{ $item->video_link }}" class="table-image" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
                                     </td>
                                     <td> {{$item->category->name}} </td>
+                                    <td> {{$item->admin->name}} </td>
                                     <td>
                                         <input type="checkbox" name="toggle" value="{{ $item->id }}" data-toggle="toggle" data-onstyle="primary" {{ $item->status == 'active' ? 'checked' : ''}}>
                                     </td>

@@ -46,5 +46,8 @@ Route::prefix('admin')->namespace('Admin')->group(function(){
 
         // User Section
         Route::resource('user', 'UserController');
+
+        // Admin Section
+        Route::resource('admin', 'AuthController');
     });
 });

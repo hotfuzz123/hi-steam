@@ -36,7 +36,7 @@ class Grade extends Model
         'score', 'comment', 'user_id',
     ];
 
-    public function user() {
-        return $this->belongsTo('App\Models\User');
+    public function homework() {
+        return $this->belongsTo('App\Models\Homework');
     }
 }

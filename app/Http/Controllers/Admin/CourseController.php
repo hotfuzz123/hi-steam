@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Models\Course;
 use App\Models\Category;
 use App\Http\Requests\CourseRequest;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Session;
 use CloudinaryLabs\CloudinaryLaravel\Facades\Cloudinary;
@@ -20,7 +21,7 @@ class CourseController extends Controller
      */
     public function index()
     {
-        $course = Course::with('category')->get();
+        $course = Course::with('category', 'admin')->get();
         return view('backend.course.index')->with(compact('course'));
     }
 
@@ -58,6 +59,7 @@ class CourseController extends Controller
      */
     public function store(Request $request)
     {
+        $request['admin_id'] = Auth::guard('admin')->user()->id;
         $course = Course::create($request->all());
         if($request->hasFile('image')){
             $files = $request->file('image');
@@ -108,6 +110,7 @@ class CourseController extends Controller
     public function update(Request $request, $id)
     {
         $course = Course::findOrFail($id);
+        $request['admin_id'] = Auth::guard('admin')->user()->id;
         $course->update($request->all());
         if($request->hasFile('image')){
             $files = $request->file('image');

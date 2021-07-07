@@ -33,10 +33,14 @@ class Homework extends Model
      * @var array
      */
     protected $fillable = [
-        'name', 'image', 'public_id', 'course_id',
+        'name', 'image', 'public_id', 'user_id', 'course_id',
     ];
 
     public function course() {
-        return $this->belongsTo('App\Models\Course');
+        return $this->belongsTo(Course::class);
+    }
+
+    public function user() {
+        return $this->belongsTo(User::class);
     }
 }

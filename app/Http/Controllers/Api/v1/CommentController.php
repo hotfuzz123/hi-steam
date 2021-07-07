@@ -4,11 +4,10 @@ namespace App\Http\Controllers\Api\v1;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use App\Models\Grade;
-use App\Http\Requests\GradeRequest;
-use CloudinaryLabs\CloudinaryLaravel\Facades\Cloudinary;
+use App\Models\Comment;
+use App\Http\Requests\CommentRequest;
 
-class GradeController extends Controller
+class CommentController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -17,8 +16,9 @@ class GradeController extends Controller
      */
     public function index()
     {
-        $grade = Grade::with('homework')->get();
-        return response(['status' => '200', 'data' => $grade], 200);
+
+        $comment = Comment::with(['user', 'replies.user'])->get();
+        return response(['status' => '200', 'data' => $comment], 200);
     }
 
     /**
@@ -29,8 +29,9 @@ class GradeController extends Controller
      */
     public function store(Request $request)
     {
-        $grade = Grade::create($request->all());
-        return response(['status' => '200', 'message' => 'Thêm thành công', 'data' => $grade], 200);
+        $request['user_id'] = auth()->user()->id;
+        $comment = Comment::create($request->all());
+        return response(['status' => '200', 'message' => 'Thêm thành công', 'data' => $comment], 200);
     }
 
     /**
@@ -41,8 +42,8 @@ class GradeController extends Controller
      */
     public function show($id)
     {
-        $grade = Grade::findOrFail($id);
-        return response(['status' => '200', 'data' => $grade], 200);
+        $comment = Comment::findOrFail($id);
+        return response(['status' => '200', 'data' => $comment], 200);
     }
 
     /**
@@ -54,9 +55,10 @@ class GradeController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $grade = Grade::findOrFail($id);
-        $grade->update($request->all());
-        return response(['status' => '200', 'message' => 'Cập nhật thành công', 'data' => $grade], 200);
+        $comment = Comment::findOrFail($id);
+        $request['user_id'] = auth()->user()->id;
+        $comment->update($request->all());
+        return response(['status' => '200', 'message' => 'Cập nhật thành công', 'data' => $comment], 200);
     }
 
     /**
@@ -67,8 +69,8 @@ class GradeController extends Controller
      */
     public function destroy($id)
     {
-        $grade = Grade::findOrFail($id);
-        $grade->delete();
+        $comment = Comment::findOrFail($id);
+        $comment->delete();
         return response(['status' => '200', 'message' => 'Xoá thành công', 'data' => null], 200);
     }
 }

@@ -15,6 +15,7 @@ $factory->define(Course::class, function (Faker $faker) {
         'video_link' => 'https://player.vimeo.com/video/270134945',
         'view_count' => $faker->numberBetween($min = 1000, $max = 9000),
         'status' => $faker->randomElement(['active' ,'inactive']),
+        'admin_id' => '1',
         'category_id' => $faker->numberBetween($min = 1, $max = 5),
     ];
 });
