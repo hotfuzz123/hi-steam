@@ -22,6 +22,7 @@ Route::group(['prefix' => 'v1', 'namespace' => 'Api\v1'], function(){
     Route::apiResource('homework', 'HomeworkController');
     Route::apiResource('grade', 'GradeController');
     Route::apiResource('mission', 'MissionController');
+    Route::apiResource('admin', 'AdminController');
     Route::apiResource('comment', 'CommentController')->only('index');
 
     // Users

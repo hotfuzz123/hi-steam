@@ -83,4 +83,8 @@ class Admin extends Authenticatable
             $this->attributes['password'] = bcrypt($value);
         }
     }
+
+    public function course() {
+        return $this->hasMany(Course::class);
+    }
 }

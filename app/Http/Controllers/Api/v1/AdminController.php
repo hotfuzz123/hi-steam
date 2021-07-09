@@ -133,4 +133,15 @@ class AdminController extends Controller
             return response(['status' => '211', 'message' => 'Mật khẩu hiện tại sai rồi !!!'], 211);
         }
     }
+
+    /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function index()
+    {
+        $admin = Admin::with('course')->get();
+        return response(['status' => '200', 'data' => $admin], 200);
+    }
 }
