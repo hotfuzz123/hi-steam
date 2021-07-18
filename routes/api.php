@@ -21,7 +21,6 @@ Route::group(['prefix' => 'v1', 'namespace' => 'Api\v1'], function(){
     Route::apiResource('slider', 'SliderController');
 
     Route::apiResource('course', 'CourseController')->only('index', 'show');
-    Route::get('random-course', 'CourseController@randomCourse');
 
     Route::apiResource('homework', 'HomeworkController')->only('index', 'show');
 
@@ -37,6 +36,7 @@ Route::group(['prefix' => 'v1', 'namespace' => 'Api\v1'], function(){
 
 
     Route::apiResource('lesson', 'LessonController')->only('index', 'show');
+    Route::get('random-lesson', 'LessonController@randomLesson');
 
     Route::apiResource('document', 'DocumentController')->only('index', 'show');
 

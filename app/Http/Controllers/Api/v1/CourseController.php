@@ -22,17 +22,6 @@ class CourseController extends Controller
     }
 
     /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function randomCourse()
-    {
-        $course = Course::with('admin', 'section.lesson')->where('status', 'active')->inRandomOrder()->limit(4)->get();
-        return response(['status' => '200', 'data' => $course], 200);
-    }
-
-    /**
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request

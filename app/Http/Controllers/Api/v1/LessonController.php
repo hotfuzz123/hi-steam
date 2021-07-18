@@ -17,7 +17,18 @@ class LessonController extends Controller
      */
     public function index()
     {
-        $lesson = Lesson::with('admin', 'section', 'document', 'mission', 'comment', 'homework')->get();
+        $lesson = Lesson::with('admin', 'course', 'document', 'mission', 'comment', 'homework')->get();
+        return response(['status' => '200', 'data' => $lesson], 200);
+    }
+
+    /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function randomLesson()
+    {
+        $lesson = Lesson::with('admin', 'course')->where('status', 'active')->inRandomOrder()->limit(4)->get();
         return response(['status' => '200', 'data' => $lesson], 200);
     }
 
