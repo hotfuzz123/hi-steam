@@ -46,21 +46,14 @@
                             </div>
                         </div>
                         <div class="form-group row">
-                            <label class="control-label col-md-3">Icon
-                                <span class="required"> * </span>
-                            </label>
+                            <label class="control-label col-md-3">Ảnh</label>
                             <div class="col-md-6">
-                                <input type="text" name="icon" data-required="1" class="form-control" value="{{ $category->icon }}"/>
+                                <input type="file" name="icon" class="form-control" accept="image/*">
+                                @if(!empty($category->icon))
+                                <a href="{{ $category->icon }}" target="_blank">Xem hình ảnh</a>
+                                <input type="hidden" name="icon" value="{{ $category->icon }}">
+                                @endif
                                 @error('icon')
-                                    <span class="text-danger">{{ $message }}</span>
-                                @enderror
-                            </div>
-                        </div>
-                        <div class="form-group row">
-                            <label class="control-label col-md-3">Mô tả</label>
-                            <div class="col-md-6">
-                                <textarea type="text" name="description" class="form-control" cols="30" rows="10">{{ $category->description }}</textarea>
-                                @error('description')
                                     <span class="text-danger">{{ $message }}</span>
                                 @enderror
                             </div>

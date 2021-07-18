@@ -17,10 +17,14 @@ class DatabaseSeeder extends Seeder
             SliderSeeder::class,
             CategorySeeder::class,
             CourseSeeder::class,
+            LessonSeeder::class,
             HomeworkSeeder::class,
             GradeSeeder::class,
             MissionSeeder::class,
             CommentSeeder::class,
+            TipSeeder::class,
+            DocumentSeeder::class,
+            PostSeeder::class,
         ]);
     }
 }

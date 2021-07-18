@@ -45,37 +45,10 @@
                             </div>
                         </div>
                         <div class="form-group row">
-                            <label class="control-label col-md-3">Dụng cụ</label>
-                            <div class="col-md-6">
-                                <textarea type="text" name="material" class="form-control" id="editor1" cols="30" rows="10">{{ old('material') }}</textarea>
-                                @error('material')
-                                    <span class="text-danger">{{ $message }}</span>
-                                @enderror
-                            </div>
-                        </div>
-                        <div class="form-group row">
                             <label class="control-label col-md-3">Ảnh</label>
                             <div class="col-md-6">
                                 <input type="file" name="image" class="form-control" accept="image/*">
-                                @error('description')
-                                    <span class="text-danger">{{ $message }}</span>
-                                @enderror
-                            </div>
-                        </div>
-                        <div class="form-group row">
-                            <label class="control-label col-md-3">Link video</label>
-                            <div class="col-md-6">
-                                <input type="text" name="video_link" class="form-control" value="{{ old('video_link') }}"/>
-                                @error('video_link')
-                                    <span class="text-danger">{{ $message }}</span>
-                                @enderror
-                            </div>
-                        </div>
-                        <div class="form-group row">
-                            <label class="control-label col-md-3">Mô tả</label>
-                            <div class="col-md-6">
-                                <textarea type="text" name="description" class="form-control" cols="30" rows="10">{{ old('description') }}</textarea>
-                                @error('description')
+                                @error('image')
                                     <span class="text-danger">{{ $message }}</span>
                                 @enderror
                             </div>

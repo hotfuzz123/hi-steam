@@ -17,7 +17,18 @@ class CourseController extends Controller
      */
     public function index()
     {
-        $course = Course::with('admin', 'mission', 'comment', 'homework')->paginate(8);
+        $course = Course::with('admin', 'lesson')->paginate(8);
+        return response(['status' => '200', 'data' => $course], 200);
+    }
+
+    /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function randomCourse()
+    {
+        $course = Course::with('admin', 'section.lesson')->where('status', 'active')->inRandomOrder()->limit(4)->get();
         return response(['status' => '200', 'data' => $course], 200);
     }
 
@@ -29,6 +40,7 @@ class CourseController extends Controller
      */
     public function store(CourseRequest $request)
     {
+        $request['admin_id'] = auth()->user()->id;
         $course = Course::create($request->all());
         if($request->hasFile('image')){
             $files = $request->file('image');
@@ -72,7 +84,7 @@ class CourseController extends Controller
             //Delete old image
             Cloudinary::destroy($course->public_id);
             //Upload new image
-            $imageUrl = $files->storeOnCloudinary('slider')->getSecurePath();
+            $imageUrl = $files->storeOnCloudinary('course')->getSecurePath();
             //Get public_id
             $publicId = Cloudinary::getPublicId();
             //Get url image and public_id to db

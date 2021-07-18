@@ -33,7 +33,7 @@ class Comment extends Model
      * @var array
      */
     protected $fillable = [
-        'text', 'course_id', 'user_id', 'parent_comment_id',
+        'text', 'lesson_id', 'user_id', 'parent_comment_id',
     ];
 
     public function user() {

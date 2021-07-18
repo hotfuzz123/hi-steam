@@ -27,7 +27,7 @@ class CommentController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(CommentRequest $request)
     {
         $request['user_id'] = auth()->user()->id;
         $comment = Comment::create($request->all());
@@ -53,10 +53,9 @@ class CommentController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(CommentRequest $request, $id)
     {
         $comment = Comment::findOrFail($id);
-        $request['user_id'] = auth()->user()->id;
         $comment->update($request->all());
         return response(['status' => '200', 'message' => 'Cập nhật thành công', 'data' => $comment], 200);
     }

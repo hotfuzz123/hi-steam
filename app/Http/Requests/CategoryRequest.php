@@ -29,17 +29,15 @@ class CategoryRequest extends FormRequest
                 return [];
             case 'POST':
                 return [
-                    'name' => 'required|string|min:3',
-                    'icon' => 'required',
-                    'description' => 'nullable',
+                    'name' => 'required',
+                    'icon' => 'required|mimes:jpeg,png,jpg,gif,svg',
                     'status' => 'required|in:active,inactive',
                 ];
             case 'PUT':
             case 'PATCH':
                 return [
-                    'name' => 'required|string',
-                    'icon' => 'required',
-                    'description' => 'nullable',
+                    'name' => 'required',
+                    'icon' => 'nullable|mimes:jpeg,png,jpg,gif,svg',
                     'status' => 'required|in:active,inactive',
                 ];
             default:break;

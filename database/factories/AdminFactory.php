@@ -13,7 +13,6 @@ $factory->define(Admin::class, function (Faker $faker) {
         'phone' => '0905428795',
         'password' => '123456', // password
         'image' => $faker->imageUrl($width = 640, $height = 480),
-        'public_id' => 'default/avatar',
         'status' => '1',
     ];
 });

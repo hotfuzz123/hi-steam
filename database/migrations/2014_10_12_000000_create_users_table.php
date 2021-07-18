@@ -19,7 +19,7 @@ class CreateUsersTable extends Migration
             $table->string('email')->unique()->nullable();
             $table->string('phone')->unique()->nullable();
             $table->string('image')->nullable()->default('https://dummyimage.com/250x250/fff/aaa');
-            $table->string('public_id')->nullable()->default('https://dummyimage.com/250x250/fff/aaa');
+            $table->string('public_id')->nullable()->default('default');
             $table->date('dateOfBirth')->nullable();
             $table->string('address')->nullable();
             $table->string('grade')->nullable();

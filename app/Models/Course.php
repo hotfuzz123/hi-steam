@@ -33,26 +33,18 @@ class Course extends Model
      * @var array
      */
     protected $fillable = [
-        'name', 'material', 'description', 'image', 'public_id', 'video_link', 'view_count', 'status', 'category_id', 'admin_id'
+        'name', 'image', 'public_id', 'status', 'category_id', 'admin_id'
     ];
 
     public function category() {
         return $this->belongsTo(Category::class);
     }
 
-    public function mission() {
-        return $this->hasMany(Mission::class);
-    }
-
-    public function comment() {
-        return $this->hasMany(Comment::class);
-    }
-
-    public function homework() {
-        return $this->hasMany(Homework::class);
-    }
-
     public function admin() {
         return $this->belongsTo(Admin::class);
+    }
+
+    public function lesson() {
+        return $this->hasMany(Lesson::class);
     }
 }

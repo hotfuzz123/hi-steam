@@ -46,15 +46,6 @@
                             </div>
                         </div>
                         <div class="form-group row">
-                            <label class="control-label col-md-3">Dụng cụ</label>
-                            <div class="col-md-6">
-                                <textarea type="text" name="material" class="form-control" id="editor1" cols="30" rows="10">{{ $course->material }}</textarea>
-                                @error('material')
-                                    <span class="text-danger">{{ $message }}</span>
-                                @enderror
-                            </div>
-                        </div>
-                        <div class="form-group row">
                             <label class="control-label col-md-3">Ảnh</label>
                             <div class="col-md-6">
                                 <input type="file" name="image" class="form-control" accept="image/*">
@@ -62,29 +53,7 @@
                                 <a href="{{ $course->image }}" target="_blank">Xem hình ảnh</a>
                                 <input type="hidden" name="image" value="{{ $course->image }}">
                                 @endif
-                                @error('description')
-                                    <span class="text-danger">{{ $message }}</span>
-                                @enderror
-                            </div>
-                        </div>
-                        <div class="form-group row">
-                            <label class="control-label col-md-3">Link video</label>
-                            <div class="col-md-6">
-                                <input type="text" name="video_link" class="form-control" value="{{ $course->video_link }}"/>
-                                @if(!empty($course->video_link))
-                                <a href="{{ $course->video_link }}" target="_blank">Xem video</a>
-                                <input type="hidden" name="video_link" value="{{ $course->video_link }}">
-                                @endif
-                                @error('video_link')
-                                    <span class="text-danger">{{ $message }}</span>
-                                @enderror
-                            </div>
-                        </div>
-                        <div class="form-group row">
-                            <label class="control-label col-md-3">Mô tả</label>
-                            <div class="col-md-6">
-                                <textarea type="text" name="description" class="form-control" cols="30" rows="10">{{ $course->description }}</textarea>
-                                @error('description')
+                                @error('image')
                                     <span class="text-danger">{{ $message }}</span>
                                 @enderror
                             </div>
@@ -97,7 +66,7 @@
                                 <select class="form-select" name="category_id">
                                     <option value="">-- Chọn --</option>
                                     @foreach ($category as $item)
-                                        <option value="{{ $item->id }}" {{ $item->id == $item->id ? 'selected' : ''}}>{{ $item->name }}</option>
+                                        <option value="{{ $item->id }}" {{ $item->id == $course->category_id ? 'selected' : ''}}>{{ $item->name }}</option>
                                     @endforeach
                                 </select>
                                 @error('category_id')

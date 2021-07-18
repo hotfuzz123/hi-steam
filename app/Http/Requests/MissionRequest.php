@@ -32,7 +32,7 @@ class MissionRequest extends FormRequest
                     'name' => 'required',
                     'image' => 'nullable|mimes:jpeg,png,jpg,gif,svg',
                     'description' => 'nullable',
-                    'course_id' => 'required|integer',
+                    'lesson_id' => 'required|integer',
                 ];
             case 'PUT':
             case 'PATCH':
@@ -40,7 +40,7 @@ class MissionRequest extends FormRequest
                     'name' => 'required',
                     'image' => 'nullable|mimes:jpeg,png,jpg,gif,svg',
                     'description' => 'nullable',
-                    'course_id' => 'required|integer',
+                    'lesson_id' => 'required|integer',
                 ];
             default:break;
         }

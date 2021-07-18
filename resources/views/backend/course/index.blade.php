@@ -65,7 +65,6 @@
                                 <th> ID </th>
                                 <th> Tên </th>
                                 <th> Ảnh </th>
-                                <th> Video </th>
                                 <th> Danh mục </th>
                                 <th> Người tạo </th>
                                 <th> Hiển thị </th>
@@ -84,18 +83,22 @@
                                     <td> {{ $item->id }} </td>
                                     <td> {{ $item->name }} </td>
                                     <td> <img src="{{ $item->image }}" class="table-image"> </td>
-                                    <td>
-                                        <iframe src="{{ $item->video_link }}" class="table-image" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-                                    </td>
                                     <td> {{$item->category->name}} </td>
                                     <td> {{$item->admin->name}} </td>
                                     <td>
-                                        <input type="checkbox" name="toggle" value="{{ $item->id }}" data-toggle="toggle" data-onstyle="primary" {{ $item->status == 'active' ? 'checked' : ''}}>
+                                        <div class="form-check form-switch">
+                                            <input class="form-check-input" type="checkbox" name="toggle" value="{{ $item->id }}" id="flexSwitchCheckChecked" {{ $item->status == 'active' ? 'checked' : ''}}>
+                                        </div>
                                     </td>
                                     <td class="valigntop">
                                         <div class="btn-group">
-                                            <a href="{{ route('course.edit', $item->id) }}">
+                                            <a href="{{ route('lesson.add', $item->id) }}">
                                                 <button class="btn btn-primary btn-sm rounded-0">
+                                                    <i class="fa fa-plus"></i>
+                                                </button>
+                                            </a>
+                                            <a href="{{ route('course.edit', $item->id) }}">
+                                                <button class="btn btn-warning btn-sm rounded-0">
                                                     <i class="fa fa-edit"></i>
                                                 </button>
                                             </a>

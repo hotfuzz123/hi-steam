@@ -143,6 +143,40 @@
                     </ul>
                 </li>
                 <li class="nav-item">
+                    <a href="#" class="nav-link nav-toggle"> <i class="material-icons">wb_incandescent</i>
+                        <span class="title">Mẹo</span><span class="arrow"></span>
+                    </a>
+                    <ul class="sub-menu">
+                        <li class="nav-item">
+                            <a href="{{ route('tip.create') }}" class="nav-link ">
+                                <span class="title">Thêm mẹo</span>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="{{ route('tip.index') }}" class="nav-link ">
+                                <span class="title">Danh sách mẹo</span>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+                <li class="nav-item">
+                    <a href="#" class="nav-link nav-toggle"> <i class="material-icons">description</i>
+                        <span class="title">Tin tức</span><span class="arrow"></span>
+                    </a>
+                    <ul class="sub-menu">
+                        <li class="nav-item">
+                            <a href="{{ route('post.create') }}" class="nav-link ">
+                                <span class="title">Thêm tin tức</span>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="{{ route('post.index') }}" class="nav-link ">
+                                <span class="title">Danh sách tin tức</span>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+                <li class="nav-item">
                     <a href="#" class="nav-link nav-toggle"> <i class="material-icons">settings</i>
                         <span class="title">Cài đặt</span><span class="arrow"></span>
                     </a>

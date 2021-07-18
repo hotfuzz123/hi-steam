@@ -17,7 +17,7 @@ class HomeworkController extends Controller
      */
     public function index()
     {
-        $homework = Homework::with('user', 'course')->get();
+        $homework = Homework::with('user', 'lesson')->get();
         return response(['status' => '200', 'data' => $homework], 200);
     }
 
@@ -27,8 +27,9 @@ class HomeworkController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(HomeworkRequest $request)
     {
+        $request['user_id'] = auth()->user()->id;
         $homework = Homework::create($request->all());
         if($request->hasFile('file')){
             $files = $request->file('file');
@@ -63,7 +64,7 @@ class HomeworkController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(HomeworkRequest $request, $id)
     {
         $homework = Homework::findOrFail($id);
         $homework->update($request->all());

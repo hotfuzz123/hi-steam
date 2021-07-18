@@ -17,9 +17,9 @@ class CreateHomeworkTable extends Migration
             $table->id();
             $table->string('name');
             $table->string('file')->nullable();
-            $table->string('public_id')->nullable();
+            $table->string('public_id')->nullable()->default('default');
             $table->foreignId('user_id')->nullable()->references('id')->on('users')->onDelete('cascade');
-            $table->foreignId('course_id')->nullable()->references('id')->on('course')->onDelete('cascade');
+            $table->foreignId('lesson_id')->nullable()->references('id')->on('lesson')->onDelete('cascade');
             $table->timestamps();
         });
     }

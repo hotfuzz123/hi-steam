@@ -35,28 +35,6 @@
                     @method('PATCH')
                     <div class="form-body">
                         <div class="form-group row">
-                            <label class="control-label col-md-3">Tên
-                                <span class="required"> * </span>
-                            </label>
-                            <div class="col-md-6">
-                                <input type="text" name="name" data-required="1" class="form-control" value="{{ $slider->name }}"/>
-                                @error('name')
-                                    <span class="text-danger">{{ $message }}</span>
-                                @enderror
-                            </div>
-                        </div>
-                        <div class="form-group row">
-                            <label class="control-label col-md-3">Url
-                                <span class="required"> * </span>
-                            </label>
-                            <div class="col-md-6">
-                                <input type="text" name="url" class="form-control" value="{{ $slider->url }}"/>
-                                @error('url')
-                                    <span class="text-danger">{{ $message }}</span>
-                                @enderror
-                            </div>
-                        </div>
-                        <div class="form-group row">
                             <label class="control-label col-md-3">Ảnh<span class="required"> * </span></label>
                             <div class="col-md-6">
                                 <input type="file" name="image" class="form-control" accept="image/*">
@@ -65,15 +43,6 @@
                                 <input type="hidden" name="image" value="{{ $slider->image }}">
                                 @endif
                                 @error('image')
-                                    <span class="text-danger">{{ $message }}</span>
-                                @enderror
-                            </div>
-                        </div>
-                        <div class="form-group row">
-                            <label class="control-label col-md-3">Mô tả</label>
-                            <div class="col-md-6">
-                                <textarea type="text" name="description" class="form-control" cols="30" rows="10">{{ $slider->description }}</textarea>
-                                @error('description')
                                     <span class="text-danger">{{ $message }}</span>
                                 @enderror
                             </div>

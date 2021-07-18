@@ -33,9 +33,9 @@ class CourseController extends Controller
     public function courseStatus(Request $request)
     {
         if($request->mode == 'true'){
-            DB::table('course')->where('id', $request->id)->update(['status' => 'active']);
+            Course::where('id', $request->id)->update(['status' => 'active']);
         } else {
-            DB::table('course')->where('id', $request->id)->update(['status' => 'inactive']);
+            Course::where('id', $request->id)->update(['status' => 'inactive']);
         }
         return response()->json(['message' => 'Cập nhật trạng thái thành công', 'status'=>true]);
     }

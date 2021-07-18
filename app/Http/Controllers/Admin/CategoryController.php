@@ -8,6 +8,7 @@ use App\Models\Category;
 use App\Http\Requests\CategoryRequest;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Session;
+use CloudinaryLabs\CloudinaryLaravel\Facades\Cloudinary;
 
 class CategoryController extends Controller
 {
@@ -30,9 +31,9 @@ class CategoryController extends Controller
     public function categoryStatus(Request $request)
     {
         if($request->mode == 'true'){
-            DB::table('category')->where('id', $request->id)->update(['status' => 'active']);
+            Category::where('id', $request->id)->update(['status' => 'active']);
         } else {
-            DB::table('category')->where('id', $request->id)->update(['status' => 'inactive']);
+            Category::where('id', $request->id)->update(['status' => 'inactive']);
         }
         return response()->json(['message' => 'Cập nhật trạng thái thành công', 'status'=>true]);
     }
@@ -56,6 +57,17 @@ class CategoryController extends Controller
     public function store(CategoryRequest $request)
     {
         $category = Category::create($request->all());
+        if($request->hasFile('icon')){
+            $files = $request->file('icon');
+            //Upload new image
+            $imageUrl = $files->storeOnCloudinary('category')->getSecurePath();
+            //Get public_id
+            $publicId = Cloudinary::getPublicId();
+            //Get url image and public_id to db
+            $category->icon = $imageUrl;
+            $category->public_id = $publicId;
+        }
+        $category->save();
         Session::flash('success', 'Thêm thành công');
         return redirect()->route('category.index');
     }
@@ -94,6 +106,19 @@ class CategoryController extends Controller
     {
         $category = Category::findOrFail($id);
         $category->update($request->all());
+        if($request->hasFile('icon')){
+            $files = $request->file('icon');
+            //Delete old image
+            Cloudinary::destroy($category->public_id);
+            //Upload new image
+            $imageUrl = $files->storeOnCloudinary('category')->getSecurePath();
+            //Get public_id
+            $publicId = Cloudinary::getPublicId();
+            //Get url image and public_id to db
+            $category->icon = $imageUrl;
+            $category->public_id = $publicId;
+        }
+        $category->save();
         Session::flash('success', 'Cập nhật thành công');
         return redirect()->route('category.index')->with(compact('category'));
     }
@@ -107,6 +132,8 @@ class CategoryController extends Controller
     public function destroy($id)
     {
         $category = Category::findOrFail($id);
+        //Delete old image
+        Cloudinary::destroy($category->public_id);
         $category->delete();
         Session::flash('success', 'Xoá thành công');
         return redirect()->route('category.index');

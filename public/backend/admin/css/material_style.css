@@ -241,6 +241,13 @@ span.text-alert {
     margin: 0 auto;
 }
 
+/* Form */
+.form-image {
+    height: 150px;
+    width: auto;
+    display: block;
+}
+
 /* Editor */
 .ck-editor__editable_inline {
     min-height:200px;

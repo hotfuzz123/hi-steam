@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Category;
 use App\Http\Requests\CategoryRequest;
+use CloudinaryLabs\CloudinaryLaravel\Facades\Cloudinary;
 
 class CategoryController extends Controller
 {
@@ -16,7 +17,7 @@ class CategoryController extends Controller
      */
     public function index()
     {
-        $category = Category::with('course')->get();
+        $category = Category::with('course.lesson')->get();
         return response(['status' => '200', 'data' => $category], 200);
     }
 
@@ -29,6 +30,17 @@ class CategoryController extends Controller
     public function store(CategoryRequest $request)
     {
         $category = Category::create($request->all());
+        if($request->hasFile('icon')){
+            $files = $request->file('icon');
+            //Upload new image
+            $imageUrl = $files->storeOnCloudinary('category')->getSecurePath();
+            //Get public_id
+            $publicId = Cloudinary::getPublicId();
+            //Get url image and public_id to db
+            $category->icon = $imageUrl;
+            $category->public_id = $publicId;
+        }
+        $category->save();
         return response(['status' => '200', 'message' => 'Thêm thành công', 'data' => $category], 200);
     }
 
@@ -55,6 +67,19 @@ class CategoryController extends Controller
     {
         $category = Category::findOrFail($id);
         $category->update($request->all());
+        if($request->hasFile('icon')){
+            $files = $request->file('icon');
+            //Delete old image
+            Cloudinary::destroy($category->public_id);
+            //Upload new image
+            $imageUrl = $files->storeOnCloudinary('category')->getSecurePath();
+            //Get public_id
+            $publicId = Cloudinary::getPublicId();
+            //Get url image and public_id to db
+            $category->icon = $imageUrl;
+            $category->public_id = $publicId;
+        }
+        $category->save();
         return response(['status' => '200', 'message' => 'Cập nhật thành công', 'data' => $category], 200);
     }
 
@@ -68,6 +93,8 @@ class CategoryController extends Controller
     {
         $category = Category::findOrFail($id);
         $category->delete();
+        //Delete old image
+        Cloudinary::destroy($category->public_id);
         return response(['status' => '200', 'message' => 'Xoá thành công', 'data' => null], 200);
     }
 }

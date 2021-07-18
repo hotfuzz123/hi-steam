@@ -9,8 +9,7 @@ $factory->define(Homework::class, function (Faker $faker) {
     return [
         'name' => $faker->name,
         'file' => $faker->imageUrl($width = 640, $height = 480),
-        'public_id' => 'default/avatar',
         'user_id' => $faker->numberBetween($min = 1, $max = 10),
-        'course_id' => $faker->numberBetween($min = 1, $max = 10),
+        'lesson_id' => $faker->numberBetween($min = 1, $max = 10),
     ];
 });

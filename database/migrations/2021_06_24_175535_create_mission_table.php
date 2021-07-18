@@ -17,9 +17,9 @@ class CreateMissionTable extends Migration
             $table->id();
             $table->string('name');
             $table->string('image')->nullable();
-            $table->string('public_id')->nullable();
+            $table->string('public_id')->nullable()->default('default');
             $table->string('description')->nullable();
-            $table->foreignId('course_id')->nullable()->references('id')->on('course')->onDelete('cascade');
+            $table->foreignId('lesson_id')->nullable()->references('id')->on('lesson')->onDelete('cascade');
             $table->timestamps();
         });
     }

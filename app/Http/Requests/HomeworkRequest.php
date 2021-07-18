@@ -13,7 +13,7 @@ class HomeworkRequest extends FormRequest
      */
     public function authorize()
     {
-        return false;
+        return true;
     }
 
     /**
@@ -23,8 +23,25 @@ class HomeworkRequest extends FormRequest
      */
     public function rules()
     {
-        return [
-            //
-        ];
+        switch($this->method()) {
+            case 'GET':
+            case 'DELETE':
+                return [];
+            case 'POST':
+                return [
+                    'name' => 'required',
+                    'file' => 'required|mimes:jpeg,png,jpg,gif,svg',
+                    'lesson_id' => 'required|integer',
+
+                ];
+            case 'PUT':
+            case 'PATCH':
+                return [
+                    'name' => 'required',
+                    'file' => 'nullable|mimes:jpeg,png,jpg,gif,svg',
+                    'lesson_id' => 'required|integer',
+                ];
+            default:break;
+        }
     }
 }

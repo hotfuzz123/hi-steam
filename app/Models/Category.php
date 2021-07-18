@@ -33,7 +33,7 @@ class Category extends Model
      * @var array
      */
     protected $fillable = [
-        'name', 'icon', 'description', 'status',
+        'name', 'icon', 'public_id', 'status',
     ];
 
     public function course() {

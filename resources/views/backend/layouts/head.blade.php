@@ -35,6 +35,8 @@
 <link href="{{ asset('backend/admin/plugins/sweet-alert/sweetalert2.min.css') }}" rel="stylesheet">
 {{-- bootstrap4-toggle --}}
 <link href="https://cdn.jsdelivr.net/gh/gitbrent/bootstrap4-toggle@3.6.1/css/bootstrap4-toggle.min.css" rel="stylesheet">
+{{-- TinyMCE --}}
+<script src="https://cdn.tiny.cloud/1/no-api-key/tinymce/5/tinymce.min.js" referrerpolicy="origin"></script>
 <!-- favicon -->
 <link rel="shortcut icon" href="{{ asset('backend/admin/img/favicon.ico') }}" />
 

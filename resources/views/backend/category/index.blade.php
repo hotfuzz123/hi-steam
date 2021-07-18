@@ -65,6 +65,7 @@
                                 </th>
                                 <th> ID </th>
                                 <th> Tên </th>
+                                <th> Icon </th>
                                 <th> Hiển thị </th>
                                 <th> Tác vụ </th>
                             </tr>
@@ -80,8 +81,11 @@
                                     </td>
                                     <td> {{ $item->id }} </td>
                                     <td> {{ $item->name }} </td>
+                                    <td> <img src="{{ $item->icon }}" class="table-image"> </td>
                                     <td>
-                                        <input type="checkbox" name="toggle" value="{{ $item->id }}" data-toggle="toggle" data-onstyle="primary" {{ $item->status == 'active' ? 'checked' : ''}}>
+                                        <div class="form-check form-switch">
+                                            <input class="form-check-input" type="checkbox" name="toggle" value="{{ $item->id }}" id="flexSwitchCheckChecked" {{ $item->status == 'active' ? 'checked' : ''}}>
+                                        </div>
                                     </td>
                                     <td class="valigntop">
                                         <div class="btn-group">

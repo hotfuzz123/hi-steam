@@ -31,9 +31,9 @@ class SliderController extends Controller
     public function sliderStatus(Request $request)
     {
         if($request->mode == 'true'){
-            DB::table('slider')->where('id', $request->id)->update(['status' => 'active']);
+            Slider::where('id', $request->id)->update(['status' => 'active']);
         } else {
-            DB::table('slider')->where('id', $request->id)->update(['status' => 'inactive']);
+            Slider::where('id', $request->id)->update(['status' => 'inactive']);
         }
         return response()->json(['message' => 'Cập nhật trạng thái thành công', 'status'=>true]);
     }

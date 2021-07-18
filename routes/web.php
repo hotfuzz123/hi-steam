@@ -41,8 +41,27 @@ Route::prefix('admin')->namespace('Admin')->group(function(){
         Route::resource('course', 'CourseController');
         Route::post('course-status','CourseController@courseStatus')->name('course.status');
 
+        // Lesson Section
+        Route::resource('lesson', 'LessonController');
+        Route::match(['get', 'post'], 'add-lesson/{id}', 'LessonController@addLesson')->name('lesson.add');
+        Route::post('lesson-status','LessonController@lessonStatus')->name('lesson.status');
+
+        // Document Section
+        Route::resource('document', 'DocumentController');
+        Route::match(['get', 'post'], 'add-document/{id}', 'DocumentController@addDocument')->name('document.add');
+        Route::post('document-status','DocumentController@documentStatus')->name('document.status');
+
+        // Post Section
+        Route::resource('post', 'PostController');
+        Route::match(['get', 'post'], 'add-post/{id}', 'PostController@addpost')->name('post.add');
+        Route::post('post-status','PostController@postStatus')->name('post.status');
+
         // Mission Section
         Route::resource('mission', 'MissionController');
+
+        // Tip Section
+        Route::resource('tip', 'TipController');
+        Route::post('tip-status','TipController@tipStatus')->name('tip.status');
 
         // User Section
         Route::resource('user', 'UserController');

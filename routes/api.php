@@ -17,13 +17,32 @@ use Illuminate\Support\Facades\Route;
 Route::group(['prefix' => 'v1', 'namespace' => 'Api\v1'], function(){
 
     Route::apiResource('category', 'CategoryController');
+
     Route::apiResource('slider', 'SliderController');
-    Route::apiResource('course', 'CourseController');
-    Route::apiResource('homework', 'HomeworkController');
+
+    Route::apiResource('course', 'CourseController')->only('index', 'show');
+    Route::get('random-course', 'CourseController@randomCourse');
+
+    Route::apiResource('homework', 'HomeworkController')->only('index', 'show');
+
     Route::apiResource('grade', 'GradeController');
+
     Route::apiResource('mission', 'MissionController');
+
     Route::apiResource('admin', 'AdminController');
-    Route::apiResource('comment', 'CommentController')->only('index');
+
+    // Tip Section
+    Route::apiResource('tip', 'TipController');
+    Route::get('random-tip', 'TipController@randomTip');
+
+
+    Route::apiResource('lesson', 'LessonController')->only('index', 'show');
+
+    Route::apiResource('document', 'DocumentController')->only('index', 'show');
+
+    Route::apiResource('post', 'PostController')->only('index', 'show');
+
+    Route::apiResource('comment', 'CommentController')->only('index', 'show');
 
     // Users
     Route::post('register', 'AuthController@register');
@@ -35,7 +54,9 @@ Route::group(['prefix' => 'v1', 'namespace' => 'Api\v1'], function(){
         Route::post('user', 'AuthController@updateUser');
         Route::post('change-password', 'AuthController@changePassword');
 
-        Route::apiResource('comment', 'CommentController')->except('index');
+        // Except index and show only
+        Route::apiResource('homework', 'HomeworkController')->except('index', 'show');
+        Route::apiResource('comment', 'CommentController')->except('index', 'show');
     });
 
     // Admins
@@ -47,5 +68,11 @@ Route::group(['prefix' => 'v1', 'namespace' => 'Api\v1'], function(){
         Route::get('admin', 'AdminController@getAdmin');
         Route::post('admin', 'AdminController@updateAdmin');
         Route::post('change-password', 'AdminController@changePassword');
+
+        // Except index and show only
+        Route::apiResource('post', 'PostController')->except('index', 'show');
+        Route::apiResource('document', 'DocumentController')->except('index', 'show');
+        Route::apiResource('course', 'CourseController')->except('index', 'show');
+        Route::apiResource('lesson', 'LessonController')->except('index', 'show');
     });
 });
