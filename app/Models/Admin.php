@@ -45,14 +45,7 @@ class Admin extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'name',
-        'email',
-        'description',
-        'phone',
-        'type',
-        'image',
-        'password',
-        'status'
+        'name', 'type', 'email', 'phone', 'image', 'public_id', 'subscribers', 'password'
     ];
 
     /**
@@ -86,5 +79,9 @@ class Admin extends Authenticatable
 
     public function course() {
         return $this->hasMany(Course::class);
+    }
+
+    public function lesson() {
+        return $this->hasMany(Lesson::class);
     }
 }

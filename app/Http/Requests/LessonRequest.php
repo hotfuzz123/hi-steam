@@ -35,7 +35,7 @@ class LessonRequest extends FormRequest
                     'video_link' => 'nullable',
                     'view_count' => 'nullable',
                     'status' => 'required|in:active,inactive',
-                    'section_id' => 'required|integer',
+                    'course_id' => 'required|integer',
                 ];
             case 'PUT':
             case 'PATCH':
@@ -46,7 +46,7 @@ class LessonRequest extends FormRequest
                     'video_link' => 'nullable',
                     'view_count' => 'nullable',
                     'status' => 'required|in:active,inactive',
-                    'section_id' => 'required|integer',
+                    'course_id' => 'required|integer',
                 ];
             default:break;
         }

@@ -56,8 +56,8 @@ Route::prefix('admin')->namespace('Admin')->group(function(){
         Route::match(['get', 'post'], 'add-post/{id}', 'PostController@addpost')->name('post.add');
         Route::post('post-status','PostController@postStatus')->name('post.status');
 
-        // Mission Section
-        Route::resource('mission', 'MissionController');
+        // Grade Section
+        Route::resource('grade', 'GradeController');
 
         // Tip Section
         Route::resource('tip', 'TipController');

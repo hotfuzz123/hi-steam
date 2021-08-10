@@ -39,10 +39,6 @@
                                 <input type="text" class="form-control" value="{{ $course->category['name'] }}" readonly/>
                             </div>
                         </div>
-                        <div class="form-group row">
-                            <label class="control-label col-md-3">Ảnh: </label>
-                            <img src="{{ $course['image'] }}" class="form-image">
-                        </div>
                     </div>
                 </form>
             </div>

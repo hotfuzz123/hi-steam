@@ -14,6 +14,6 @@ $factory->define(Lesson::class, function (Faker $faker) {
         'view_count' => $faker->numberBetween($min = 1000, $max = 9000),
         'status' => $faker->randomElement(['active' ,'inactive']),
         'admin_id' => '1',
-        'section_id' => $faker->numberBetween($min = 1, $max = 10),
+        'course_id' => $faker->numberBetween($min = 1, $max = 10),
     ];
 });

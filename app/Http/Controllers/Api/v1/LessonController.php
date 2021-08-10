@@ -26,9 +26,11 @@ class LessonController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function randomLesson()
+    public function randomLesson(Request $request)
     {
-        $lesson = Lesson::with('admin', 'course')->where('status', 'active')->inRandomOrder()->limit(4)->get();
+        $page = $request->has('page') ? $request->get('page') : 1;
+        $limit = $request->has('limit') ? $request->get('limit') : 10;
+        $lesson = Lesson::with('admin', 'course')->where('status', 'active')->inRandomOrder()->limit($limit)->offset(($page - 1) * $limit)->get();
         return response(['status' => '200', 'data' => $lesson], 200);
     }
 

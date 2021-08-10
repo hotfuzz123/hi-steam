@@ -26,7 +26,7 @@ Route::group(['prefix' => 'v1', 'namespace' => 'Api\v1'], function(){
 
     Route::apiResource('grade', 'GradeController');
 
-    Route::apiResource('mission', 'MissionController');
+    Route::apiResource('subscribe', 'SubscribeController')->only('index', 'show');
 
     Route::apiResource('admin', 'AdminController');
 
@@ -57,6 +57,8 @@ Route::group(['prefix' => 'v1', 'namespace' => 'Api\v1'], function(){
         // Except index and show only
         Route::apiResource('homework', 'HomeworkController')->except('index', 'show');
         Route::apiResource('comment', 'CommentController')->except('index', 'show');
+
+        Route::apiResource('subscribe', 'SubscribeController')->except('index', 'show');
     });
 
     // Admins

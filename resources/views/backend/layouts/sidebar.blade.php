@@ -64,17 +64,12 @@
                 </li>
                 <li class="nav-item">
                     <a href="#" class="nav-link nav-toggle"> <i class="material-icons">assignment_ind</i>
-                        <span class="title">Nhiệm vụ</span> <span class="arrow"></span>
+                        <span class="title">Chấm điểm</span> <span class="arrow"></span>
                     </a>
                     <ul class="sub-menu">
                         <li class="nav-item">
-                            <a href="{{ route('mission.create') }}" class="nav-link ">
-                                <span class="title">Thêm nhiệm vụ</span>
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="{{ route('mission.index') }}" class="nav-link ">
-                                <span class="title">Danh sách nhiệm vụ</span>
+                            <a href="{{ route('grade.index') }}" class="nav-link ">
+                                <span class="title">Danh sách bài tập</span>
                             </a>
                         </li>
                     </ul>

@@ -4,12 +4,12 @@
 <div class="page-bar">
     <div class="page-title-breadcrumb">
         <div class=" pull-left">
-            <div class="page-title">Danh sách nhiệm vụ</div>
+            <div class="page-title">Danh sách bài tập</div>
         </div>
         <ol class="breadcrumb page-breadcrumb pull-right">
             <li><i class="fa fa-home"></i><a class="parent-item" href="{{route('admin.dashboard')}}">Trang chủ</a><i class="fa fa-angle-right"></i></li></li>
-            <li><a class="parent-item" href="#">Nhiệm vụ</a><i class="fa fa-angle-right"></i></li>
-            <li class="active">Danh sách nhiệm vụ</li>
+            <li><a class="parent-item" href="#">Bài tập</a><i class="fa fa-angle-right"></i></li>
+            <li class="active">Danh sách bài tập</li>
         </ol>
     </div>
 </div>
@@ -21,7 +21,7 @@
     <div class="col-md-12">
         <div class="card">
             <div class="card-head">
-                <header>Danh sách nhiệm vụ</header>
+                <header>Danh sách bài tập</header>
                 <div class="tools">
                     <a class="fa fa-repeat btn-color box-refresh" href="javascript:;"></a>
                     <a class="t-collapse btn-color fa fa-chevron-down" href="javascript:;"></a>
@@ -32,11 +32,7 @@
                 <div class="row">
                     <div class="col-md-6 col-sm-6 col-6">
                         <div class="btn-group">
-                            <a href="{{ route('mission.create') }}">
-                                <button id="addRow1" class="btn btn-info">
-                                    Thêm mới <i class="fa fa-plus"></i>
-                                </button>
-                            </a>
+
                         </div>
                     </div>
                     <div class="col-md-6 col-sm-6 col-6">
@@ -63,14 +59,14 @@
                                     </label>
                                 </th>
                                 <th> ID </th>
-                                <th> Tên </th>
-                                <th> Ảnh </th>
-                                <th> Khoá học </th>
+                                <th> Điểm </th>
+                                <th> Bình luận </th>
+                                <th> Tên bài tập </th>
                                 <th> Tác vụ </th>
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach ($mission as $item)
+                            @foreach ($grade as $item)
                                 <tr class="odd gradeX">
                                     <td>
                                         <label class="rt-chkbox rt-chkbox-single rt-chkbox-outline">
@@ -79,21 +75,16 @@
                                         </label>
                                     </td>
                                     <td> {{ $item->id }} </td>
-                                    <td> {{ $item->name }} </td>
-                                    <td> <img src="{{ $item->image }}" class="table-image"> </td>
-                                    <td> {{$item->course->name}} </td>
+                                    <td> {{ $item->score }} </td>
+                                    <td> {{ $item->comment }} </td>
+                                    <td> {{ $item->homework->name }} </td>
                                     <td class="valigntop">
                                         <div class="btn-group">
-                                            <a href="{{ route('mission.edit', $item->id) }}">
+                                            <a href="{{ route('grade.edit', $item->id) }}">
                                                 <button class="btn btn-primary btn-sm rounded-0">
                                                     <i class="fa fa-edit"></i>
                                                 </button>
                                             </a>
-                                            <form action="{{ route('mission.destroy', $item->id) }}" method="post">
-                                                @csrf
-                                                @method('delete')
-                                                <a href="" data-id="{{ $item->id }}"><button class="dltBtn btn btn-danger btn-sm rounded-0"><i class="fa fa-trash-o"></i></button></a>
-                                            </form>
                                         </div>
                                     </td>
                                 </tr>

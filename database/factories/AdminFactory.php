@@ -13,6 +13,6 @@ $factory->define(Admin::class, function (Faker $faker) {
         'phone' => '0905428795',
         'password' => '123456', // password
         'image' => $faker->imageUrl($width = 640, $height = 480),
-        'status' => '1',
+        'subscribers' => $faker->numberBetween($min = 1000, $max = 9000),
     ];
 });

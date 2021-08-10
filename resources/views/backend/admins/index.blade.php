@@ -62,9 +62,9 @@
                                                     <th> ID </th>
                                                     <th> Ảnh </th>
                                                     <th> Tên </th>
+                                                    <th> Chức vụ </th>
                                                     <th> Số điện thoại </th>
                                                     <th> Email </th>
-                                                    <th> Địa chỉ </th>
                                                     <th> Ngày tham gia </th>
                                                 </tr>
                                             </thead>
@@ -76,9 +76,9 @@
                                                             <img src="{{ $item->image }}" alt="">
                                                         </td>
                                                         <td> {{ $item->name }} </td>
+                                                        <td> {{ $item->type }} </td>
                                                         <td><a href="tel:{{ $item->phone }}"> {{ $item->phone }} </a></td>
                                                         <td><a href="mailto:{{ $item->email }}"> {{ $item->email }} </a></td>
-                                                        <td> {{ $item->address }} </td>
                                                         <td> {{ $item->created_at }} </td>
                                                     </tr>
                                                 @endforeach

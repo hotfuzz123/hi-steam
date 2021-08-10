@@ -28,7 +28,7 @@ $factory->define(User::class, function (Faker $faker) {
         'grade' => $faker->numberBetween($min = 1, $max = 12),
         'schoolName' => $faker->streetAddress,
         'email_verified_at' => now(),
-        'password' => bcrypt('123456'), // password
+        'password' => '123456', // password
         'remember_token' => Str::random(10),
     ];
 });

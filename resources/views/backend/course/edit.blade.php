@@ -46,19 +46,6 @@
                             </div>
                         </div>
                         <div class="form-group row">
-                            <label class="control-label col-md-3">Ảnh</label>
-                            <div class="col-md-6">
-                                <input type="file" name="image" class="form-control" accept="image/*">
-                                @if(!empty($course->image))
-                                <a href="{{ $course->image }}" target="_blank">Xem hình ảnh</a>
-                                <input type="hidden" name="image" value="{{ $course->image }}">
-                                @endif
-                                @error('image')
-                                    <span class="text-danger">{{ $message }}</span>
-                                @enderror
-                            </div>
-                        </div>
-                        <div class="form-group row">
                             <label class="control-label col-md-3">Danh mục
                                 <span class="required"> * </span>
                             </label>

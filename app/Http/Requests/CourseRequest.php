@@ -30,7 +30,6 @@ class CourseRequest extends FormRequest
             case 'POST':
                 return [
                     'name' => 'required|string',
-                    'image' => 'required|mimes:jpeg,png,jpg,gif,svg',
                     'status' => 'required|in:active,inactive',
                     'category_id' => 'required|integer',
                 ];
@@ -38,7 +37,6 @@ class CourseRequest extends FormRequest
             case 'PATCH':
                 return [
                     'name' => 'required|string',
-                    'image' => 'nullable|mimes:jpeg,png,jpg,gif,svg',
                     'status' => 'required|in:active,inactive',
                     'category_id' => 'required|integer',
                 ];

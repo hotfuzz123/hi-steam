@@ -16,8 +16,6 @@ class CreateCourseTable extends Migration
         Schema::create('course', function (Blueprint $table) {
             $table->id();
             $table->string('name');
-            $table->string('image')->nullable();
-            $table->string('public_id')->nullable()->default('default');
             $table->enum('status',['active','inactive'])->default('active');
             $table->foreignId('admin_id')->nullable()->references('id')->on('admins')->onDelete('cascade');
             $table->foreignId('category_id')->nullable()->references('id')->on('category')->onDelete('cascade');

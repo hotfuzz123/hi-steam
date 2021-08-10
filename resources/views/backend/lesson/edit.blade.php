@@ -63,7 +63,7 @@
                                 <a href="{{ $lesson->image }}" target="_blank">Xem hình ảnh</a>
                                 <input type="hidden" name="image" value="{{ $lesson->image }}">
                                 @endif
-                                @error('description')
+                                @error('image')
                                     <span class="text-danger">{{ $message }}</span>
                                 @enderror
                             </div>

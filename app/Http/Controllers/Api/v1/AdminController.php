@@ -139,9 +139,10 @@ class AdminController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        $admin = Admin::with('course')->get();
+        $limit = $request->has('limit') ? $request->get('limit') : 10;
+        $admin = Admin::with('course')->limit($limit)->get();
         return response(['status' => '200', 'data' => $admin], 200);
     }
 }

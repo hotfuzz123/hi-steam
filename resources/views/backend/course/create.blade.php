@@ -45,15 +45,6 @@
                             </div>
                         </div>
                         <div class="form-group row">
-                            <label class="control-label col-md-3">Ảnh</label>
-                            <div class="col-md-6">
-                                <input type="file" name="image" class="form-control" accept="image/*">
-                                @error('image')
-                                    <span class="text-danger">{{ $message }}</span>
-                                @enderror
-                            </div>
-                        </div>
-                        <div class="form-group row">
                             <label class="control-label col-md-3">Danh mục
                                 <span class="required"> * </span>
                             </label>

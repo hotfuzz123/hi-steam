@@ -64,7 +64,6 @@
                                 </th>
                                 <th> ID </th>
                                 <th> Tên </th>
-                                <th> Ảnh </th>
                                 <th> Danh mục </th>
                                 <th> Người tạo </th>
                                 <th> Hiển thị </th>
@@ -82,7 +81,6 @@
                                     </td>
                                     <td> {{ $item->id }} </td>
                                     <td> {{ $item->name }} </td>
-                                    <td> <img src="{{ $item->image }}" class="table-image"> </td>
                                     <td> {{$item->category->name}} </td>
                                     <td> {{$item->admin->name}} </td>
                                     <td>

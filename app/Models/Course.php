@@ -33,7 +33,7 @@ class Course extends Model
      * @var array
      */
     protected $fillable = [
-        'name', 'image', 'public_id', 'status', 'category_id', 'admin_id'
+        'name', 'status', 'category_id', 'admin_id'
     ];
 
     public function category() {
@@ -46,5 +46,9 @@ class Course extends Model
 
     public function lesson() {
         return $this->hasMany(Lesson::class);
+    }
+
+    public function user() {
+        return $this->belongsToMany(User::class, 'course_user', 'course_id', 'user_id')->withTimestamps();
     }
 }

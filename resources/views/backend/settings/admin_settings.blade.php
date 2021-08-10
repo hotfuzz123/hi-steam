@@ -50,7 +50,7 @@
                                     <span class="input-group-addon">
                                         <i class="fa fa-envelope"></i>
                                     </span>
-                                    <input type="text" class="form-control" value="{{ Auth::guard('admin')->user()->email }}" placeholder="Nhập Email Admin" readonly>
+                                    <input type="text" class="form-control" value="{{ Auth::guard('admin')->user()->email }}" placeholder="Nhập Email Admin">
                                 </div>
                             </div>
                         </div>
@@ -59,7 +59,7 @@
                                 <span class="required"> * </span>
                             </label>
                             <div class="col-md-6">
-                                <input type="text" data-required="1" class="form-control" value="{{ Auth::guard('admin')->user()->type }}" placeholder="Nhập Chức vụ Admin" readonly/>
+                                <input type="text" data-required="1" class="form-control" value="{{ Auth::guard('admin')->user()->type }}" placeholder="Nhập Chức vụ Admin"/>
                             </div>
                         </div>
                         <div class="form-group row">
@@ -67,7 +67,7 @@
                                 <span class="required"> * </span>
                             </label>
                             <div class="col-md-6">
-                                <input type="text" name="mobile" data-required="1" class="form-control" value="{{ Auth::guard('admin')->user()->mobile }}" placeholder="Nhập SĐT"/>
+                                <input type="text" name="mobile" data-required="1" class="form-control" value="{{ Auth::guard('admin')->user()->phone }}" placeholder="Nhập SĐT"/>
                             </div>
                         </div>
                         <div class="form-group row">
@@ -78,14 +78,6 @@
                                 <a href="{{ Auth::guard('admin')->user()->image }}" target="_blank">Xem hình ảnh</a>
                                 <input type="hidden" name="image" value="{{ Auth::guard('admin')->user()->image }}">
                                 @endif
-                            </div>
-                        </div>
-                        <div class="form-group row">
-                            <label class="control-label col-md-3">Mô tả
-                                <span class="required"> * </span>
-                            </label>
-                            <div class="col-md-6">
-                                <textarea type="text" name="description" class="form-control" cols="30" rows="10">{{ Auth::guard('admin')->user()->description }}</textarea>
                             </div>
                         </div>
                     </div>

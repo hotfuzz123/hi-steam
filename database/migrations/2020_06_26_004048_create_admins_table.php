@@ -21,10 +21,9 @@ class CreateAdminsTable extends Migration
             $table->string('phone')->unique()->nullable();
             $table->string('image')->nullable()->default('https://dummyimage.com/250x250/fff/aaa');
             $table->string('public_id')->nullable()->default('default');
-            $table->text('description')->nullable();
+            $table->integer('subscribers')->nullable();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
-            $table->string('status')->nullable();
             $table->rememberToken();
             $table->timestamps();
         });
