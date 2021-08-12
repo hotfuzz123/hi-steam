@@ -1963,6 +1963,8 @@ form.search-form-opened .btn.submit {
   margin-right: 5px;
   height: 29px;
   display: inline-block;
+  width: 29px;
+  object-fit: cover;
 }
 .page-header.navbar
   .top-menu
@@ -4660,6 +4662,7 @@ textarea.form-control-textarea {
   max-width: 100%;
   object-fit: cover;
   height: 75px;
+  width: 75px;
 }
 .user-panel .image {
   width: 35%;

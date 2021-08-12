@@ -17,7 +17,7 @@ class LessonController extends Controller
      */
     public function index()
     {
-        $lesson = Lesson::with('admin', 'course', 'document', 'mission', 'comment', 'homework')->get();
+        $lesson = Lesson::with('admin', 'course', 'document', 'comment', 'homework')->get();
         return response(['status' => '200', 'data' => $lesson], 200);
     }
 
