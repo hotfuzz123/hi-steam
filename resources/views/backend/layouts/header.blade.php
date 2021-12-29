@@ -205,7 +205,7 @@
                 <!-- start manage user dropdown -->
                 <li class="dropdown dropdown-user">
                     <a class="dropdown-toggle" data-bs-toggle="dropdown" data-hover="dropdown" data-close-others="true">
-                        <img alt="" class="img-circle" src="{{ Auth::guard('admin')->user()->image }}" />
+                        <img alt="" class="img-circle" src="{{ Auth::guard('admin')->user()->avatar }}" />
                         <span class="username username-hide-on-mobile"> {{ Auth::guard('admin')->user()->name }} </span>
                         <i class="fa fa-angle-down"></i>
                     </a>

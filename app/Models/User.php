@@ -3,61 +3,55 @@
 namespace App\Models;
 
 use Illuminate\Contracts\Auth\MustVerifyEmail;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
-use Laravel\Passport\HasApiTokens;
-use PHPUnit\Framework\Constraint\Count;
+use Laravel\Sanctum\HasApiTokens;
 
 class User extends Authenticatable
 {
-    use Notifiable, HasApiTokens;
+    use HasApiTokens, HasFactory, Notifiable;
 
     /**
      * The attributes that are mass assignable.
      *
-     * @var array
+     * @var array<int, string>
      */
     protected $fillable = [
-        'name', 'email', 'phone', 'image', 'dateOfBirth', 'address', 'grade', 'schoolName', 'password',
+        'name', 'email', 'phone', 'avatar', 'date_of_birth', 'address', 'grade', 'school_name', 'password',
     ];
 
     /**
-     * The attributes that should be hidden for arrays.
+     * The attributes that should be hidden for serialization.
      *
-     * @var array
+     * @var array<int, string>
      */
     protected $hidden = [
-        'password', 'remember_token',
+        'password',
+        'remember_token',
     ];
 
     /**
-     * The attributes that should be cast to native types.
+     * The attributes that should be cast.
      *
-     * @var array
+     * @var array<string, string>
      */
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
-
-    /**
+	
+	/**
      * The attributes that should be mutated to dates.
      *
      * @var array
      */
-    protected $dates = ['dateOfBirth'];
-
-    /**
-     * Bcrypt the password of user
-     *
-     * @var array
-     */
-    public function setPasswordAttribute($value) {
-        if($value != ""){
-            $this->attributes['password'] = bcrypt($value);
-        }
-    }
+    protected $dates = ['date_of_birth'];
 
     public function course() {
         return $this->belongsToMany(Course::class, 'course_user', 'user_id', 'course_id')->withPivot('id')->withTimestamps();
+    }
+
+    public function comment() {
+        return $this->hasMany(Comment::class);
     }
 }

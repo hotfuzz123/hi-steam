@@ -1,13 +1,21 @@
 <?php
 
-/** @var \Illuminate\Database\Eloquent\Factory $factory */
+namespace Database\Factories;
 
-use App\Models\Slider;
-use Faker\Generator as Faker;
+use Illuminate\Database\Eloquent\Factories\Factory;
 
-$factory->define(Slider::class, function (Faker $faker) {
-    return [
-        'image' => $faker->imageUrl($width = 640, $height = 480),
-        'status' => $faker->randomElement(['active' ,'inactive']),
-    ];
-});
+class SliderFactory extends Factory
+{
+    /**
+     * Define the model's default state.
+     *
+     * @return array
+     */
+    public function definition()
+    {
+        return [
+            'image' => $this->faker->imageUrl($width = 640, $height = 480),
+            'status' => $this->faker->randomElement(['active' ,'inactive']),
+        ];
+    }
+}

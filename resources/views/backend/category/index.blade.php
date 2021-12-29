@@ -80,7 +80,7 @@
                                         </label>
                                     </td>
                                     <td> {{ $item->id }} </td>
-                                    <td> {{ $item->name }} </td>
+                                    <td> {{ $item->title }} </td>
                                     <td> <img src="{{ $item->icon }}" class="table-image"> </td>
                                     <td>
                                         <div class="form-check form-switch">

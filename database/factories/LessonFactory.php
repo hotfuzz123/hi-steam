@@ -1,19 +1,28 @@
 <?php
 
-/** @var \Illuminate\Database\Eloquent\Factory $factory */
+namespace Database\Factories;
 
-use App\Models\Lesson;
-use Faker\Generator as Faker;
+use Illuminate\Database\Eloquent\Factories\Factory;
 
-$factory->define(Lesson::class, function (Faker $faker) {
-    return [
-        'name' => $faker->sentence($nbWords = 6, $variableNbWords = true),
-        'material' => $faker->sentence($nbWords = 6, $variableNbWords = true),
-        'image' => $faker->imageUrl($width = 640, $height = 480),
-        'video_link' => 'https://player.vimeo.com/video/270134945',
-        'view_count' => $faker->numberBetween($min = 1000, $max = 9000),
-        'status' => $faker->randomElement(['active' ,'inactive']),
-        'admin_id' => '1',
-        'course_id' => $faker->numberBetween($min = 1, $max = 10),
-    ];
-});
+class LessonFactory extends Factory
+{
+    /**
+     * Define the model's default state.
+     *
+     * @return array
+     */
+    public function definition()
+    {
+        return [
+            'title' => $this->faker->sentence($nbWords = 6, $variableNbWords = true),
+            'tool' => $this->faker->sentence($nbWords = 6, $variableNbWords = true),
+            'description' => $this->faker->sentence($nbWords = 6, $variableNbWords = true),
+            'thumbnail' => $this->faker->imageUrl($width = 640, $height = 480),
+            'video_link' => 'https://player.vimeo.com/video/270134945',
+            'view' => $this->faker->numberBetween($min = 1000, $max = 9000),
+            'status' => $this->faker->randomElement(['active' ,'inactive']),
+            'admin_id' => '1',
+            'course_id' => $this->faker->numberBetween($min = 1, $max = 10),
+        ];
+    }
+}

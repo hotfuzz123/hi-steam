@@ -1,15 +1,23 @@
 <?php
 
-/** @var \Illuminate\Database\Eloquent\Factory $factory */
+namespace Database\Factories;
 
-use App\Models\Course;
-use Faker\Generator as Faker;
+use Illuminate\Database\Eloquent\Factories\Factory;
 
-$factory->define(Course::class, function (Faker $faker) {
-    return [
-        'name' => $faker->country,
-        'status' => $faker->randomElement(['active' ,'inactive']),
-        'admin_id' => '1',
-        'category_id' => $faker->numberBetween($min = 1, $max = 5),
-    ];
-});
+class CourseFactory extends Factory
+{
+    /**
+     * Define the model's default state.
+     *
+     * @return array
+     */
+    public function definition()
+    {
+        return [
+            'title' => $this->faker->country,
+            'status' => $this->faker->randomElement(['active' ,'inactive']),
+            'admin_id' => '1',
+            'category_id' => $this->faker->numberBetween($min = 1, $max = 5),
+        ];
+    }
+}

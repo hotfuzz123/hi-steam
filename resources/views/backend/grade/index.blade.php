@@ -61,6 +61,7 @@
                                 <th> ID </th>
                                 <th> Điểm </th>
                                 <th> Bình luận </th>
+                                <th> Tình trạng </th>
                                 <th> Tên bài tập </th>
                                 <th> Tác vụ </th>
                             </tr>
@@ -77,6 +78,13 @@
                                     <td> {{ $item->id }} </td>
                                     <td> {{ $item->score }} </td>
                                     <td> {{ $item->comment }} </td>
+                                    <td>
+                                        @if ($item->score)
+                                            Đã chấm
+                                        @else
+                                            Chưa chấm
+                                        @endif
+                                    </td>
                                     <td> {{ $item->homework->name }} </td>
                                     <td class="valigntop">
                                         <div class="btn-group">

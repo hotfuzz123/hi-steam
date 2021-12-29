@@ -1,14 +1,22 @@
 <?php
 
-/** @var \Illuminate\Database\Eloquent\Factory $factory */
+namespace Database\Factories;
 
-use App\Models\Category;
-use Faker\Generator as Faker;
+use Illuminate\Database\Eloquent\Factories\Factory;
 
-$factory->define(Category::class, function (Faker $faker) {
-    return [
-        'name' => $faker->randomElement(['Khoa học' ,'Công nghệ' ,'Kỹ thuật' ,'Nghệ thuật' ,'Toán học']),
-        'icon' => $faker->imageUrl($width = 640, $height = 480),
-        'status' => $faker->randomElement(['active' ,'inactive']),
-    ];
-});
+class CategoryFactory extends Factory
+{
+    /**
+     * Define the model's default state.
+     *
+     * @return array
+     */
+    public function definition()
+    {
+        return [
+            'title' => $this->faker->country,
+            'icon' => $this->faker->imageUrl($width = 640, $height = 480),
+            'status' => $this->faker->randomElement(['active' ,'inactive']),
+        ];
+    }
+}

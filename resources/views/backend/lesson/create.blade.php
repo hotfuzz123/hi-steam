@@ -22,7 +22,7 @@
     <div class="col-md-12 col-sm-12">
         <div class="card card-box">
             <div class="card-head">
-                <header>Phần</header>
+                <header>Khoá học hiện tại</header>
             </div>
             <div class="card-body" id="bar-parent1">
                 <form action="" method="POST" id="form_sample_1" class="form-horizontal" enctype="multipart/form-data">
@@ -30,13 +30,13 @@
                         <div class="form-group row">
                             <label class="control-label col-md-3">Tên:</label>
                             <div class="col-md-6">
-                                <input type="text" class="form-control" value="{{ $course['name'] }}" readonly/>
+                                <input type="text" class="form-control" value="{{ $course['title'] }}" readonly/>
                             </div>
                         </div>
                         <div class="form-group row">
                             <label class="control-label col-md-3">Danh mục:</label>
                             <div class="col-md-6">
-                                <input type="text" class="form-control" value="{{ $course->category['name'] }}" readonly/>
+                                <input type="text" class="form-control" value="{{ $course->category['title'] }}" readonly/>
                             </div>
                         </div>
                     </div>
@@ -70,8 +70,8 @@
                                 <span class="required"> * </span>
                             </label>
                             <div class="col-md-6">
-                                <input type="text" name="name" data-required="1" class="form-control" value="{{ old('name') }}"/>
-                                @error('name')
+                                <input type="text" name="title" data-required="1" class="form-control" value="{{ old('title') }}"/>
+                                @error('title')
                                     <span class="text-danger">{{ $message }}</span>
                                 @enderror
                             </div>
@@ -79,8 +79,17 @@
                         <div class="form-group row">
                             <label class="control-label col-md-3">Dụng cụ</label>
                             <div class="col-md-6">
-                                <textarea type="text" name="material" class="form-control" id="editor1" cols="30" rows="10">{{ old('material') }}</textarea>
-                                @error('material')
+                                <textarea type="text" name="tool" class="form-control" id="editor1" cols="30" rows="10">{{ old('tool') }}</textarea>
+                                @error('tool')
+                                    <span class="text-danger">{{ $message }}</span>
+                                @enderror
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label class="control-label col-md-3">Mô tả</label>
+                            <div class="col-md-6">
+                                <textarea type="text" name="description" class="form-control" cols="30" rows="10">{{ old('description') }}</textarea>
+                                @error('description')
                                     <span class="text-danger">{{ $message }}</span>
                                 @enderror
                             </div>
@@ -88,8 +97,8 @@
                         <div class="form-group row">
                             <label class="control-label col-md-3">Ảnh</label>
                             <div class="col-md-6">
-                                <input type="file" name="image" class="form-control" accept="image/*">
-                                @error('description')
+                                <input type="file" name="thumbnail" class="form-control" accept="image/*">
+                                @error('thumbnail')
                                     <span class="text-danger">{{ $message }}</span>
                                 @enderror
                             </div>
@@ -197,10 +206,10 @@
                                         </label>
                                     </td>
                                     <td> {{ $item->id }} </td>
-                                    <td> {{ $item->name }} </td>
-                                    <td> <img src="{{ $item->image }}" class="table-image"> </td>
+                                    <td> {{ $item->title }} </td>
+                                    <td> <img src="{{ $item->thumbnail }}" class="table-image"> </td>
                                     <td>
-                                        <iframe src="{{ $item->video_link }}" class="table-image" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                                        <iframe src="{{ $item->videoLink }}" class="table-image" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
                                     </td>
                                     <td> {{ $item->admin['name'] }} </td>
                                     <td>

@@ -73,10 +73,10 @@
                         <div class="form-group row">
                             <label class="control-label col-md-3">Ảnh đại diện<span class="required"> * </span></label>
                             <div class="col-md-6">
-                                <input type="file" name="image" class="form-control" accept="image/*">
-                                @if(!empty(Auth::guard('admin')->user()->image))
-                                <a href="{{ Auth::guard('admin')->user()->image }}" target="_blank">Xem hình ảnh</a>
-                                <input type="hidden" name="image" value="{{ Auth::guard('admin')->user()->image }}">
+                                <input type="file" name="avatar" class="form-control" accept="image/*">
+                                @if(!empty(Auth::guard('admin')->user()->avatar))
+                                <a href="{{ Auth::guard('admin')->user()->avatar }}" target="_blank">Xem hình ảnh</a>
+                                <input type="hidden" name="avatar" value="{{ Auth::guard('admin')->user()->avatar }}">
                                 @endif
                             </div>
                         </div>

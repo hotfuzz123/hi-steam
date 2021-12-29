@@ -1,15 +1,23 @@
 <?php
 
-/** @var \Illuminate\Database\Eloquent\Factory $factory */
+namespace Database\Factories;
 
-use App\Models\Homework;
-use Faker\Generator as Faker;
+use Illuminate\Database\Eloquent\Factories\Factory;
 
-$factory->define(Homework::class, function (Faker $faker) {
-    return [
-        'name' => $faker->name,
-        'file' => 'https://player.vimeo.com/video/270134945',
-        'user_id' => $faker->numberBetween($min = 1, $max = 10),
-        'lesson_id' => $faker->numberBetween($min = 1, $max = 10),
-    ];
-});
+class HomeworkFactory extends Factory
+{
+    /**
+     * Define the model's default state.
+     *
+     * @return array
+     */
+    public function definition()
+    {
+        return [
+            'name' => $this->faker->name,
+            'file' => 'https://player.vimeo.com/video/270134945',
+            'user_id' => $this->faker->numberBetween($min = 1, $max = 10),
+            'lesson_id' => $this->faker->numberBetween($min = 1, $max = 10),
+        ];
+    }
+}

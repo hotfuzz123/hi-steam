@@ -77,8 +77,8 @@ class AdminController extends Controller
         if($request -> isMethod('post')){
             $admin = Admin::find(Auth::guard('admin')->user()->id);
             $admin->update($request->all());
-            if($request->hasFile('image')){
-                $files = $request->file('image');
+            if($request->hasFile('avatar')){
+                $files = $request->file('avatar');
                 //Delete old image
                 Cloudinary::destroy($admin->public_id);
                 //Upload new image
@@ -86,7 +86,7 @@ class AdminController extends Controller
                 //Get public_id
                 $publicId = Cloudinary::getPublicId();
                 //Get url image and public_id to db
-                $admin->image = $imageUrl;
+                $admin->avatar = $imageUrl;
                 $admin->public_id = $publicId;
             }
             $admin->save();

@@ -95,8 +95,8 @@ class LessonController extends Controller
         $request['admin_id'] = Auth::guard('admin')->user()->id;
         $lesson = Lesson::findOrFail($id);
         $lesson->update($request->all());
-        if($request->hasFile('image')){
-            $files = $request->file('image');
+        if($request->hasFile('thumbnail')){
+            $files = $request->file('thumbnail');
             //Delete old image
             Cloudinary::destroy($lesson->public_id);
             //Upload new image
@@ -104,7 +104,7 @@ class LessonController extends Controller
             //Get public_id
             $publicId = Cloudinary::getPublicId();
             //Get url image and public_id to db
-            $lesson->image = $imageUrl;
+            $lesson->thumbnail = $imageUrl;
             $lesson->public_id = $publicId;
         }
         $lesson->save();
@@ -140,14 +140,14 @@ class LessonController extends Controller
             $request['admin_id'] = Auth::guard('admin')->user()->id;
             $request['course_id'] = $id;
             $lesson = Lesson::create($request->all());
-            if($request->hasFile('image')){
-                $files = $request->file('image');
+            if($request->hasFile('thumbnail')){
+                $files = $request->file('thumbnail');
                 //Upload new image
                 $imageUrl = $files->storeOnCloudinary('lesson')->getSecurePath();
                 //Get public_id
                 $publicId = Cloudinary::getPublicId();
                 //Get url image and public_id to db
-                $lesson->image = $imageUrl;
+                $lesson->thumbnail = $imageUrl;
                 $lesson->public_id = $publicId;
             }
             $lesson->save();

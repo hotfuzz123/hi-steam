@@ -7,33 +7,12 @@ use Illuminate\Database\Eloquent\Model;
 class Course extends Model
 {
     /**
-     * The table associated with the model.
-     *
-     * @var string
-     */
-    protected $table = 'course';
-
-    /**
-     * The primary key associated with the table.
-     *
-     * @var string
-     */
-    protected $primaryKey = 'id';
-
-    /**
-     * Indicates if the model should be timestamped.
-     *
-     * @var bool
-     */
-    public $timestamps = true;
-
-    /**
      * The attributes that are mass assignable.
      *
      * @var array
      */
     protected $fillable = [
-        'name', 'status', 'category_id', 'admin_id'
+        'title', 'status', 'category_id', 'admin_id'
     ];
 
     public function category() {

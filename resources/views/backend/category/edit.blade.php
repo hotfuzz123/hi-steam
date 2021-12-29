@@ -39,8 +39,8 @@
                                 <span class="required"> * </span>
                             </label>
                             <div class="col-md-6">
-                                <input type="text" name="name" data-required="1" class="form-control" value="{{ $category->name }}"/>
-                                @error('name')
+                                <input type="text" name="title" data-required="1" class="form-control" value="{{ $category->title }}"/>
+                                @error('title')
                                     <span class="text-danger">{{ $message }}</span>
                                 @enderror
                             </div>

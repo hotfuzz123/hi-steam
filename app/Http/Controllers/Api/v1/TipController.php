@@ -5,10 +5,6 @@ namespace App\Http\Controllers\Api\v1;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Tip;
-use App\Http\Requests\TipRequest;
-use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Session;
-use CloudinaryLabs\CloudinaryLaravel\Facades\Cloudinary;
 
 class TipController extends Controller
 {
@@ -40,21 +36,9 @@ class TipController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(TipRequest $request)
+    public function store(Request $request)
     {
-        $tip = Tip::create($request->all());
-        if($request->hasFile('image')){
-            $files = $request->file('image');
-            //Upload new image
-            $imageUrl = $files->storeOnCloudinary('tip')->getSecurePath();
-            //Get public_id
-            $publicId = Cloudinary::getPublicId();
-            //Get url image and public_id to db
-            $tip->image = $imageUrl;
-            $tip->public_id = $publicId;
-        }
-        $tip->save();
-        return response(['status' => '200', 'message' => 'Thêm thành công', 'data' => $tip], 200);
+        //
     }
 
     /**
@@ -65,8 +49,7 @@ class TipController extends Controller
      */
     public function show($id)
     {
-        $tip = Tip::findOrFail($id);
-        return response(['status' => '200', 'data' => $tip], 200);
+        //
     }
 
     /**
@@ -76,24 +59,9 @@ class TipController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(TipRequest $request, $id)
+    public function update(Request $request, $id)
     {
-        $tip = Tip::findOrFail($id);
-        $tip->update($request->all());
-        if($request->hasFile('image')){
-            $files = $request->file('image');
-            //Delete old image
-            Cloudinary::destroy($tip->public_id);
-            //Upload new image
-            $imageUrl = $files->storeOnCloudinary('tip')->getSecurePath();
-            //Get public_id
-            $publicId = Cloudinary::getPublicId();
-            //Get url image and public_id to db
-            $tip->image = $imageUrl;
-            $tip->public_id = $publicId;
-        }
-        $tip->save();
-        return response(['status' => '200', 'message' => 'Cập nhật thành công', 'data' => $tip], 200);
+        //
     }
 
     /**
@@ -104,10 +72,6 @@ class TipController extends Controller
      */
     public function destroy($id)
     {
-        $tip = Tip::findOrFail($id);
-        //Delete old image
-        Cloudinary::destroy($tip->public_id);
-        $tip->delete();
-        return response(['status' => '200', 'message' => 'Xoá thành công', 'data' => null], 200);
+        //
     }
 }

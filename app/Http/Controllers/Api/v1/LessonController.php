@@ -5,8 +5,6 @@ namespace App\Http\Controllers\Api\v1;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Lesson;
-use App\Http\Requests\LessonRequest;
-use CloudinaryLabs\CloudinaryLaravel\Facades\Cloudinary;
 
 class LessonController extends Controller
 {
@@ -40,22 +38,9 @@ class LessonController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(LessonRequest $request)
+    public function store(Request $request)
     {
-        $request['admin_id'] = auth()->user()->id;
-        $lesson = Lesson::create($request->all());
-        if($request->hasFile('image')){
-            $files = $request->file('image');
-            //Upload new image
-            $imageUrl = $files->storeOnCloudinary('lesson')->getSecurePath();
-            //Get public_id
-            $publicId = Cloudinary::getPublicId();
-            //Get url image and public_id to db
-            $lesson->image = $imageUrl;
-            $lesson->public_id = $publicId;
-        }
-        $lesson->save();
-        return response(['status' => '200', 'message' => 'Thêm thành công', 'data' => $lesson], 200);
+        //
     }
 
     /**
@@ -66,8 +51,7 @@ class LessonController extends Controller
      */
     public function show($id)
     {
-        $lesson = Lesson::findOrFail($id);
-        return response(['status' => '200', 'data' => $lesson], 200);
+        //
     }
 
     /**
@@ -77,24 +61,9 @@ class LessonController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(LessonRequest $request, $id)
+    public function update(Request $request, $id)
     {
-        $lesson = Lesson::findOrFail($id);
-        $lesson->update($request->all());
-        if($request->hasFile('image')){
-            $files = $request->file('image');
-            //Delete old image
-            Cloudinary::destroy($lesson->public_id);
-            //Upload new image
-            $imageUrl = $files->storeOnCloudinary('lesson')->getSecurePath();
-            //Get public_id
-            $publicId = Cloudinary::getPublicId();
-            //Get url image and public_id to db
-            $lesson->image = $imageUrl;
-            $lesson->public_id = $publicId;
-        }
-        $lesson->save();
-        return response(['status' => '200', 'message' => 'Cập nhật thành công', 'data' => $lesson], 200);
+        //
     }
 
     /**
@@ -105,10 +74,6 @@ class LessonController extends Controller
      */
     public function destroy($id)
     {
-        $lesson = Lesson::findOrFail($id);
-        //Delete old image
-        Cloudinary::destroy($lesson->public_id);
-        $lesson->delete();
-        return response(['status' => '200', 'message' => 'Xoá thành công', 'data' => null], 200);
+        //
     }
 }

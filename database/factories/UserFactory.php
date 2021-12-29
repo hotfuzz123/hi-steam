@@ -1,34 +1,45 @@
 <?php
 
-/** @var \Illuminate\Database\Eloquent\Factory $factory */
+namespace Database\Factories;
 
-use App\Models\User;
-use Faker\Generator as Faker;
+use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Str;
 
-/*
-|--------------------------------------------------------------------------
-| Model Factories
-|--------------------------------------------------------------------------
-|
-| This directory should contain each of the model factory definitions for
-| your application. Factories provide a convenient way to generate new
-| model instances for testing / seeding your application's database.
-|
-*/
+class UserFactory extends Factory
+{
+    /**
+     * Define the model's default state.
+     *
+     * @return array
+     */
+    public function definition()
+    {
+        return [
+            'name' => $this->faker->name,
+            'email' => $this->faker->unique()->safeEmail,
+            'phone' => $this->faker->phoneNumber,
+            'avatar' => 'https://placekitten.com/250/250',
+            'date_of_birth' => $this->faker->date($format = 'Y-m-d', $max = 'now'),
+            'address' => $this->faker->address,
+            'grade' => $this->faker->numberBetween($min = 1, $max = 12),
+            'school_name' => $this->faker->streetAddress,
+            'email_verified_at' => now(),
+            'password' => bcrypt('123456'), // password
+            'remember_token' => Str::random(10),
+        ];
+    }
 
-$factory->define(User::class, function (Faker $faker) {
-    return [
-        'name' => $faker->name,
-        'email' => $faker->unique()->safeEmail,
-        'phone' => $faker->phoneNumber,
-        'image' => 'https://placekitten.com/250/250',
-        'dateOfBirth' => $faker->date($format = 'Y-m-d', $max = 'now'),
-        'address' => $faker->address,
-        'grade' => $faker->numberBetween($min = 1, $max = 12),
-        'schoolName' => $faker->streetAddress,
-        'email_verified_at' => now(),
-        'password' => '123456', // password
-        'remember_token' => Str::random(10),
-    ];
-});
+    /**
+     * Indicate that the model's email address should be unverified.
+     *
+     * @return \Illuminate\Database\Eloquent\Factories\Factory
+     */
+    public function unverified()
+    {
+        return $this->state(function (array $attributes) {
+            return [
+                'email_verified_at' => null,
+            ];
+        });
+    }
+}

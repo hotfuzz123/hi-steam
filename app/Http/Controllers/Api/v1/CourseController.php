@@ -5,8 +5,8 @@ namespace App\Http\Controllers\Api\v1;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Course;
-use App\Http\Requests\CourseRequest;
-use CloudinaryLabs\CloudinaryLaravel\Facades\Cloudinary;
+use App\Http\Resources\CourseResource;
+
 
 class CourseController extends Controller
 {
@@ -17,8 +17,10 @@ class CourseController extends Controller
      */
     public function index()
     {
-        $course = Course::with('admin', 'lesson')->paginate(8);
-        return response(['status' => '200', 'data' => $course], 200);
+        $course = Course::all();
+        return CourseResource::collection($course)
+        ->response()
+        ->setStatusCode(200);
     }
 
     /**
@@ -27,22 +29,9 @@ class CourseController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(CourseRequest $request)
+    public function store(Request $request)
     {
-        $request['admin_id'] = auth()->user()->id;
-        $course = Course::create($request->all());
-        if($request->hasFile('image')){
-            $files = $request->file('image');
-            //Upload new image
-            $imageUrl = $files->storeOnCloudinary('course')->getSecurePath();
-            //Get public_id
-            $publicId = Cloudinary::getPublicId();
-            //Get url image and public_id to db
-            $course->image = $imageUrl;
-            $course->public_id = $publicId;
-        }
-        $course->save();
-        return response(['status' => '200', 'message' => 'Thêm thành công', 'data' => $course], 200);
+        //
     }
 
     /**
@@ -53,8 +42,7 @@ class CourseController extends Controller
      */
     public function show($id)
     {
-        $course = Course::findOrFail($id);
-        return response(['status' => '200', 'data' => $course], 200);
+        //
     }
 
     /**
@@ -64,24 +52,9 @@ class CourseController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(CourseRequest $request, $id)
+    public function update(Request $request, $id)
     {
-        $course = Course::findOrFail($id);
-        $course->update($request->all());
-        if($request->hasFile('image')){
-            $files = $request->file('image');
-            //Delete old image
-            Cloudinary::destroy($course->public_id);
-            //Upload new image
-            $imageUrl = $files->storeOnCloudinary('course')->getSecurePath();
-            //Get public_id
-            $publicId = Cloudinary::getPublicId();
-            //Get url image and public_id to db
-            $course->image = $imageUrl;
-            $course->public_id = $publicId;
-        }
-        $course->save();
-        return response(['status' => '200', 'message' => 'Cập nhật thành công', 'data' => $course], 200);
+        //
     }
 
     /**
@@ -92,10 +65,6 @@ class CourseController extends Controller
      */
     public function destroy($id)
     {
-        $course = Course::findOrFail($id);
-        //Delete old image
-        Cloudinary::destroy($course->public_id);
-        $course->delete();
-        return response(['status' => '200', 'message' => 'Xoá thành công', 'data' => null], 200);
+        //
     }
 }

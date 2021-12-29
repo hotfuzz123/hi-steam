@@ -73,10 +73,10 @@
                                                     <tr class="odd gradeX">
                                                         <td> {{ $item->id }} </td>
                                                         <td class="patient-img">
-                                                            <img src="{{ $item->image }}" alt="">
+                                                            <img src="{{ $item->avatar }}" alt="">
                                                         </td>
                                                         <td> {{ $item->name }} </td>
-                                                        <td> {{ $item->type }} </td>
+                                                        <td> {{ $item->role }} </td>
                                                         <td><a href="tel:{{ $item->phone }}"> {{ $item->phone }} </a></td>
                                                         <td><a href="mailto:{{ $item->email }}"> {{ $item->email }} </a></td>
                                                         <td> {{ $item->created_at }} </td>
@@ -97,7 +97,7 @@
                                 <div class="card card-box">
                                     <div class="card-body no-padding ">
                                         <div class="doctor-profile">
-                                            <img src="{{ $item->image }}" class="doctor-pic" alt="">
+                                            <img src="{{ $item->avatar }}" class="doctor-pic" alt="">
                                             <div class="profile-usertitle">
                                                 <div class="doctor-name"> {{ $item->name }} </div>
                                                 <div class="name-center"></div>

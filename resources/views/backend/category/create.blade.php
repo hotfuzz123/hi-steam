@@ -38,8 +38,8 @@
                                 <span class="required"> * </span>
                             </label>
                             <div class="col-md-6">
-                                <input type="text" name="name" data-required="1" class="form-control" value="{{ old('name') }}"/>
-                                @error('name')
+                                <input type="text" name="title" data-required="1" class="form-control" value="{{ old('title') }}"/>
+                                @error('title')
                                     <span class="text-danger">{{ $message }}</span>
                                 @enderror
                             </div>

@@ -80,9 +80,9 @@
                                         </label>
                                     </td>
                                     <td> {{ $item->id }} </td>
-                                    <td> {{ $item->name }} </td>
-                                    <td> {{$item->category->name}} </td>
-                                    <td> {{$item->admin->name}} </td>
+                                    <td> {{ $item->title }} </td>
+                                    <td> {{ $item->category->title }} </td>
+                                    <td> {{ $item->admin->name }} </td>
                                     <td>
                                         <div class="form-check form-switch">
                                             <input class="form-check-input" type="checkbox" name="toggle" value="{{ $item->id }}" id="flexSwitchCheckChecked" {{ $item->status == 'active' ? 'checked' : ''}}>

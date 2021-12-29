@@ -2,6 +2,20 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Api\v1\TipController;
+use App\Http\Controllers\Api\v1\AuthController;
+use App\Http\Controllers\Api\v1\PostController;
+use App\Http\Controllers\Api\v1\LessonController;
+use App\Http\Controllers\Api\v1\AdminController;
+use App\Http\Controllers\Api\v1\CourseController;
+use App\Http\Controllers\Api\v1\ReviewController;
+use App\Http\Controllers\Api\v1\SliderController;
+use App\Http\Controllers\Api\v1\CommentController;
+use App\Http\Controllers\Api\v1\CategoryController;
+use App\Http\Controllers\Api\v1\DocumentController;
+use App\Http\Controllers\Api\v1\EnrolledController;
+use App\Http\Controllers\Api\v1\HomeworkController;
+use App\Http\Controllers\Api\v1\SubscribeController;
 
 /*
 |--------------------------------------------------------------------------
@@ -14,67 +28,74 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::group(['prefix' => 'v1', 'namespace' => 'Api\v1'], function(){
+Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
+    return $request->user();
+});
 
-    Route::apiResource('category', 'CategoryController');
-
-    Route::apiResource('slider', 'SliderController');
-
-    Route::apiResource('course', 'CourseController')->only('index', 'show');
-
-    Route::apiResource('homework', 'HomeworkController')->only('index', 'show');
-
-    Route::apiResource('grade', 'GradeController');
-
-    Route::apiResource('subscribe', 'SubscribeController')->only('index', 'show');
-
-    Route::apiResource('admin', 'AdminController');
-
-    // Tip Section
-    Route::apiResource('tip', 'TipController');
-    Route::get('random-tip', 'TipController@randomTip');
-
-
-    Route::apiResource('lesson', 'LessonController')->only('index', 'show');
-    Route::get('random-lesson', 'LessonController@randomLesson');
-
-    Route::apiResource('document', 'DocumentController')->only('index', 'show');
-
-    Route::apiResource('post', 'PostController')->only('index', 'show');
-
-    Route::apiResource('comment', 'CommentController')->only('index', 'show');
-
+Route::group(['prefix' => 'v1'], function(){
     // Users
-    Route::post('register', 'AuthController@register');
-    Route::post('login', 'AuthController@login');
+    Route::post('register', [AuthController::class, 'register']);
+    Route::post('login', [AuthController::class, 'login']);
 
     Route::group(['prefix' => 'auth', 'middleware' => 'auth:api'], function(){
-        Route::delete('logout', 'AuthController@logout');
-        Route::get('user', 'AuthController@getUser');
-        Route::post('user', 'AuthController@updateUser');
-        Route::post('change-password', 'AuthController@changePassword');
+        Route::delete('logout', [AuthController::class, 'logout']);
+        Route::get('user', [AuthController::class, 'getUser']);
+        Route::post('user', [AuthController::class, 'updateUser']);
+        Route::post('change-password', [AuthController::class, 'changePassword']);
 
-        // Except index and show only
-        Route::apiResource('homework', 'HomeworkController')->except('index', 'show');
-        Route::apiResource('comment', 'CommentController')->except('index', 'show');
+        // Category Section
+        Route::apiResource('category', CategoryController::class);
 
-        Route::apiResource('subscribe', 'SubscribeController')->except('index', 'show');
+        // Slider Section
+        Route::apiResource('slider', SliderController::class);
+
+        // Course Section
+        Route::apiResource('course', CourseController::class);
+
+        // Homework Section
+        Route::apiResource('homework', HomeworkController::class);
+
+        // Subscribe Section
+        Route::apiResource('subscribe', SubscribeController::class);
+
+        // Info Teacher Section
+        Route::apiResource('admin', AdminController::class);
+
+        // Best teacher
+        Route::get('best-teacher', [AdminController::class, 'bestTeacher']);
+
+        // Tip Section
+        Route::apiResource('tip', TipController::class);
+        Route::get('random-tip', [TipController::class, 'randomTip']);
+
+        // Review Section
+        Route::apiResource('review', ReviewController::class);
+
+        // Lesson Section
+        Route::apiResource('lesson', LessonController::class);
+        Route::get('random-lesson', [LessonController::class, 'randomLesson']);
+
+        // Document Section
+        Route::apiResource('document', DocumentController::class);
+
+        // Post Section
+        Route::apiResource('post', PostController::class);
+
+        // Comment Section
+        Route::apiResource('comment', CommentController::class);
+
+        // Enrolled Section
+        Route::apiResource('enrolled', EnrolledController::class);
     });
 
     // Admins
-    Route::post('register-admin', 'AdminController@registerAdmin');
-    Route::post('login-admin', 'AdminController@loginAdmin');
+    Route::post('register-admin', [AdminController::class, 'registerAdmin']);
+    Route::post('login-admin', [AdminController::class, 'loginAdmin']);
 
     Route::group(['prefix' => 'admin', 'middleware' => 'auth:admin-api'], function(){
-        Route::delete('logout', 'AdminController@logout');
-        Route::get('admin', 'AdminController@getAdmin');
-        Route::post('admin', 'AdminController@updateAdmin');
-        Route::post('change-password', 'AdminController@changePassword');
-
-        // Except index and show only
-        Route::apiResource('post', 'PostController')->except('index', 'show');
-        Route::apiResource('document', 'DocumentController')->except('index', 'show');
-        Route::apiResource('course', 'CourseController')->except('index', 'show');
-        Route::apiResource('lesson', 'LessonController')->except('index', 'show');
+        Route::delete('logout', [AdminController::class, 'logout']);
+        Route::get('admin', [AdminController::class, 'getAdmin']);
+        Route::post('admin', [AdminController::class, 'updateAdmin']);
+        Route::post('change-password', [AdminController::class, 'changePassword']);
     });
 });

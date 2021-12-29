@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Comment;
 use App\Http\Requests\CommentRequest;
+use App\Http\Resources\CommentResource;
 
 class CommentController extends Controller
 {
@@ -16,9 +17,8 @@ class CommentController extends Controller
      */
     public function index()
     {
-
-        $comment = Comment::with(['user', 'replies.user'])->get();
-        return response(['status' => '200', 'data' => $comment], 200);
+        $comment = Comment::all();
+        return CommentResource::collection($comment);
     }
 
     /**
@@ -42,8 +42,8 @@ class CommentController extends Controller
      */
     public function show($id)
     {
-        $comment = Comment::findOrFail($id);
-        return response(['status' => '200', 'data' => $comment], 200);
+        $comment = Comment::where("lesson_id", "=", $id)->get();
+        return CommentResource::collection($comment);
     }
 
     /**

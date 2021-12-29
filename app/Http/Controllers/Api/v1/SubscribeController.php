@@ -30,10 +30,6 @@ class SubscribeController extends Controller
      */
     public function store(Request $request)
     {
-        // $request['user_id'] = auth()->user()->id;
-        // $article = Article::find($article_id);
-        // $article->tags()->attach($tag_id);
-
         $user = User::findOrFail(auth()->user()->id);
         $user->course()->attach($request->course_id);
         return response(['status' => '200', 'message' => 'Đăng ký thành công'], 200);

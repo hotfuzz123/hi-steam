@@ -25,7 +25,11 @@ class AuthController extends Controller
      */
     public function register(UserRegister $request)
     {
-        $user = User::create($request->all());
+        $user = User::create([
+            'name' => $request['name'],
+            'email' => $request['email'],
+            'password' => bcrypt($request['password']),
+        ]);
         return response(['status' => '200', 'message' => 'Đăng ký thành công!', 'data' => $user], 200);
     }
 

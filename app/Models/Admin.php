@@ -2,35 +2,14 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Model;
-use Illuminate\Notifications\Notifiable;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Notifications\Notifiable;
 use Laravel\Passport\HasApiTokens;
 
 class Admin extends Authenticatable
 {
-    use Notifiable, HasApiTokens;
-
-    /**
-     * The table associated with the model.
-     *
-     * @var string
-     */
-    protected $table = 'admins';
-
-    /**
-     * The primary key associated with the table.
-     *
-     * @var string
-     */
-    protected $primaryKey = 'id';
-
-    /**
-     * Indicates if the model should be timestamped.
-     *
-     * @var bool
-     */
-    public $timestamps = true;
+    use HasApiTokens, HasFactory, Notifiable;
 
     /**
      * The attributes that aren't mass assignable.
@@ -45,7 +24,7 @@ class Admin extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'name', 'type', 'email', 'phone', 'image', 'public_id', 'subscribers', 'password'
+        'name', 'role', 'email', 'phone', 'avatar', 'public_id', 'number_student_follow', 'password'
     ];
 
     /**
@@ -66,22 +45,15 @@ class Admin extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
-    /**
-     * Bcrypt the password of admin
-     *
-     * @var array
-     */
-    public function setPasswordAttribute($value) {
-        if($value != ""){
-            $this->attributes['password'] = bcrypt($value);
-        }
-    }
-
     public function course() {
         return $this->hasMany(Course::class);
     }
 
     public function lesson() {
         return $this->hasMany(Lesson::class);
+    }
+
+    public function review() {
+        return $this->belongsToMany(Review::class, 'admin_review', 'admin_id', 'review_id')->withPivot('content')->withTimestamps();
     }
 }

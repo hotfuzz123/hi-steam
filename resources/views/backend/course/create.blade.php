@@ -38,8 +38,8 @@
                                 <span class="required"> * </span>
                             </label>
                             <div class="col-md-6">
-                                <input type="text" name="name" data-required="1" class="form-control" value="{{ old('name') }}"/>
-                                @error('name')
+                                <input type="text" name="title" data-required="1" class="form-control" value="{{ old('title') }}"/>
+                                @error('title')
                                     <span class="text-danger">{{ $message }}</span>
                                 @enderror
                             </div>
@@ -52,7 +52,7 @@
                                 <select class="form-select" name="category_id">
                                     <option value="">-- Chọn --</option>
                                     @foreach ($category as $item)
-                                        <option value="{{ $item->id }}" {{ old('category') == $item->id ? 'selected' : ''}}>{{ $item->name }}</option>
+                                        <option value="{{ $item->id }}" {{ old('category') == $item->id ? 'selected' : ''}}>{{ $item->title }}</option>
                                     @endforeach
                                 </select>
                                 @error('category_id')

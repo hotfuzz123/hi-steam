@@ -16,12 +16,12 @@ class CreateAdminsTable extends Migration
         Schema::create('admins', function (Blueprint $table) {
             $table->id();
             $table->string('name');
-            $table->string('type')->nullable();
+            $table->string('role')->nullable();
             $table->string('email')->unique()->nullable();
             $table->string('phone')->unique()->nullable();
-            $table->string('image')->nullable()->default('https://dummyimage.com/250x250/fff/aaa');
+            $table->string('avatar')->nullable()->default('https://dummyimage.com/250x250/fff/aaa');
             $table->string('public_id')->nullable()->default('default');
-            $table->integer('subscribers')->nullable();
+            $table->integer('number_student_follow')->nullable();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
             $table->rememberToken();

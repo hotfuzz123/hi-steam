@@ -5,9 +5,6 @@ namespace App\Http\Controllers\Api\v1;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Post;
-use App\Http\Requests\PostRequest;
-use Illuminate\Support\Facades\Auth;
-use CloudinaryLabs\CloudinaryLaravel\Facades\Cloudinary;
 
 class PostController extends Controller
 {
@@ -28,22 +25,9 @@ class PostController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(PostRequest $request)
+    public function store(Request $request)
     {
-        $request['admin_id'] = auth()->user()->id;
-        $post = Post::create($request->all());
-        if($request->hasFile('image')){
-            $files = $request->file('image');
-            //Upload new image
-            $imageUrl = $files->storeOnCloudinary('post')->getSecurePath();
-            //Get public_id
-            $publicId = Cloudinary::getPublicId();
-            //Get url image and public_id to db
-            $post->image = $imageUrl;
-            $post->public_id = $publicId;
-        }
-        $post->save();
-        return response(['status' => '200', 'message' => 'Thêm thành công', 'data' => $post], 200);
+        //
     }
 
     /**
@@ -54,8 +38,7 @@ class PostController extends Controller
      */
     public function show($id)
     {
-        $post = Post::findOrFail($id);
-        return response(['status' => '200', 'data' => $post], 200);
+        //
     }
 
     /**
@@ -65,24 +48,9 @@ class PostController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(PostRequest $request, $id)
+    public function update(Request $request, $id)
     {
-        $post = Post::findOrFail($id);
-        $post->update($request->all());
-        if($request->hasFile('image')){
-            $files = $request->file('image');
-            //Delete old image
-            Cloudinary::destroy($post->public_id);
-            //Upload new image
-            $imageUrl = $files->storeOnCloudinary('post')->getSecurePath();
-            //Get public_id
-            $publicId = Cloudinary::getPublicId();
-            //Get url image and public_id to db
-            $post->image = $imageUrl;
-            $post->public_id = $publicId;
-        }
-        $post->save();
-        return response(['status' => '200', 'message' => 'Cập nhật thành công', 'data' => $post], 200);
+        //
     }
 
     /**
@@ -93,10 +61,6 @@ class PostController extends Controller
      */
     public function destroy($id)
     {
-        $post = Post::findOrFail($id);
-        //Delete old image
-        Cloudinary::destroy($post->public_id);
-        $post->delete();
-        return response(['status' => '200', 'message' => 'Xoá thành công', 'data' => null], 200);
+        //
     }
 }

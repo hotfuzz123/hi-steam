@@ -40,8 +40,8 @@
                                 <span class="required"> * </span>
                             </label>
                             <div class="col-md-6">
-                                <input type="text" name="name" data-required="1" class="form-control" value="{{ $lesson->name }}"/>
-                                @error('name')
+                                <input type="text" name="title" data-required="1" class="form-control" value="{{ $lesson->title }}"/>
+                                @error('title')
                                     <span class="text-danger">{{ $message }}</span>
                                 @enderror
                             </div>
@@ -49,8 +49,8 @@
                         <div class="form-group row">
                             <label class="control-label col-md-3">Dụng cụ</label>
                             <div class="col-md-6">
-                                <textarea type="text" name="material" class="form-control" id="editor1" cols="30" rows="10">{{ $lesson->material }}</textarea>
-                                @error('material')
+                                <textarea type="text" name="tool" class="form-control" id="editor1" cols="30" rows="10">{{ $lesson->tool }}</textarea>
+                                @error('tool')
                                     <span class="text-danger">{{ $message }}</span>
                                 @enderror
                             </div>
@@ -58,12 +58,12 @@
                         <div class="form-group row">
                             <label class="control-label col-md-3">Ảnh</label>
                             <div class="col-md-6">
-                                <input type="file" name="image" class="form-control" accept="image/*">
-                                @if(!empty($lesson->image))
-                                <a href="{{ $lesson->image }}" target="_blank">Xem hình ảnh</a>
-                                <input type="hidden" name="image" value="{{ $lesson->image }}">
+                                <input type="file" name="thumbnail" class="form-control" accept="image/*">
+                                @if(!empty($lesson->thumbnail))
+                                <a href="{{ $lesson->thumbnail }}" target="_blank">Xem hình ảnh</a>
+                                <input type="hidden" name="thumbnail" value="{{ $lesson->thumbnail }}">
                                 @endif
-                                @error('image')
+                                @error('thumbnail')
                                     <span class="text-danger">{{ $message }}</span>
                                 @enderror
                             </div>

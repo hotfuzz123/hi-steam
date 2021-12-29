@@ -6,34 +6,13 @@ use Illuminate\Database\Eloquent\Model;
 
 class Lesson extends Model
 {
-        /**
-     * The table associated with the model.
-     *
-     * @var string
-     */
-    protected $table = 'lesson';
-
-    /**
-     * The primary key associated with the table.
-     *
-     * @var string
-     */
-    protected $primaryKey = 'id';
-
-    /**
-     * Indicates if the model should be timestamped.
-     *
-     * @var bool
-     */
-    public $timestamps = true;
-
     /**
      * The attributes that are mass assignable.
      *
      * @var array
      */
     protected $fillable = [
-        'name', 'material', 'image', 'public_id', 'video_link', 'view_count', 'status', 'course_id', 'admin_id'
+        'title', 'tool', 'description', 'thumbnail', 'public_id', 'video_link', 'view', 'status', 'course_id', 'admin_id'
     ];
 
     public function course() {

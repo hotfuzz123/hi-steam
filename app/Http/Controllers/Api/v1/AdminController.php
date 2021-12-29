@@ -8,6 +8,7 @@ use App\Models\Admin;
 use App\Http\Requests\AdminRegister;
 use App\Http\Requests\AdminLogin;
 use App\Http\Requests\AdminChangePass;
+use App\Http\Resources\AdminResource;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
@@ -26,7 +27,11 @@ class AdminController extends Controller
      */
     public function registerAdmin(AdminRegister $request)
     {
-        $admin = Admin::create($request->all());
+        $admin = Admin::create([
+            'name' => $request['name'],
+            'email' => $request['email'],
+            'password' => bcrypt($request['password']),
+        ]);
         return response(['status' => '200', 'message' => 'Đăng ký thành công!', 'data' => $admin], 200);
     }
 
@@ -143,6 +148,17 @@ class AdminController extends Controller
     {
         $limit = $request->has('limit') ? $request->get('limit') : 10;
         $admin = Admin::with('course')->limit($limit)->get();
-        return response(['status' => '200', 'data' => $admin], 200);
+        return AdminResource::collection($admin);
+    }
+
+    /**
+     * Display a listing of the best teacher.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function bestTeacher(Request $request)
+    {
+        $admin = Admin::orderBy('number_student_follow', 'DESC')->limit(4)->get();
+        return AdminResource::collection($admin);
     }
 }
