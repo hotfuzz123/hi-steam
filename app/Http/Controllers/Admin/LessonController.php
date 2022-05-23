@@ -6,14 +6,16 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Course;
 use App\Models\Lesson;
-use App\Http\Requests\LessonRequest;
+use App\Http\Requests\Lesson\LessonRequest;
+use App\Traits\ImageTrait;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Session;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Auth;
-use CloudinaryLabs\CloudinaryLaravel\Facades\Cloudinary;
 
 class LessonController extends Controller
 {
+    use ImageTrait;
+
     /**
      * Display a listing of the resource.
      *
@@ -92,24 +94,24 @@ class LessonController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $request['admin_id'] = Auth::guard('admin')->user()->id;
-        $lesson = Lesson::findOrFail($id);
-        $lesson->update($request->all());
-        if($request->hasFile('thumbnail')){
-            $files = $request->file('thumbnail');
-            //Delete old image
-            Cloudinary::destroy($lesson->public_id);
-            //Upload new image
-            $imageUrl = $files->storeOnCloudinary('lesson')->getSecurePath();
-            //Get public_id
-            $publicId = Cloudinary::getPublicId();
-            //Get url image and public_id to db
-            $lesson->thumbnail = $imageUrl;
-            $lesson->public_id = $publicId;
+        try {
+            DB::beginTransaction();
+            $request['admin_id'] = Auth::guard('admin')->user()->id;
+            $lesson = Lesson::findOrFail($id);
+            $data = $request->all();
+            $dataUpload = $this->updateImage($request, 'thumbnail', 'lesson', $lesson);
+            if(!empty($dataUpload)) {
+                $data['thumbnail'] = $dataUpload['thumbnail'];
+                $data['public_id'] = $dataUpload['public_id'];
+            }
+            $lesson->update($data);
+            DB::commit();
+            return redirect()->back()->withSuccess('Cập nhật thành công');
+        } catch (\Throwable $exception) {
+            Log::error($exception->getMessage()." expected Line: ".$exception->getLine());
+            DB::rollBack();
+            return back()->withError('Đã có lỗi xảy ra');
         }
-        $lesson->save();
-        Session::flash('success', 'Cập nhật thành công');
-        return redirect()->back();
     }
 
     /**
@@ -120,12 +122,17 @@ class LessonController extends Controller
      */
     public function destroy($id)
     {
-        $lesson = Lesson::findOrFail($id);
-        //Delete old image
-        Cloudinary::destroy($lesson->public_id);
-        $lesson->delete();
-        Session::flash('success', 'Xoá thành công');
-        return redirect()->back();
+        try {
+            DB::beginTransaction();
+            $lesson = Lesson::findOrFail($id);
+            $lesson->delete();
+            DB::commit();
+            return redirect()->back()->withSuccess('Xoá thành công');
+        } catch (\Throwable $exception) {
+            Log::error($exception->getMessage()." expected Line: ".$exception->getLine());
+            DB::rollBack();
+            return back()->withError('Đã có lỗi xảy ra');
+        }
     }
 
     /**
@@ -136,28 +143,28 @@ class LessonController extends Controller
      */
     public function addLesson(Request $request, $id)
     {
-        if($request->isMethod('post')){
+        if ($request->getMethod() == 'GET') {
+            $course = Course::with('category', 'lesson')->findOrFail($id);
+            return view('backend.lesson.create')->with(compact('course'));
+        }
+
+        try {
+            DB::beginTransaction();
             $request['admin_id'] = Auth::guard('admin')->user()->id;
             $request['course_id'] = $id;
-            $lesson = Lesson::create($request->all());
-            if($request->hasFile('thumbnail')){
-                $files = $request->file('thumbnail');
-                //Upload new image
-                $imageUrl = $files->storeOnCloudinary('lesson')->getSecurePath();
-                //Get public_id
-                $publicId = Cloudinary::getPublicId();
-                //Get url image and public_id to db
-                $lesson->thumbnail = $imageUrl;
-                $lesson->public_id = $publicId;
+            $data = $request->all();
+            $dataUpload = $this->uploadImage($request, 'thumbnail', 'lesson');
+            if(!empty($dataUpload)) {
+                $data['thumbnail'] = $dataUpload['thumbnail'];
+                $data['public_id'] = $dataUpload['public_id'];
             }
-            $lesson->save();
-            Session::flash('success', 'Thêm thành công');
-            return redirect()->back();
-
+            $lesson = Lesson::create($data);
+            DB::commit();
+            return redirect()->back()->withSuccess('Thêm thành công');
+        } catch (\Throwable $exception) {
+            Log::error($exception->getMessage()." expected Line: ".$exception->getLine());
+            DB::rollBack();
+            return back()->withError('Đã có lỗi xảy ra');
         }
-        $course = Course::with('category', 'lesson')->findOrFail($id);
-        // $course = json_decode(json_encode($course));
-        // echo "<pre>"; print_r($course); die;
-        return view('backend.lesson.create')->with(compact('course'));
     }
 }

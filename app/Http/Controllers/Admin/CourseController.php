@@ -6,11 +6,10 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Course;
 use App\Models\Category;
-use App\Http\Requests\CourseRequest;
+use App\Http\Requests\Course\CourseRequest;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Session;
-use CloudinaryLabs\CloudinaryLaravel\Facades\Cloudinary;
+use Illuminate\Support\Facades\Log;
 
 class CourseController extends Controller
 {
@@ -21,23 +20,8 @@ class CourseController extends Controller
      */
     public function index()
     {
-        $course = Course::with('category', 'admin')->get();
+        $course = Course::with('category', 'admin')->orderBy('created_at', 'DESC')->get();
         return view('backend.course.index')->with(compact('course'));
-    }
-
-    /**
-     * Update course status.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function courseStatus(Request $request)
-    {
-        if($request->mode == 'true'){
-            Course::where('id', $request->id)->update(['status' => 'active']);
-        } else {
-            Course::where('id', $request->id)->update(['status' => 'inactive']);
-        }
-        return response()->json(['message' => 'Cập nhật trạng thái thành công', 'status'=>true]);
     }
 
     /**
@@ -57,23 +41,19 @@ class CourseController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(CourseRequest $request)
     {
-        $request['admin_id'] = Auth::guard('admin')->user()->id;
-        $course = Course::create($request->all());
-        if($request->hasFile('image')){
-            $files = $request->file('image');
-            //Upload new image
-            $imageUrl = $files->storeOnCloudinary('course')->getSecurePath();
-            //Get public_id
-            $publicId = Cloudinary::getPublicId();
-            //Get url image and public_id to db
-            $course->image = $imageUrl;
-            $course->public_id = $publicId;
+        try {
+            DB::beginTransaction();
+            $request['admin_id'] = Auth::guard('admin')->user()->id;
+            $course = Course::create($request->all());
+            DB::commit();
+            return redirect()->route('course.index')->withSuccess('Thêm thành công');
+        } catch (\Throwable $exception) {
+            Log::error($exception->getMessage()." expected Line: ".$exception->getLine());
+            DB::rollBack();
+            return back()->withError('Đã có lỗi xảy ra');
         }
-        $course->save();
-        Session::flash('success', 'Thêm thành công');
-        return redirect()->route('course.index');
     }
 
     /**
@@ -107,26 +87,19 @@ class CourseController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(CourseRequest $request, $id)
     {
-        $course = Course::findOrFail($id);
-        $request['admin_id'] = Auth::guard('admin')->user()->id;
-        $course->update($request->all());
-        if($request->hasFile('image')){
-            $files = $request->file('image');
-            //Delete old image
-            Cloudinary::destroy($course->public_id);
-            //Upload new image
-            $imageUrl = $files->storeOnCloudinary('course')->getSecurePath();
-            //Get public_id
-            $publicId = Cloudinary::getPublicId();
-            //Get url image and public_id to db
-            $course->image = $imageUrl;
-            $course->public_id = $publicId;
+        try {
+            DB::beginTransaction();
+            $course = Course::findOrFail($id);
+            $course->update($request->all());
+            DB::commit();
+            return redirect()->route('course.index')->with(compact('course'))->withSuccess('Cập nhật thành công');
+        } catch (\Throwable $exception) {
+            Log::error($exception->getMessage()." expected Line: ".$exception->getLine());
+            DB::rollBack();
+            return back()->withError('Đã có lỗi xảy ra');
         }
-        $course->save();
-        Session::flash('success', 'Cập nhật thành công');
-        return redirect()->route('course.index')->with(compact('course'));
     }
 
     /**
@@ -137,11 +110,16 @@ class CourseController extends Controller
      */
     public function destroy($id)
     {
-        $course = Course::findOrFail($id);
-        //Delete old image
-        Cloudinary::destroy($course->public_id);
-        $course->delete();
-        Session::flash('success', 'Xoá thành công');
-        return redirect()->route('course.index');
+        try {
+            DB::beginTransaction();
+            $course = Course::findOrFail($id);
+            $course->delete();
+            DB::commit();
+            return redirect()->route('course.index')->withSuccess('Xoá thành công');
+        } catch (\Throwable $exception) {
+            Log::error($exception->getMessage()." expected Line: ".$exception->getLine());
+            DB::rollBack();
+            return back()->withError('Đã có lỗi xảy ra');
+        }
     }
 }

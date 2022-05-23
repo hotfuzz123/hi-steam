@@ -5,10 +5,8 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\User;
-use App\Http\Requests\UserRequest;
+use App\Http\Requests\User\UserRequest;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Session;
-use CloudinaryLabs\CloudinaryLaravel\Facades\Cloudinary;
 
 class UserController extends Controller
 {
@@ -19,7 +17,7 @@ class UserController extends Controller
      */
     public function index()
     {
-        $user = User::all();
+        $user = User::orderBy('created_at', 'DESC')->get();
         return view('backend.user.index')->with(compact('user'));
     }
 

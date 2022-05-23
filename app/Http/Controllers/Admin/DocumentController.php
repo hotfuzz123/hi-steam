@@ -6,11 +6,10 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Lesson;
 use App\Models\Document;
-use App\Http\Requests\DocumentRequest;
+use App\Http\Requests\Document\DocumentRequest;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Session;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Auth;
-use CloudinaryLabs\CloudinaryLaravel\Facades\Cloudinary;
 
 class DocumentController extends Controller
 {
@@ -92,24 +91,25 @@ class DocumentController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $request['admin_id'] = Auth::guard('admin')->user()->id;
-        $document = Document::findOrFail($id);
-        $document->update($request->all());
-        if($request->hasFile('image')){
-            $files = $request->file('image');
-            //Delete old image
-            Cloudinary::destroy($document->public_id);
-            //Upload new image
-            $imageUrl = $files->storeOnCloudinary('document')->getSecurePath();
-            //Get public_id
-            $publicId = Cloudinary::getPublicId();
-            //Get url image and public_id to db
-            $document->image = $imageUrl;
-            $document->public_id = $publicId;
+        try {
+            DB::beginTransaction();
+            $request['admin_id'] = Auth::guard('admin')->user()->id;
+            $document = Document::findOrFail($id);
+            $data = $request->all();
+            $dataUpload = $this->updateImage($request, 'image', 'document', $document);
+            if(!empty($dataUpload)) {
+                $data['image'] = $dataUpload['image'];
+                $data['public_id'] = $dataUpload['public_id'];
+            }
+            $document->update($data);
+            DB::commit();
+            return redirect()->back()->withSuccess('Cập nhật thành công');
+        } catch (\Throwable $exception) {
+            Log::error($exception->getMessage()." expected Line: ".$exception->getLine());
+            DB::rollBack();
+            return back()->withError('Đã có lỗi xảy ra');
         }
-        $document->save();
-        Session::flash('success', 'Cập nhật thành công');
-        return redirect()->back();
+        
     }
 
     /**
@@ -120,12 +120,17 @@ class DocumentController extends Controller
      */
     public function destroy($id)
     {
-        $document = Document::findOrFail($id);
-        //Delete old image
-        Cloudinary::destroy($document->public_id);
-        $document->delete();
-        Session::flash('success', 'Xoá thành công');
-        return redirect()->back();
+        try {
+            DB::beginTransaction();
+            $document = Document::findOrFail($id);
+            $document->delete();
+            DB::commit();
+            return redirect()->back()->withSuccess('Xoá thành công');
+        } catch (\Throwable $exception) {
+            Log::error($exception->getMessage()." expected Line: ".$exception->getLine());
+            DB::rollBack();
+            return back()->withError('Đã có lỗi xảy ra');
+        }
     }
 
     /**
@@ -136,28 +141,28 @@ class DocumentController extends Controller
      */
     public function addDocument(Request $request, $id)
     {
-        if($request->isMethod('post')){
+        if ($request->getMethod() == 'GET') {
+            $lesson = Lesson::with('document')->findOrFail($id);
+            return view('backend.document.create')->with(compact('lesson'));
+        }
+
+        try {
+            DB::beginTransaction();
             $request['admin_id'] = Auth::guard('admin')->user()->id;
             $request['lesson_id'] = $id;
-            $document = Document::create($request->all());
-            if($request->hasFile('image')){
-                $files = $request->file('image');
-                //Upload new image
-                $imageUrl = $files->storeOnCloudinary('document')->getSecurePath();
-                //Get public_id
-                $publicId = Cloudinary::getPublicId();
-                //Get url image and public_id to db
-                $document->image = $imageUrl;
-                $document->public_id = $publicId;
+            $data = $request->all();
+            $dataUpload = $this->uploadImage($request, 'image', 'document');
+            if(!empty($dataUpload)) {
+                $data['image'] = $dataUpload['image'];
+                $data['public_id'] = $dataUpload['public_id'];
             }
-            $document->save();
-            Session::flash('success', 'Thêm thành công');
-            return redirect()->back();
-
+            $document = Document::create($data);
+            DB::commit();
+            return redirect()->back()->withSuccess('Thêm thành công');
+        } catch (\Throwable $exception) {
+            Log::error($exception->getMessage()." expected Line: ".$exception->getLine());
+            DB::rollBack();
+            return back()->withError('Đã có lỗi xảy ra');
         }
-        $lesson = Lesson::with('document')->findOrFail($id);
-        // $course = json_decode(json_encode($course));
-        // echo "<pre>"; print_r($course); die;
-        return view('backend.document.create')->with(compact('lesson'));
     }
 }

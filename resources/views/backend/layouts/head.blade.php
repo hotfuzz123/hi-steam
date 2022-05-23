@@ -18,8 +18,8 @@
 <link rel="stylesheet" href="{{ asset('backend/admin/plugins/flatpicker/css/flatpickr.min.css') }}" />
 <!-- data tables -->
 <link href="{{ asset('backend/admin/plugins/datatables/plugins/bootstrap/dataTables.bootstrap4.min.css') }}" rel="stylesheet" type="text/css" />
-{{-- <!-- Font Awesome 5 -->
-<script src="https://kit.fontawesome.com/91f55319c9.js" crossorigin="anonymous"></script> --}}
+<!-- Add icon library -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 <!-- Material Design Lite CSS -->
 <link rel="stylesheet" href="{{ asset('backend/admin/plugins/material/material.min.css') }}">
 <link rel="stylesheet" href="{{ asset('backend/admin/css/material_style.css') }}">
@@ -37,11 +37,7 @@
 <link href="https://cdn.jsdelivr.net/gh/gitbrent/bootstrap4-toggle@3.6.1/css/bootstrap4-toggle.min.css" rel="stylesheet">
 {{-- TinyMCE --}}
 <script src="https://cdn.tiny.cloud/1/no-api-key/tinymce/5/tinymce.min.js" referrerpolicy="origin"></script>
+{{-- PHPFlasher --}}
+@flasher_render
 <!-- favicon -->
 <link rel="shortcut icon" href="{{ asset('backend/admin/img/favicon.ico') }}" />
-
-
-
-
-
-

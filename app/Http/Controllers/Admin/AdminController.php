@@ -4,94 +4,142 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\Image;
-use App\Http\Requests\AdminRegister;
-use App\Http\Requests\AdminLogin;
-use App\Http\Requests\AdminChangePass;
-use CloudinaryLabs\CloudinaryLaravel\Facades\Cloudinary;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\DB;
 use App\Models\Admin;
+use App\Http\Requests\Admin\AdminRequest;
 
 class AdminController extends Controller
 {
-    public function dashboard(){
-        return view('backend.admin_dashboard');
+    /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function index()
+    {
+        $admin = Admin::orderBy('created_at', 'DESC')->get();
+        return view('backend.admin.index')->with(compact('admin'));
     }
 
-    public function password(){
-        $adminPassword = Admin::where('email', Auth::guard('admin')->user()->email)->first();
-        return view('backend.settings.admin_password')->with(compact('adminPassword'));
+    /**
+     * Show the form for creating a new resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function create()
+    {
+        return view('backend.admin.create');
     }
 
-    public function login(Request $request){
-        if($request -> isMethod('post')){
-            if(Auth::guard('admin')->attempt(['email'=>$request['email'],'password'=>$request['password']])){
-                return redirect('admin/dashboard');
-            } else {
-                return redirect('/admin')->with('error', 'Email hoặc mật khẩu sai !!!');
+    /**
+     * Store a newly created resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function store(AdminRequest $request)
+    {
+        try {
+            DB::beginTransaction();
+            $admin = Admin::create([
+                'name' => $request['name'],
+                'email' => $request['email'],
+                'password' => bcrypt($request['password']),
+            ]);
+            DB::commit();
+            return redirect()->route('admin.index')->withSuccess('Thêm thành công');
+        } catch (\Throwable $exception) {
+            Log::error($exception->getMessage()." expected Line: ".$exception->getLine());
+            DB::rollBack();
+            return back()->withError('Đã có lỗi xảy ra');
+        }
+    }
+
+    /**
+     * Display the specified resource.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function show($id)
+    {
+        // return view('backend.category.edit');
+    }
+
+    /**
+     * Show the form for editing the specified resource.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function edit($id)
+    {
+        // $admin = Admin::findOrFail($id);
+        // return view('backend.admin.edit')->with(compact('admin'));
+    }
+
+    /**
+     * Update the specified resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function update(Request $request, $id)
+    {
+        try {
+            DB::beginTransaction();
+            $admin = Admin::findOrFail($id);
+            $data = $request->all();
+            $dataUpload = $this->updateImage($request, 'avatar', 'admin', $admin);
+            if(!empty($dataUpload)) {
+                $data['avatar'] = $dataUpload['avatar'];
+                $data['public_id'] = $dataUpload['public_id'];
             }
-        }
-        return view('backend.admin_login');
-    }
-
-    public function logout(){
-        Auth::guard('admin')->logout();
-        return redirect('/admin')->with('success', 'Đăng xuất thành công');
-    }
-
-    public function chkCurrentPassword(Request $request){
-        $data = $request->all();
-        //echo "<pre>"; print_r($data); die;
-        //echo "<pre>"; print_r(Auth::guard('admin')->user()); die;
-        if(Hash::check($data['current_pwd'], Auth::guard('admin')->user()->password)){
-            echo "true";
-        }else{
-            echo "false";
+            $admin->update($data);
+            DB::commit();
+            return redirect()->route('admin.index')->with(compact('admin'))->withSuccess('Cập nhật thành công');
+        } catch (\Throwable $exception) {
+            Log::error($exception->getMessage()." expected Line: ".$exception->getLine());
+            DB::rollBack();
+            return back()->withError('Đã có lỗi xảy ra');
         }
     }
 
-    public function updateCurrentPassword(Request $request){
-        if($request -> isMethod('post')){
-            // Check if current password is correct
-            if(Hash::check($request['old_password'], Auth::guard('admin')->user()->password)){
-                // Check new password and confirm password are same
-                if ($request['password'] == $request['password_confirmation']) {
-                    Admin::where('id', Auth::guard('admin')->user()->id)->update(['password' => bcrypt($request['password'])]);
-                    Session::flash('success', 'Cập nhật mật khẩu thành công!');
-                // Check new password and confirm password are not same
-                } else {
-                    Session::flash('error', 'Mật khẩu mới và xác nhận mật khẩu không giống nhau !!!');
-                    return redirect()->back();
-                }
-            }else{
-                Session::flash('error', 'Mật khẩu hiện tại sai rồi !!!');
-                return redirect()->back();
-            }
-            return redirect()->back();
-        }
+    /**
+     * Remove the specified resource from storage.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function destroy($id)
+    {
+        //
     }
 
-    public function settings(Request $request){
-        if($request -> isMethod('post')){
+    public function editProfile(Request $request){
+        if ($request->getMethod() == 'GET') {
+            return view('backend.settings.profile');
+        }
+
+        try {
+            DB::beginTransaction();
             $admin = Admin::find(Auth::guard('admin')->user()->id);
-            $admin->update($request->all());
-            if($request->hasFile('avatar')){
-                $files = $request->file('avatar');
-                //Delete old image
-                Cloudinary::destroy($admin->public_id);
-                //Upload new image
-                $imageUrl = $files->storeOnCloudinary('admin')->getSecurePath();
-                //Get public_id
-                $publicId = Cloudinary::getPublicId();
-                //Get url image and public_id to db
-                $admin->avatar = $imageUrl;
-                $admin->public_id = $publicId;
+            $data = $request->all();
+            $dataUpload = $this->updateImage($request, 'avatar', 'admin', $admin);
+            if(!empty($dataUpload)) {
+                $data['avatar'] = $dataUpload['avatar'];
+                $data['public_id'] = $dataUpload['public_id'];
             }
-            $admin->save();
-            Session::flash('success', 'Cập nhật thành công');
+            $admin->update($data);
+            DB::commit();
+            return redirect()->back()->withSuccess('Cập nhật thành công');
+        } catch (\Throwable $exception) {
+            Log::error($exception->getMessage()." expected Line: ".$exception->getLine());
+            DB::rollBack();
+            return back()->withError('Đã có lỗi xảy ra');
         }
-        return view('backend.settings.admin_settings');
     }
 }

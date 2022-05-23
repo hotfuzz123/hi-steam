@@ -16,7 +16,6 @@ class CreateCoursesTable extends Migration
         Schema::create('courses', function (Blueprint $table) {
             $table->id();
             $table->string('title');
-            $table->enum('status',['active','inactive'])->default('active');
             $table->foreignId('admin_id')->nullable()->references('id')->on('admins')->onDelete('cascade');
             $table->foreignId('category_id')->nullable()->references('id')->on('categories')->onDelete('cascade');
             $table->timestamps();

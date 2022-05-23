@@ -5,13 +5,15 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Tip;
-use App\Http\Requests\TipRequest;
+use App\Http\Requests\Tip\TipRequest;
+use App\Traits\ImageTrait;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Session;
-use CloudinaryLabs\CloudinaryLaravel\Facades\Cloudinary;
+use Illuminate\Support\Facades\Log;
 
 class TipController extends Controller
 {
+    use ImageTrait;
+
     /**
      * Display a listing of the resource.
      *
@@ -19,7 +21,7 @@ class TipController extends Controller
      */
     public function index()
     {
-        $tip = Tip::all();
+        $tip = Tip::orderBy('created_at', 'DESC')->get();
         return view('backend.tip.index')->with(compact('tip'));
     }
 
@@ -56,20 +58,22 @@ class TipController extends Controller
      */
     public function store(Request $request)
     {
-        $tip = Tip::create($request->all());
-        if($request->hasFile('image')){
-            $files = $request->file('image');
-            //Upload new image
-            $imageUrl = $files->storeOnCloudinary('tip')->getSecurePath();
-            //Get public_id
-            $publicId = Cloudinary::getPublicId();
-            //Get url image and public_id to db
-            $tip->image = $imageUrl;
-            $tip->public_id = $publicId;
+        try {
+            DB::beginTransaction();
+            $data = $request->all();
+            $dataUpload = $this->uploadImage($request, 'image', 'tip');
+            if(!empty($dataUpload)) {
+                $data['image'] = $dataUpload['image'];
+                $data['public_id'] = $dataUpload['public_id'];
+            }
+            $tip = Tip::create($data);
+            DB::commit();
+            return redirect()->route('tip.index')->withSuccess('Thêm thành công');
+        } catch (\Throwable $exception) {
+            Log::error($exception->getMessage()." expected Line: ".$exception->getLine());
+            DB::rollBack();
+            return back()->withError('Đã có lỗi xảy ra');
         }
-        $tip->save();
-        Session::flash('success', 'Thêm thành công');
-        return redirect()->route('tip.index');
     }
 
     /**
@@ -104,23 +108,23 @@ class TipController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $tip = Tip::findOrFail($id);
-        $tip->update($request->all());
-        if($request->hasFile('image')){
-            $files = $request->file('image');
-            //Delete old image
-            Cloudinary::destroy($tip->public_id);
-            //Upload new image
-            $imageUrl = $files->storeOnCloudinary('tip')->getSecurePath();
-            //Get public_id
-            $publicId = Cloudinary::getPublicId();
-            //Get url image and public_id to db
-            $tip->image = $imageUrl;
-            $tip->public_id = $publicId;
+        try {
+            DB::beginTransaction();
+            $tip = Tip::findOrFail($id);
+            $data = $request->all();
+            $dataUpload = $this->updateImage($request, 'image', 'tip', $tip);
+            if(!empty($dataUpload)) {
+                $data['image'] = $dataUpload['image'];
+                $data['public_id'] = $dataUpload['public_id'];
+            }
+            $tip->update($data);
+            DB::commit();
+            return redirect()->route('tip.index')->with(compact('tip'))->withSuccess('Cập nhật thành công');
+        } catch (\Throwable $exception) {
+            Log::error($exception->getMessage()." expected Line: ".$exception->getLine());
+            DB::rollBack();
+            return back()->withError('Đã có lỗi xảy ra');
         }
-        $tip->save();
-        Session::flash('success', 'Cập nhật thành công');
-        return redirect()->route('tip.index')->with(compact('tip'));
     }
 
     /**
@@ -131,11 +135,16 @@ class TipController extends Controller
      */
     public function destroy($id)
     {
-        $tip = Tip::findOrFail($id);
-        //Delete old image
-        Cloudinary::destroy($tip->public_id);
-        $tip->delete();
-        Session::flash('success', 'Xoá thành công');
-        return redirect()->route('tip.index');
+        try {
+            DB::beginTransaction();
+            $tip = Tip::findOrFail($id);
+            $tip->delete();
+            DB::commit();
+            return redirect()->route('tip.index')->withSuccess('Xoá thành công');
+        } catch (\Throwable $exception) {
+            Log::error($exception->getMessage()." expected Line: ".$exception->getLine());
+            DB::rollBack();
+            return back()->withError('Đã có lỗi xảy ra');
+        }
     }
 }

@@ -5,13 +5,15 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Slider;
-use App\Http\Requests\SliderRequest;
+use App\Http\Requests\Slider\SliderRequest;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Session;
-use CloudinaryLabs\CloudinaryLaravel\Facades\Cloudinary;
+use Illuminate\Support\Facades\Log;
+use App\Traits\ImageTrait;
 
 class SliderController extends Controller
 {
+    use ImageTrait;
+
     /**
      * Display a listing of the resource.
      *
@@ -19,7 +21,7 @@ class SliderController extends Controller
      */
     public function index()
     {
-        $slider = Slider::all();
+        $slider = Slider::orderBy('created_at', 'DESC')->get();
         return view('backend.slider.index')->with(compact('slider'));
     }
 
@@ -56,20 +58,22 @@ class SliderController extends Controller
      */
     public function store(SliderRequest $request)
     {
-        $slider = Slider::create($request->all());
-        if($request->hasFile('image')){
-            $files = $request->file('image');
-            //Upload new image
-            $imageUrl = $files->storeOnCloudinary('slider')->getSecurePath();
-            //Get public_id
-            $publicId = Cloudinary::getPublicId();
-            //Get url image and public_id to db
-            $slider->image = $imageUrl;
-            $slider->public_id = $publicId;
+        try {
+            DB::beginTransaction();
+            $data = $request->all();
+            $dataUpload = $this->uploadImage($request, 'image', 'slider');
+            if(!empty($dataUpload)) {
+                $data['image'] = $dataUpload['image'];
+                $data['public_id'] = $dataUpload['public_id'];
+            }
+            $slider = Slider::create($data);
+            DB::commit();
+            return redirect()->route('slider.index')->withSuccess('Thêm thành công');
+        } catch (\Throwable $exception) {
+            Log::error($exception->getMessage()." expected Line: ".$exception->getLine());
+            DB::rollBack();
+            return back()->withError('Đã có lỗi xảy ra');
         }
-        $slider->save();
-        Session::flash('success', 'Thêm thành công');
-        return redirect()->route('slider.index');
     }
 
     /**
@@ -104,23 +108,23 @@ class SliderController extends Controller
      */
     public function update(SliderRequest $request, $id)
     {
-        $slider = Slider::findOrFail($id);
-        $slider->update($request->all());
-        if($request->hasFile('image')){
-            $files = $request->file('image');
-            //Delete old image
-            Cloudinary::destroy($slider->public_id);
-            //Upload new image
-            $imageUrl = $files->storeOnCloudinary('slider')->getSecurePath();
-            //Get public_id
-            $publicId = Cloudinary::getPublicId();
-            //Get url image and public_id to db
-            $slider->image = $imageUrl;
-            $slider->public_id = $publicId;
+        try {
+            DB::beginTransaction();
+            $slider = Slider::findOrFail($id);
+            $data = $request->all();
+            $dataUpload = $this->updateImage($request, 'image', 'slider', $slider);
+            if(!empty($dataUpload)) {
+                $data['image'] = $dataUpload['image'];
+                $data['public_id'] = $dataUpload['public_id'];
+            }
+            $slider->update($data);
+            DB::commit();
+            return redirect()->route('slider.index')->with(compact('slider'))->withSuccess('Cập nhật thành công');
+        } catch (\Throwable $exception) {
+            Log::error($exception->getMessage()." expected Line: ".$exception->getLine());
+            DB::rollBack();
+            return back()->withError('Đã có lỗi xảy ra');
         }
-        $slider->save();
-        Session::flash('success', 'Cập nhật thành công');
-        return redirect()->route('slider.index')->with(compact('slider'));
     }
 
     /**
@@ -131,11 +135,16 @@ class SliderController extends Controller
      */
     public function destroy($id)
     {
-        $slider = Slider::findOrFail($id);
-        //Delete old image
-        Cloudinary::destroy($slider->public_id);
-        $slider->delete();
-        Session::flash('success', 'Xoá thành công');
-        return redirect()->route('slider.index');
+        try {
+            DB::beginTransaction();
+            $slider = Slider::findOrFail($id);
+            $slider->delete();
+            DB::commit();
+            return redirect()->route('slider.index')->withSuccess('Xoá thành công');
+        } catch (\Throwable $exception) {
+            Log::error($exception->getMessage()." expected Line: ".$exception->getLine());
+            DB::rollBack();
+            return back()->withError('Đã có lỗi xảy ra');
+        }
     }
 }

@@ -21,7 +21,7 @@ class CourseResource extends JsonResource
             'role' => $this->admin->role,
             'timeUpload' => (string) $this->created_at,
             'thumbnail' => $this->thumbnail,
-            'details' => LessonResource::collection($this->lesson), // this is from comment table
+            'details' => LessonResource::collection($this->lesson),
         ];
     }
 }

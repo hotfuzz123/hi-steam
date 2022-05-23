@@ -15,7 +15,6 @@ class CourseFactory extends Factory
     {
         return [
             'title' => $this->faker->country,
-            'status' => $this->faker->randomElement(['active' ,'inactive']),
             'admin_id' => '1',
             'category_id' => $this->faker->numberBetween($min = 1, $max = 5),
         ];

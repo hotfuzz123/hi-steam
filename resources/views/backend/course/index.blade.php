@@ -1,33 +1,12 @@
 @extends('backend.layouts.master')
 @section('content')
 
-<div class="page-bar">
-    <div class="page-title-breadcrumb">
-        <div class=" pull-left">
-            <div class="page-title">Danh sách khoá học</div>
-        </div>
-        <ol class="breadcrumb page-breadcrumb pull-right">
-            <li><i class="fa fa-home"></i><a class="parent-item" href="{{route('admin.dashboard')}}">Trang chủ</a><i class="fa fa-angle-right"></i></li></li>
-            <li><a class="parent-item" href="#">Khoá học</a><i class="fa fa-angle-right"></i></li>
-            <li class="active">Danh sách khoá học</li>
-        </ol>
-    </div>
-</div>
+@include('backend.partials.page-bar', ['name' => 'Khoá học', 'key' => 'Danh sách khoá học' ])
 
 <div class="row">
     <div class="col-md-12">
-        @include('errors.general_error')
-    </div>
-    <div class="col-md-12">
         <div class="card">
-            <div class="card-head">
-                <header>Danh sách khoá học</header>
-                <div class="tools">
-                    <a class="fa fa-repeat btn-color box-refresh" href="javascript:;"></a>
-                    <a class="t-collapse btn-color fa fa-chevron-down" href="javascript:;"></a>
-                    <a class="t-close btn-color fa fa-times" href="javascript:;"></a>
-                </div>
-            </div>
+            @include('backend.partials.card-head', ['key' => 'Danh sách khoá học' ])
             <div class="card-body ">
                 <div class="row">
                     <div class="col-md-6 col-sm-6 col-6">
@@ -62,16 +41,16 @@
                                         <span></span>
                                     </label>
                                 </th>
-                                <th> ID </th>
-                                <th> Tên </th>
-                                <th> Danh mục </th>
-                                <th> Người tạo </th>
-                                <th> Hiển thị </th>
-                                <th> Tác vụ </th>
+                                <th>ID</th>
+                                <th>Tên</th>
+                                <th>Danh mục</th>
+                                <th>Người tạo</th>
+                                <th>Khởi tạo</th>
+                                <th>Tác vụ</th>
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach ($course as $item)
+                            @foreach ($course as $key => $item)
                                 <tr class="odd gradeX">
                                     <td>
                                         <label class="rt-chkbox rt-chkbox-single rt-chkbox-outline">
@@ -79,15 +58,11 @@
                                             <span></span>
                                         </label>
                                     </td>
-                                    <td> {{ $item->id }} </td>
-                                    <td> {{ $item->title }} </td>
-                                    <td> {{ $item->category->title }} </td>
-                                    <td> {{ $item->admin->name }} </td>
-                                    <td>
-                                        <div class="form-check form-switch">
-                                            <input class="form-check-input" type="checkbox" name="toggle" value="{{ $item->id }}" id="flexSwitchCheckChecked" {{ $item->status == 'active' ? 'checked' : ''}}>
-                                        </div>
-                                    </td>
+                                    <td>{{ $key + 1 }}</td>
+                                    <td>{{ $item->title }}</td>
+                                    <td>{{ $item->category->title }}</td>
+                                    <td>{{ optional($item->admin)->name }}</td>
+                                    <td>{{ $item->created_at->diffForHumans(); }}</td>
                                     <td class="valigntop">
                                         <div class="btn-group">
                                             <a href="{{ route('lesson.add', $item->id) }}">
@@ -117,30 +92,4 @@
     </div>
 </div>
 
-@endsection
-
-@section('scripts')
-    <script>
-        // Change course status
-        $('input[name="toggle"]').change(function() {
-            var mode = $(this).prop('checked');
-            var id = $(this).val();
-            $.ajax({
-                type:'POST',
-                url: '/admin/course-status',
-                headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
-                data:{
-                    mode:mode,
-                    id:id,
-                },
-                success:function (response) {
-                    if(response.status){
-                        alert(response.message);
-                    } else {
-                        alert('Vui lòng thử lại!');
-                    }
-                }
-            })
-        });
-    </script>
 @endsection

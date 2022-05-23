@@ -16,7 +16,6 @@ class CategoryFactory extends Factory
         return [
             'title' => $this->faker->country,
             'icon' => $this->faker->imageUrl($width = 640, $height = 480),
-            'status' => $this->faker->randomElement(['active' ,'inactive']),
         ];
     }
 }

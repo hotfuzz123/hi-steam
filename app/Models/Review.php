@@ -3,9 +3,12 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Review extends Model
 {
+    use HasFactory;
+
     /**
      * The attributes that are mass assignable.
      *
@@ -24,6 +27,6 @@ class Review extends Model
     }
 
     public function admin() {
-        return $this->belongsToMany(Admin::class, 'admin_review', 'review_id', 'admin_id')->withTimestamps();
+        return $this->belongsToMany(Admin::class, 'admin_review', 'review_id', 'admin_id')->withPivot('content')->withTimestamps();
     }
 }

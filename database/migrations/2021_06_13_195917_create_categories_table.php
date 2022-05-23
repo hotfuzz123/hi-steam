@@ -18,7 +18,6 @@ class CreateCategoriesTable extends Migration
             $table->string('title');
             $table->string('icon')->nullable();
             $table->string('public_id')->nullable()->default('default');
-            $table->enum('status',['active','inactive'])->default('active');
             $table->timestamps();
         });
     }

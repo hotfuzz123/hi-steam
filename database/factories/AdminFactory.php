@@ -15,7 +15,7 @@ class AdminFactory extends Factory
     {
         return [
             'name' => 'Admin',
-            'role' => 'Super Admin',
+            'job' => 'Giáo viên',
             'email' => 'admin@gmail.com',
             'phone' => '0905428795',
             'password' => bcrypt('123456'), // password

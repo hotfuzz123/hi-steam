@@ -5,11 +5,10 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Post;
-use App\Http\Requests\PostRequest;
+use App\Http\Requests\Post\PostRequest;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Auth;
-use CloudinaryLabs\CloudinaryLaravel\Facades\Cloudinary;
+use Illuminate\Support\Facades\Log;
 
 class PostController extends Controller
 {
@@ -20,7 +19,7 @@ class PostController extends Controller
      */
     public function index()
     {
-        $post = Post::all();
+        $post = Post::orderBy('created_at', 'DESC')->get();
         return view('backend.post.index')->with(compact('post'));
     }
 
@@ -42,21 +41,23 @@ class PostController extends Controller
      */
     public function store(Request $request)
     {
-        $request['admin_id'] = Auth::guard('admin')->user()->id;
-        $post = Post::create($request->all());
-        if($request->hasFile('image')){
-            $files = $request->file('image');
-            //Upload new image
-            $imageUrl = $files->storeOnCloudinary('post')->getSecurePath();
-            //Get public_id
-            $publicId = Cloudinary::getPublicId();
-            //Get url image and public_id to db
-            $post->image = $imageUrl;
-            $post->public_id = $publicId;
+        try {
+            DB::beginTransaction();
+            $request['admin_id'] = Auth::guard('admin')->user()->id;
+            $data = $request->all();
+            $dataUpload = $this->uploadImage($request, 'image', 'post');
+            if(!empty($dataUpload)) {
+                $data['image'] = $dataUpload['image'];
+                $data['public_id'] = $dataUpload['public_id'];
+            }
+            $post = Post::create($data);
+            DB::commit();
+            return redirect()->route('post.index')->withSuccess('Thêm thành công');
+        } catch (\Throwable $exception) {
+            Log::error($exception->getMessage()." expected Line: ".$exception->getLine());
+            DB::rollBack();
+            return back()->withError('Đã có lỗi xảy ra');
         }
-        $post->save();
-        Session::flash('success', 'Thêm thành công');
-        return redirect()->route('post.index');
     }
 
     /**
@@ -91,24 +92,24 @@ class PostController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $request['admin_id'] = Auth::guard('admin')->user()->id;
-        $post = Post::findOrFail($id);
-        $post->update($request->all());
-        if($request->hasFile('image')){
-            $files = $request->file('image');
-            //Delete old image
-            Cloudinary::destroy($post->public_id);
-            //Upload new image
-            $imageUrl = $files->storeOnCloudinary('post')->getSecurePath();
-            //Get public_id
-            $publicId = Cloudinary::getPublicId();
-            //Get url image and public_id to db
-            $post->image = $imageUrl;
-            $post->public_id = $publicId;
+        try {
+            DB::beginTransaction();
+            $request['admin_id'] = Auth::guard('admin')->user()->id;
+            $post = Post::findOrFail($id);
+            $data = $request->all();
+            $dataUpload = $this->updateImage($request, 'image', 'post', $post);
+            if(!empty($dataUpload)) {
+                $data['image'] = $dataUpload['image'];
+                $data['public_id'] = $dataUpload['public_id'];
+            }
+            $post->update($data);
+            DB::commit();
+            return redirect()->route('post.index')->with(compact('post'))->withSuccess('Cập nhật thành công');
+        } catch (\Throwable $exception) {
+            Log::error($exception->getMessage()." expected Line: ".$exception->getLine());
+            DB::rollBack();
+            return back()->withError('Đã có lỗi xảy ra');
         }
-        $post->save();
-        Session::flash('success', 'Cập nhật thành công');
-        return redirect()->route('post.index');
     }
 
     /**
@@ -119,11 +120,18 @@ class PostController extends Controller
      */
     public function destroy($id)
     {
-        $post = Post::findOrFail($id);
-        //Delete old image
-        Cloudinary::destroy($post->public_id);
-        $post->delete();
-        Session::flash('success', 'Xoá thành công');
-        return redirect()->route('post.index');
+        try {
+            DB::beginTransaction();
+            $post = Post::findOrFail($id);
+            $post->delete();
+            DB::commit();
+            return redirect()->route('post.index')->withSuccess('Xoá thành công');
+        } catch (\Throwable $exception) {
+            Log::error($exception->getMessage()." expected Line: ".$exception->getLine());
+            DB::rollBack();
+            return back()->withError('Đã có lỗi xảy ra');
+        }
+
+        
     }
 }

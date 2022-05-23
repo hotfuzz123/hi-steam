@@ -1,3 +1,7 @@
+$(window).on("load", function () {
+    $(".loader").fadeOut("slow");
+});
+
 // Đổi dữ liệu từ input qua slug tự động
 function ChangeToSlug() {
     var slug;

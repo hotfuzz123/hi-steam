@@ -15,8 +15,8 @@ class ReviewFactory extends Factory
     {
         return [
             'content' => $this->faker->text($maxNbChars = 200),
-            'star' => $this->faker->text($maxNbChars = 200),
-            'course_id' => $this->faker->numberBetween($min = 1, $max = 10),
+            'star' => $this->faker->numberBetween($min = 1, $max = 5),
+            'lesson_id' => $this->faker->numberBetween($min = 1, $max = 10),
             'user_id' => $this->faker->numberBetween($min = 1, $max = 10),
         ];
     }

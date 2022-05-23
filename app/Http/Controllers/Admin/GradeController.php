@@ -6,11 +6,9 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Homework;
 use App\Models\Grade;
-use App\Http\Requests\GradeRequest;
+use App\Http\Requests\Grade\GradeRequest;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Session;
-use Illuminate\Support\Facades\Auth;
-use CloudinaryLabs\CloudinaryLaravel\Facades\Cloudinary;
+use Illuminate\Support\Facades\Log;
 
 class GradeController extends Controller
 {
@@ -79,10 +77,17 @@ class GradeController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $grade = Grade::findOrFail($id);
-        $grade->update($request->all());
-        Session::flash('success', 'Cập nhật thành công');
-        return redirect()->route('grade.index')->with(compact('grade'));
+        try {
+            DB::beginTransaction();
+            $grade = Grade::findOrFail($id);
+            $grade->update($request->all());
+            DB::commit();
+            return redirect()->route('grade.index')->with(compact('grade'))->withSuccess('Cập nhật thành công');
+        } catch (\Throwable $exception) {
+            Log::error($exception->getMessage()." expected Line: ".$exception->getLine());
+            DB::rollBack();
+            return back()->withError('Đã có lỗi xảy ra');
+        }
     }
 
     /**

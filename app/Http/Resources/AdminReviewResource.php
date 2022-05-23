@@ -18,8 +18,8 @@ class AdminReviewResource extends JsonResource
             'id' => $this->id,
             'nameTeacher' => $this->name,
             'avatar' => $this->avatar,
-            'content' => $this->whenPivotLoaded('admin_review', function (){
-                return $this->review->first->content->pivot->content;
+            'content' => $this->whenPivotLoaded('admin_review', function () {
+                return $this->pivot->content;
             }),
             'timeUpload' => (string) $this->created_at,
         ];

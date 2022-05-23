@@ -1,8 +1,13 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Admin;
 
+use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use App\Models\Review;
+use App\Models\Admin;
+use App\Http\Requests\Review\ReviewRequest;
+use Illuminate\Support\Facades\Auth;
 
 class ReviewController extends Controller
 {
@@ -13,7 +18,8 @@ class ReviewController extends Controller
      */
     public function index()
     {
-        //
+        $review = Review::orderBy('created_at', 'DESC')->get();
+        return view('backend.review.index')->with(compact('review'));
     }
 
     /**
@@ -23,7 +29,7 @@ class ReviewController extends Controller
      */
     public function create()
     {
-        //
+        return view('backend.review.create');
     }
 
     /**
@@ -34,7 +40,13 @@ class ReviewController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        // $review = Review::find($review_id);
+        // $review->admin()->attach(1, [
+        //     'content' => $request->content,
+        //     'admin_id' => Auth::guard('admin')->user()->id,
+        //     'review_id' => $request->review_id,
+        // ]);
+        // dd($review);
     }
 
     /**
