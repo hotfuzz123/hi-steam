@@ -5,9 +5,8 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Admin;
-use App\Http\Requests\Admin\AdminRegister;
-use App\Http\Requests\Admin\AdminLogin;
-use App\Http\Requests\Admin\AdminChangePass;
+use App\Http\Requests\Admin\RegisterRequest;
+use App\Http\Requests\Admin\LoginRequest;
 use App\Http\Resources\AdminResource;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Auth;
@@ -25,7 +24,7 @@ class AdminController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function registerAdmin(AdminRegister $request)
+    public function registerAdmin(RegisterRequest $request)
     {
         $admin = Admin::create([
             'name' => $request['name'],
@@ -41,7 +40,7 @@ class AdminController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function loginAdmin(AdminLogin $request)
+    public function loginAdmin(LoginRequest $request)
     {
         if (Auth::guard('admin')->attempt($request->validated())) {
             $admin = Auth::guard('admin')->user();
